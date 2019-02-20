@@ -1,6 +1,6 @@
 За короткое время Prometheus стал одним из самых популярных средств для мониторинга. Благодаря, в том числе, и высокой скорости своей работы. Его локальное хранилище отлично подходит для краткосрочного хранения метрик и работы с ними. Но иногда хочется хранить их распределённо месяцы и годы, автоматически разрежая старые данные, но не меняя интерфейса работы с ними.
 
-Как раз об этом расшифровка доклада Алексей Палажченко на RootConf 2018. В докладе: Prometheus, PromQL, TSDB, Сlickhouse, PromHouse, Local Storage TSDB, Remote Storage Prometheus, немного InfluxDB.
+Как раз об этом расшифровка доклада Алексей Палажченко на RootConf 2018. В докладе: Prometheus, Local Storage TSDB, Remote Storage Prometheus, PromQL, TSDB, Сlickhouse, PromHouse, немного InfluxDB.
 
 https://www.youtube.com/watch?v=LXllYmb0RTk
 
