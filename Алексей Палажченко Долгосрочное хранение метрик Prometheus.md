@@ -2,6 +2,11 @@
 
 Как раз об этом расшифровка доклада Алексей Палажченко на RootConf 2018. В докладе: Prometheus, PromQL, TSDB, Сlickhouse, PromHouse, Local Storage TSDB, Remote Storage Prometheus, немного InfluxDB.
 
+Ссылка на Youtube.
+
+Кому интересно, прошу под кат.
+Хабракат
+
 Друзья! Всем привет! Меня зовут Алексей Палажченко. Я работаю в компании Percona. Я хотел бы вам рассказать про долгосрочное хранение метрик в Prometheus.
 
 ![](https://habrastorage.org/webt/rw/vv/4v/rwvv4v4zpjhn5tlmrclgeii9mkq.png)
