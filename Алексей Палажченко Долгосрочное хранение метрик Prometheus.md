@@ -2,7 +2,7 @@
 
 Как раз об этом расшифровка доклада Алексей Палажченко на RootConf 2018. В докладе: Prometheus, PromQL, TSDB, Сlickhouse, PromHouse, Local Storage TSDB, Remote Storage Prometheus, немного InfluxDB.
 
-Ссылка на Youtube.
+https://www.youtube.com/watch?v=LXllYmb0RTk
 
 Кому интересно, прошу под кат.
 Хабракат
