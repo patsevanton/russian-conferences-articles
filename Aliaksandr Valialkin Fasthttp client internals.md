@@ -2,7 +2,7 @@
 
  ![](https://habrastorage.org/webt/mw/xn/qb/mwxnqbi-ufmc9agmni-so-gy-ls.png)
 
-ну еще раз это быстрая реализация релиза быстро реализация http сервера и клиента находится она на гитхабе рс
+это быстрая реализация релиза быстро реализация http сервера и клиента. находится она на гитхабе
 
 ![](https://habrastorage.org/webt/ve/vz/07/vevz07ucp1l6ou4pg8zp2kuhvzu.png)
 
