@@ -192,15 +192,17 @@ Fauly hosts может быть по двум причинам.
 
 ![](https://habrastorage.org/webt/r2/f7/bk/r2f7bkykq6m6oqcd3ylss9rwdr4.png)
 
-В отличие от Client и HostClient у PipelineClient реализация немного другая. В PipelineClient отстутствует connection pool. У PipelineClient есть опция количество connection, которым нужно становиться на хвост и он будет он пытается пропихнуть все запросы через это количество конечно ограничены faith лайн режиме поэтому там нет никаких пулов он сразу становитесь connection и и распихивают входящие запросы во все таки доступное connection 
+В отличие от Client и HostClient у PipelineClient реализация немного другая. В PipelineClient отстутствует connection pool. У PipelineClient есть опция количество connection, которое нужно становиться на хвост. PipelineClient будет пытатся пропихнуть все запросы через это количество connection. Поэтому там нет никаких connection pool. PipelineClient сразу устанавливает connection и распихивают входящие запросы в доступное connection.
 
 ![](https://habrastorage.org/webt/lj/vw/ew/ljvwewxdpm8ag50y-tcfzthrxia.png)
 
-реализован он как у него есть для каждого connection 2 грузию запускается райтер который пишет запрос и просто выйдут connection между не ожидая ответа от них и reader который считает ответа из этого connection а и сопоставляет их с запросами которые были отправлены через райдер и возвращает ответ функцию который коду которая вызывает функцию get
+У PipelineClient для каждого connection запускается две горутины. PipelineConnClient.writer - пишет запросы connection не ожидая ответа. PipelineConnClient.reader - считает ответы из этого connection и сопоставляет их с запросами, которые были отправлены через PipelineConnClient.writer. PipelineConnClient.reader возвращает ответ, коду который вызвал эту функцию Get.
 
 ![](https://habrastorage.org/webt/nj/9q/lp/nj9qlpw3mexynplnky52vvhcar4.png)
 
-вот примерная реализация функция get для pipeline клиента у нас есть такая структура pipeline work называется в ней есть суру которую нужно обратиться есть указатель на response а есть член алдан которая типа сигнала сигнализируя о том что у нас готов response можно забрать все вот реализация get создаем эту структуру заполняем и и отправляем ее членов который читается pipeline клайн прайтером и пишется все запросы в connection и ожидаем на вот этой вот финале дан который закрывается pipeline ридером когда пришел response для этого request а 
+На слайде примерная реализация функции PipelineClient.Get для PipelineClient. В структуре pipelineWork есть url, на который нужно обратиться, есть указатель на response, есть channel done, который сигнализирует о готовности response. 
+
+Ниже на слайде реализация Get. Cоздаем и заполняем структуру. Отправляем ее членов который читается pipeline клайн прайтером и пишется все запросы в connection и ожидаем на вот этой вот финале дан который закрывается pipeline ридером когда пришел response для этого request а 
 
 ![](https://habrastorage.org/webt/s4/vf/oq/s4vfoqg_mmutotfdw66gs4nbxvs.png)
 
