@@ -23,16 +23,16 @@ MINIO_SECRET_KEY=Server-Secret-Key
 Добавляем адрес и креды в конфиг клиента Minio.
 
 ```
-miniocli config host add minio-test http://10.233.47.101:9000 Server-Access-Key Server-Secret-Key
+miniocli config host add minio-test http:/ip-сервера-где-запущен-minio:9000 Server-Access-Key Server-Secret-Key
 ```
 
+miniocli admin heal восстанавливает кластер Minio.
 
-
-Показатель здоровья Minio.
+miniocli admin heal нужно запускать при обновлении, замены диска
 
 ```
 
-miniocli admin heal minio-test
+miniocli admin heal -r minio-test
  ◓  test2
     0/0 objects; 0 B in 1s
     ┌────────┬───┬─────────────────────┐
@@ -43,7 +43,7 @@ miniocli admin heal minio-test
     └────────┴───┴─────────────────────┘
 ```
 
-Если выключить/заблокировать 1 сервер Minio. То будет видно чтобы Health показывает 1 сервер Gray и 2 сервера Yellow.
+Если выключить/заблокировать 1 сервер Minio. То будет видно чтобы heal показывает 1 сервер Gray и 2 сервера Yellow.
 
 **По умолчанию Minio разбивает объекты на N/2 данных и N / 2 дисков четности.**
 
@@ -79,10 +79,10 @@ b146c143e54a2456e86cc14cdb9a0b8f  1GB.bin
 b146c143e54a2456e86cc14cdb9a0b8f  1GB.bin1
 ```
 
-Если заблокировать (вышли из строя) 2 сервера из 6, то Health будет показывать 2 Red и 1 Gray.
+Если заблокировать (вышли из строя) 2 сервера из 6, то heal будет показывать 2 Red и 1 Gray.
 
 ```
-miniocli admin heal minio-test
+miniocli admin heal -r minio-test
  ◓  test2
     0/0 objects; 0 B in 1s
     ┌────────┬───┬─────────────────────┐
@@ -150,10 +150,10 @@ time miniocli cp minio-test/test2/1GB.bin .
 real  0m23.844s
 ```
 
-Если 2 заблокированные ноды ввести в строй, то будет 1 Green и 2 Yellow
+Если 2 заблокированные ноды ввести в строй, то heal будет 1 Green и 2 Yellow
 
 ```
-miniocli admin heal minio-test
+miniocli admin heal -r minio-test
  ◓  test2
     0/0 objects; 0 B in 1s
     ┌────────┬───┬─────────────────────┐
