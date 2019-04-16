@@ -6,14 +6,14 @@ Minio это простое, быстрое и совместимое с AWS S3 
 
 RPM для установки minio и minio клиента можно собрать из репозиториев <https://github.com/patsevanton/minio-client-rpm> и <https://github.com/patsevanton/minio-rpm>
 
-Имеется 6 серверов (нод) minio.
+Имеется 8 серверов (нод) minio с 1 диском. Сначала протестируем Minio на 4 нодах.
 
-Указываем 6 серверов и путь до данных. По умолчанию /var/minio/data
+Указываем 4 серверов и путь до данных. По умолчанию /var/minio/data
 
 ```
 В файле /etc/default/minio правим конфиг:
 # Remote volumes to be used for Minio server.
-MINIO_VOLUMES=http://dev-tools-minio-apatsev-1/var/minio/data http://dev-tools-minio-apatsev-2/var/minio/data http://dev-tools-minio-apatsev-3/var/minio/data http://dev-tools-minio-apatsev-4/var/minio/data http://dev-tools-minio-apatsev-5/var/minio/data http://dev-tools-minio-apatsev-6/var/minio/data
+MINIO_VOLUMES=http://dev-tools-minio-apatsev-1/var/minio/data http://dev-tools-minio-apatsev-2/var/minio/data http://dev-tools-minio-apatsev-3/var/minio/data http://dev-tools-minio-apatsev-4/var/minio/data 
 # Access Key of the server.
 MINIO_ACCESS_KEY=Server-Access-Key
 # Secret key of the server.
