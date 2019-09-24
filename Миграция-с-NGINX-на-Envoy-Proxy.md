@@ -1,6 +1,22 @@
+Envoy is a high performance C++ distributed proxy designed for single services and applications, as well as a communication bus and “universal data plane” designed for large microservice “service mesh” architectures. Built on the learnings of solutions such as NGINX, HAProxy, hardware load balancers, and cloud load balancers, Envoy runs alongside every application and abstracts the network by providing common features in a platform-agnostic manner. When all service traffic in an infrastructure flows via an Envoy mesh, it becomes easy to visualize problem areas via consistent observability, tune overall performance, and add substrate features in a single place.
+
+
+## FEATURES
+
+- OUT OF PROCESS ARCHITECTURE:Envoy is a self contained, high performance server with a small memory footprint. It runs alongside any application language or framework.
+- HTTP/2 AND GRPC SUPPORT:Envoy has first class support for HTTP/2 and gRPC for both incoming and outgoing connections. It is a transparent HTTP/1.1 to HTTP/2 proxy.
+- ADVANCED LOAD BALANCING:Envoy supports advanced load balancing features including automatic retries, circuit breaking, global rate limiting, request shadowing, zone local load balancing, etc.
+- APIS FOR CONFIGURATION MANAGEMENT: Envoy provides robust APIs for dynamically managing its configuration.
+- OBSERVABILITY: Deep observability of L7 traffic, native support for distributed tracing, and wire-level observability of MongoDB, DynamoDB, and more.
+
+
 ## Step 1 - NGINX Example
 
 This scenario uses a crafted *nginx.conf* based on the full example from the [NGINX Wiki](https://www.nginx.com/resources/wiki/start/topics/examples/fullexample2/). You can view the configuration in the editor by opening *nginx.conf*
+
+<cut/>
+
+Исходный конфиг nginx
 
 ```nginx
 user  www www;
