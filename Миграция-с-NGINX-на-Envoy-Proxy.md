@@ -99,21 +99,31 @@ Not all of the configuration will apply to Envoy Proxy, and you won’t need to 
 Не вся конфигурация будет применяться к Envoy Proxy, и вам не нужно настраивать определенные аспекты. Envoy Proxy имеет **четыре ключевых типа**, которые поддерживают базовую инфраструктуру, предлагаемую NGINX. Ядро это:
 
 - **Listeners:** They define how Envoy Proxy accepts incoming requests. At present, Envoy Proxy only supports TCP-based listeners. Once a connection is made, it’s passed on to a set of filters for processing.
+- **Слушатели:** Они определяют, как Envoy Proxy принимает входящие запросы. В настоящее время Envoy Proxy поддерживает только прослушиватели на основе TCP. Как только соединение установлено, оно передается на набор фильтров для обработки.
 - **Filters:** They are part of a pipeline architecture that can process inbound and outbound data. This functionality enables filters such as Gzip which compresses data before sending it to the client.
+- **Фильтры:** Они являются частью конвейерной архитектуры, которая может обрабатывать входящие и исходящие данные. Эта функция включает фильтры, такие как Gzip, который сжимает данные перед отправкой их клиенту.
 - **Routers:** These forward traffic to the required destination, defined as a cluster.
+- **Маршрутизаторы:** Они перенаправляют трафик в требуемый пункт назначения, определенный как кластер.
 - **Clusters:** They define the target endpoint for traffic and the configuration settings.
+- **Кластеры:** Они определяют целевую конечную точку для трафика и параметры конфигурации.
 
 We'll use these four components to create an Envoy Proxy configuration to match the NGINX configuration defined. Envoy's focus has been on API and dynamic configuration. In this case, the configuration will use static, hardcoded resources as defined by NGINX.
 
+Мы будем использовать эти четыре компонента для создания конфигурации Envoy Proxy в соответствии с определенной конфигурацией NGINX. Envoy сосредоточился на API и динамической конфигурации. В этом случае конфигурация будет использовать статические, жестко закодированные ресурсы, как определено NGINX.
 
 
-## Step 2 - NGINX Configuration
+
+## Шаг 2 - Конфигурация NGINX
 
 The first part of the *nginx.conf* defines some of the NGINX internals that should be configured.
+
+Первая часть *nginx.conf* определяет некоторые внутренние компоненты NGINX, которые должны быть настроены.
 
 #### Worker Connections
 
 The configuration below focuses on defining the number of worker processes and connections. This indicates how NGINX will scale to handle demand.
+
+Приведенная ниже конфигурация фокусируется на определении количества рабочих процессов и соединений. Это указывает на то, как NGINX будет масштабироваться для удовлетворения спроса.
 
 ```nginx
 worker_processes  2;
@@ -125,30 +135,49 @@ events {
 
 Envoy Proxy manages the worker processes and connections differently.
 
+Envoy Proxy по-разному управляет рабочими процессами и соединениями.
+
 Envoy spawns a worker thread for every hardware thread in the system. Each worker thread runs a non-blocking event loop that is responsible for
 
+Envoy создает рабочий поток для каждого аппаратного потока в системе. Каждый рабочий поток выполняет неблокирующий цикл событий, который отвечает за
+
 1. Listening on every listener
-2. Accepting new connections
-3. Instantiating a filter stack for the connection
-4. Processing all IO for the lifetime of the connection.
+2. Прослушивание каждого слушателя
+3. Accepting new connections
+4. Принятие новых подключений
+5. Instantiating a filter stack for the connection
+6. Создание набора фильтров для соединения
+7. Processing all IO for the lifetime of the connection.
+8. Обработка всех операций ввода-вывода за время существования соединения.
 
 All further handling of the connection is entirely processed within the worker thread, including any forwarding behaviour.
 
+Вся дальнейшая обработка соединения полностью обрабатывается в рабочем потоке, включая любое поведение переадресации.
+
 All connection pools in Envoy are per worker thread. Though HTTP/2 connection pools only make a single connection to each upstream host at a time, if there are four workers, there will be four HTTP/2 connections per upstream host at steady state. By keeping everything within a single worker thread, almost all the code can be written without locks and as if it is single threaded. Having more workers than necessary will waste memory, create more idle connections, and lead to a lower connection pool hit rate.
+
+Все пулы соединений в Envoy для каждого рабочего потока. Хотя пулы соединений HTTP/2 устанавливают только одно соединение с каждым вышестоящим хостом за раз, при наличии четырех рабочих будет четыре соединения HTTP/2 для каждого вышестоящего хоста в устойчивом состоянии. Сохраняя все в одном рабочем потоке, почти весь код может быть написан без блокировок и, как если бы он был однопоточным. Наличие большего количества работников, чем необходимо, приведет к потере памяти, созданию большего количества незанятых соединений и снижению частоты обращений в пул соединений.
 
 For more information, visit the [Envoy Proxy blog](https://blog.envoyproxy.io/envoy-threading-model-a8d44b922310).
 
-#### HTTP Configuration
+Для получения дополнительной информации посетите [Envoy Proxy blog](https://blog.envoyproxy.io/envoy-threading-model-a8d44b922310).
+
+#### Конфигурация HTTP
 
 The next block of NGINX configuration defines the HTTP settings, such as:
 
+Следующий блок конфигурации NGINX определяет настройки HTTP, такие как:
+
 - Which mime types are supported
+- Какие mime типы поддерживаются
 - Default timeouts
+- Тайм-ауты по умолчанию
 - Gzip configuration
+- Конфигурация Gzip
 
 You can configure these aspects via Filters within Envoy Proxy, which we will discuss in a later step.
 
-
+Вы можете настроить эти аспекты с помощью фильтров в Envoy Proxy, что мы обсудим позже.
 
 ## Step 3 - Server Configuration
 
