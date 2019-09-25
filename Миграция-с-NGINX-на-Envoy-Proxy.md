@@ -179,9 +179,11 @@ You can configure these aspects via Filters within Envoy Proxy, which we will di
 
 Вы можете настроить эти аспекты с помощью фильтров в Envoy Proxy, что мы обсудим позже.
 
-## Step 3 - Server Configuration
+## Шаг 3 - Конфигурация Server
 
-Within the HTTP configuration block, the NGINX configuration specifies to listen on port 8080 and respond to incoming requests for the domains *one.example.com*and *www.one.example.com*.
+Within the HTTP configuration block, the NGINX configuration specifies to listen on port 8080 and respond to incoming requests for the domains *one.example.com* and *www.one.example.com*.
+
+В блоке конфигурации HTTP конфигурация NGINX указывает прослушивать порт 8080 и отвечать на входящие запросы для доменов *one.example.com* и *www.one.example.com*.
 
 ```nginx
  server {
@@ -191,13 +193,21 @@ Within the HTTP configuration block, the NGINX configuration specifies to listen
 
 Within Envoy, this is managed by Listeners.
 
+Внутри Envoy этим управляют Слушатели.
+
 #### Envoy Listeners
 
 The most important aspect of starting with Envoy Proxy is defining the listers. You need to create a configuration file that describes how you want to run the Envoy instance.
 
+Самый важный аспект начала работы с Envoy Proxy - это определение списков. Вам нужно создать файл конфигурации, который описывает, как вы хотите запустить экземпляр Envoy.
+
 The snippet below will create a new listener and bind it to port 8080. The configuration indicates to Envoy Proxy which ports it should be bound to for incoming requests.
 
+Приведенный ниже фрагмент создаст новый прослушиватель и свяжет его с портом 8080. Конфигурация указывает Envoy Proxy, к каким портам он должен быть привязан для входящих запросов.
+
 Envoy Proxy uses YAML notation for its configuration. If you are not familiarized with this notation can see this [link](https://yaml.org/spec/1.2/spec.html).
+
+Envoy Proxy использует нотацию YAML для своей конфигурации. Если вы не знакомы с этой нотацией, можете посмотреть эту  [ссылку](https://yaml.org/spec/1.2/spec.html).
 
 ```yaml
 Copy to Editorstatic_resources:
@@ -209,11 +219,13 @@ Copy to Editorstatic_resources:
 
 There is no need to define the *server_name* as Envoy Proxy filters will handle this.
 
-
+Нет необходимости определять *server_name*, так как фильтры Envoy Proxy справятся с этим.
 
 ## Step 4 - Location Configuration
 
 When a request comes into NGINX, a location block defines how to process and where to forward the traffic. In the following snippet, all the traffic to the site is proxied to an upstream cluster called *targetCluster*. The upstream cluster defines the nodes that should process the request. We will discuss this in the next step.
+
+Когда запрос поступает в NGINX, блок местоположения определяет, как обрабатывать и куда направлять трафик. В следующем фрагменте весь трафик на сайт передается в восходящий кластер с именем *targetCluster*. Восходящий кластер определяет узлы, которые должны обрабатывать запрос. Мы обсудим это на следующем шаге.
 
 ```nginx
 location / {
@@ -227,9 +239,13 @@ location / {
 
 Within Envoy, this is managed by Filters.
 
+В Envoy этим занимается Filters.
+
 #### Envoy Filters
 
 For the static configuration, the filters define how to handle incoming requests. In this case, we are setting the filters that match the *server_names* in the previous step. When incoming requests are received that match the defined domains and routes, the traffic is forwarded to the cluster. This is the equivalent of the upstream NGINX configuration.
+
+Для статической конфигурации фильтры определяют, как обрабатывать входящие запросы. В этом случае мы устанавливаем фильтры, которые соответствуют *server_names* на предыдущем шаге. Когда поступают входящие запросы, которые соответствуют определенным доменам и маршрутам, трафик направляется в кластер. Это эквивалент восходящей конфигурации NGINX.
 
 ```yaml
 Copy to Editor    filter_chains:
