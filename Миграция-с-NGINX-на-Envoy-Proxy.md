@@ -6,17 +6,26 @@ Envoy - это высокопроизводительный распределе
 ## FEATURES Возможности
 
 - out of process architecture: envoy is a self contained, high performance server with a small memory footprint. it runs alongside any application language or framework.
+- Архитектура вне процесса: envoy - это автономный, высокопроизводительный сервер с небольшим объемом памяти. он работает вместе с любым языком приложений или фреймворком.
 - http/2 and grpc support: envoy has first class support for http/2 and grpc for both incoming and outgoing connections. it is a transparent http/1.1 to http/2 proxy.
+- Поддержка http/2 и grpc: envoy имеет первоклассную поддержку http/2 и grpc для входящих и исходящих соединений. это прозрачный прокси от http/1.1 до http/2.
 - advanced load balancing: envoy supports advanced load balancing features including automatic retries, circuit breaking, global rate limiting, request shadowing, zone local load balancing, etc.
+- расширенная балансировка нагрузки: посланник поддерживает расширенные функции балансировки нагрузки, включая автоматические повторные попытки, разрыв цепи, глобальное ограничение скорости, затенение запросов, локальную балансировку нагрузки зоны и т. д.
 - apis for configuration management: envoy provides robust apis for dynamically managing its configuration.
+- apis для управления конфигурацией: envoy предоставляет надежный apis для динамического управления своей конфигурацией.
 - observability: deep observability of l7 traffic, native support for distributed tracing, and wire-level observability of mongodb, dynamodb, and more.
+- Наблюдаемость: глубокая наблюдаемость трафика l7, встроенная поддержка распределенной трассировки и наблюдаемость на уровне проводов mongodb, dynamodb и многое другое.
+
+<cut/>
 
 
-## Step 1 - NGINX Example
+## Шаг 1 - Пример конфига NGINX
 
 This scenario uses a crafted *nginx.conf* based on the full example from the [NGINX Wiki](https://www.nginx.com/resources/wiki/start/topics/examples/fullexample2/). You can view the configuration in the editor by opening *nginx.conf*
 
-<cut/>
+В этом сценарии используется специально созданный файл *nginx.conf*, основанный на полном примере из [NGINX Wiki](https://www.nginx.com/resources/wiki/start/topics/examples/fullexample2/). Вы можете просмотреть конфигурацию в редакторе, открыв *nginx.conf*
+
+
 
 Исходный конфиг nginx
 
@@ -71,13 +80,23 @@ http {
 
 NGINX configurations generally have three key elements:
 
+Конфигурации NGINX обычно имеют три ключевых элемента:
+
 1) Configuring the NGINX server, logging structure and Gzip functionality. This is defined globally across all instances.
+
+1) Настройка сервера NGINX, структуры журналов и функциональности Gzip. Это определяется глобально во всех случаях.
 
 2) Configuring NGINX to accept requests for *one.example.com* host on port 8080.
 
+2) Настройка NGINX для приема запросов на хост *one.example.com* на порту 8080.
+
 3) Configuring the target location of how to handle traffic to different parts of the URL.
 
+3) Настройка целевого местоположения, как обрабатывать трафик для разных частей URL.
+
 Not all of the configuration will apply to Envoy Proxy, and you won’t need to configure certain aspects. Envoy Proxy has **four key types** that support the core infrastructure offered by NGINX. The core is:
+
+Не вся конфигурация будет применяться к Envoy Proxy, и вам не нужно настраивать определенные аспекты. Envoy Proxy имеет **четыре ключевых типа**, которые поддерживают базовую инфраструктуру, предлагаемую NGINX. Ядро это:
 
 - **Listeners:** They define how Envoy Proxy accepts incoming requests. At present, Envoy Proxy only supports TCP-based listeners. Once a connection is made, it’s passed on to a set of filters for processing.
 - **Filters:** They are part of a pipeline architecture that can process inbound and outbound data. This functionality enables filters such as Gzip which compresses data before sending it to the client.
