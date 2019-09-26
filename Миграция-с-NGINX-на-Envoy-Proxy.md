@@ -272,13 +272,19 @@ Copy to Editor    filter_chains:
 
 The name *envoy.http_connection_manager* is a built-in filter within Envoy Proxy. Other filters include *Redis*, *Mongo*, *TCP*. You can find the complete list in the [documentation](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/listener/listener.proto#envoy-api-file-envoy-api-v2-listener-listener-proto).
 
+Имя *envoy.http_connection_manager* является встроенным фильтром в Envoy Proxy. Другие фильтры включают *Redis*, *Mongo*, *TCP*. Вы можете найти полный список в [документации](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/listener/listener.proto#envoy-api-file-envoy-api-v2-listener-listener-proto).
+
 For more information about other load balancing policies visit the [Envoy documentation](https://www.envoyproxy.io/docs/envoy/v1.8.0/intro/arch_overview/load_balancing).
+
+Для получения дополнительной информации о других политиках балансировки нагрузки посетите [Документацию Envoy](https://www.envoyproxy.io/docs/envoy/v1.8.0/intro/arch_overview/load_balancing).
 
 
 
 ## Step 5 - Proxy and Upstream Configuration
 
 Within NGINX, the upstream configuration defines the set of target servers that will handle the traffic. In this case, two clusters have been assigned.
+
+В NGINX конфигурация upstream определяет набор целевых серверов, которые будут обрабатывать трафик. В этом случае два кластера были назначены.
 
 ```nginx
   upstream targetCluster {
@@ -289,9 +295,13 @@ Within NGINX, the upstream configuration defines the set of target servers that 
 
 Within Envoy, this is managed by clusters.
 
+В Envoy это управляется кластерами.
+
 #### Envoy Clusters
 
 The equivalent of upstream is defined as Clusters. In this case, the hosts that will serve the traffic have been defined. The way the hosts are accessed, such as the timeouts, are defined as the cluster configuration. This allows finer grain control over aspects such as timeouts and load balancing.
+
+Эквивалент upstream определяется как кластеры. В этом случае были определены хосты, которые будут обслуживать трафик. Способ доступа к хостам, например время ожидания, определяется как конфигурация кластера. Это позволяет более точно контролировать зернистость таких аспектов, как время ожидания и балансировка нагрузки.
 
 ```yaml
 Copy to Editor  clusters:
@@ -308,17 +318,27 @@ Copy to Editor  clusters:
 
 When using *STRICT_DNS* service discovery, Envoy will continuously and asynchronously resolve the specified DNS targets. Each returned IP address in the DNS result will be considered an explicit host in the upstream cluster. This means that if the query returns two IP addresses, Envoy will assume the cluster has two hosts, and both should be load balanced to. If a host is removed from the result, Envoy assumes it no longer exists and will drain traffic from any existing connection pools.
 
+При использовании обнаружения службы *STRICT_DNS* Envoy будет непрерывно и асинхронно разрешать указанные цели DNS. Каждый возвращенный IP-адрес в результате DNS будет считаться явным хостом в восходящем кластере. Это означает, что если запрос возвращает два IP-адреса, Envoy предположит, что в кластере есть два хоста, и оба должны быть сбалансированы по нагрузке. Если хост удален из результата, Envoy предполагает, что он больше не существует, и будет отбирать трафик из любых существующих пулов соединений.
+
 For further information, refer to [Envoy Proxy documentation](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/service_discovery#strict-dns).
 
+Для получения дополнительной информации см. [Документацию прокси-сервера Envoy](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/service_discovery#strict-dns).
 
 
-## Step 6 - Logging Access and Errors
+
+## Шаг 6 - Доступ к журналу и ошибки
 
 The final configuration is the logging. Instead of piping the error logs to disk, Envoy Proxy follows a cloud-native approach. All the application logs are outputted to *stdout* and *stderr*.
 
+Окончательная конфигурация - регистрация. Вместо того, чтобы передавать журналы ошибок на диск, Envoy Proxy использует облачный подход. Все журналы приложений выводятся в *stdout* и *stderr*.
+
 When users make a request, the access logs are optional and disabled by default. To enable access logs for HTTP requests, include an *access_log*configuration for the HTTP Connection Manager. The path can be either a device, such as *stdout*, or a file on disk, depending on your requirements.
 
+Когда пользователи делают запрос, журналы доступа являются необязательными и по умолчанию отключены. Чтобы включить журналы доступа для запросов HTTP, включите конфигурацию *access_log* для диспетчера подключений HTTP. Путь может быть либо устройством, таким как *stdout*, либо файлом на диске, в зависимости от ваших требований.
+
 The following configuration will pipe all access logs to *stdout*. Copy the snippet into the config section for the connection manager:
+
+Следующая конфигурация перенаправит все журналы доступа в *stdout*. Скопируйте фрагмент в раздел конфигурации для менеджера соединений:
 
 ```yaml
 Copy to Clipboardaccess_log:
@@ -328,6 +348,8 @@ Copy to Clipboardaccess_log:
 ```
 
 The results should look like this:
+
+Результаты должны выглядеть так:
 
 ```yaml
       - name: envoy.http_connection_manager
@@ -343,17 +365,23 @@ The results should look like this:
 
 By default, Envoy has a format string that includes details of the HTTP request:
 
+По умолчанию Envoy имеет строку формата, которая включает подробности HTTP-запроса:
+
 ```
 [%START_TIME%] "%REQ(:METHOD)% %REQ(X-ENVOY-ORIGINAL-PATH?:PATH)% %PROTOCOL%" %RESPONSE_CODE% %RESPONSE_FLAGS% %BYTES_RECEIVED% %BYTES_SENT% %DURATION% %RESP(X-ENVOY-UPSTREAM-SERVICE-TIME)% "%REQ(X-FORWARDED-FOR)%" "%REQ(USER-AGENT)%" "%REQ(X-REQUEST-ID)%" "%REQ(:AUTHORITY)%" "%UPSTREAM_HOST%"\n
 ```
 
 The result of this format string is:
 
+Результат этой строки формата:
+
 ```bash
 [2018-11-23T04:51:00.281Z] "GET / HTTP/1.1" 200 - 0 58 4 1 "-" "curl/7.47.0" "f21ebd42-6770-4aa5-88d4-e56118165a7d" "one.example.com" "172.18.0.4:80"
 ```
 
 The contents of the output can be customised by setting the format field. For example:
+
+Содержимое вывода можно настроить, установив поле формата. Например:
 
 ```yaml
 access_log:
@@ -365,6 +393,8 @@ access_log:
 
 The log line can also be outputted as JSON by setting the *json_format* field. For example:
 
+Строка журнала также может быть выведена в формате JSON путем установки поля *json_format*. Например:
+
 ```yaml
 access_log:
 - name: envoy.file_access_log
@@ -373,33 +403,51 @@ access_log:
     json_format: {"protocol": "%PROTOCOL%", "duration": "%DURATION%", "request_method": "%REQ(:METHOD)%"}
 ```
 
-For further information on Envoy's logging approach, visit <https://www.envoyproxy.io/docs/envoy/latest/configuration/access_log#config-access-log-format-dictionaries>
+For further information on Envoy's logging approach, visit 
+
+Для получения дополнительной информации о методике регистрации посланника, посетите
+
+<https://www.envoyproxy.io/docs/envoy/latest/configuration/access_log#config-access-log-format-dictionaries>
 
 Logging isn't the only way to gain visibility into production with Envoy Proxy. Advanced tracing and metrics capabilities are built into it. You can find out more in the [tracing documentation](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/tracing) or via the [Interactive Tracing Scenario](https://www.envoyproxy.io/try/implementing-metrics-tracing).
 
+Ведение журнала - не единственный способ получить представление о работе с Envoy Proxy. В него встроены расширенные возможности трассировки и метрик. Вы можете узнать больше в [документации по трассировке](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/tracing) или через [Сценарий интерактивной трассировки](https://www.envoyproxy.io/try/implementing-metrics-tracing).
 
 
-## Step 7 - Launching
+
+## Шаг 7 - Запуск
 
 You have now translated the configuration from NGINX to Envoy Proxy. The final step is to launch the Envoy Proxy instance to test it.
 
+Теперь вы перевели конфигурацию с NGINX на Envoy Proxy. Последний шаг - запустить экземпляр Envoy Proxy для его тестирования.
+
 #### Run As User
+
+#### Запуск от пользователя
 
 At the top of the NGINX configuration, the line *user  www www;* indicates to run NGINX as a low privileged user to increase security.
 
+В верхней части конфигурации NGINX строка *user www www;* указывает на запуск NGINX в качестве пользователя с низким уровнем привилегий для повышения безопасности.
+
 Envoy Proxy takes a cloud native approach to managing who the process owner is. When we launch Envoy Proxy via a container we can specify a low privileged user.
 
-#### Starting Envoy Proxy
+Envoy Proxy использует облачный подход к управлению тем, кто является владельцем процесса. Когда мы запускаем Envoy Proxy через контейнер, мы можем указать пользователя с низким уровнем привилегий.
+
+#### Запуск Envoy Proxy
 
 The command below will launch Envoy Proxy via a Docker Container on the host. The command exposes Envoy to listen to incoming requests on port 80. However, as specified in the listener configuration, Envoy Proxy is listening to incoming traffic on port 8080. This allows the process to run as a low privileged user.
+
+Команда ниже запустит Envoy Proxy через Docker-контейнер на хосте. Эта команда предоставляет Envoy возможность прослушивать входящие запросы через порт 80. Однако, как указано в конфигурации прослушивателя, Envoy Proxy прослушивает входящий трафик через порт 8080. Это позволяет процессу запускаться как пользователь с низкими привилегиями.
 
 ```bash
 docker run --name proxy1 -p 80:8080 --user 1000:1000 -v /root/envoy.yaml:/etc/envoy/envoy.yaml envoyproxy/envoy
 ```
 
-#### Testing
+#### Тестирование
 
 With the Proxy initiated, tests can now be made and processed. The following cURL command issues a request with the host header defined in the proxy configuration.
+
+С запущенным прокси, тесты теперь могут быть сделаны и обработаны. Следующая команда cURL выдает запрос с заголовком узла, определенным в конфигурации прокси.
 
 ```bash
 curl -H "Host: one.example.com" localhost -i
@@ -407,11 +455,15 @@ curl -H "Host: one.example.com" localhost -i
 
 The HTTP request will result in a *503* error. This is because the upstream connections are not running and they are unavailable. As such, Envoy Proxy has no available target destinations for the request. The following command will launch a series of HTTP services that match the configuration defined for Envoy.
 
+Запрос HTTP приведет к ошибке *503*. Это связано с тем, что восходящие соединения не работают и они недоступны. Таким образом, у Envoy Proxy нет доступных целевых адресатов для запроса. Следующая команда запустит серию HTTP-сервисов, которые соответствуют конфигурации, определенной для Envoy.
+
 ```bash
 docker run -d katacoda/docker-http-server; docker run -d katacoda/docker-http-server;
 ```
 
 With the services available, Envoy can successfully proxy traffic to the target destination.
+
+С доступными услугами Envoy может успешно прокси-трафик к месту назначения.
 
 ```bash
 curl -H "Host: one.example.com" localhost -i
@@ -419,9 +471,13 @@ curl -H "Host: one.example.com" localhost -i
 
 You should see a response indicating which docker container processed the request. Within the Envoy Proxy logs, you should also see the access line outputted.
 
-#### Additional HTTP Response Headers
+Вы должны увидеть ответ, указывающий, какой контейнер Docker обработал запрос. В журналах Envoy Proxy вы также должны увидеть выведенную строку доступа.
+
+#### Дополнительные заголовки ответа HTTP (HTTP Response)
 
 Within the response headers of the valid request you will see additional HTTP headers. The header displays the time that upstream host spent processing the request. It is expressed in milliseconds. This is useful if the client wants to determine service time compared to network latency.
+
+В заголовках ответа действительного запроса вы увидите дополнительные заголовки HTTP. В заголовке отображается время, которое вышестоящий хост потратил на обработку запроса. Выражается в миллисекундах. Это полезно, если клиент хочет определить время обслуживания по сравнению с задержкой в сети.
 
 ```
 x-envoy-upstream-service-time: 0
@@ -430,7 +486,8 @@ server: envoy
 
 
 
-Итоговый конфиг
+## Итоговый конфиг
+
 ```yaml
 static_resources:
   listeners:
