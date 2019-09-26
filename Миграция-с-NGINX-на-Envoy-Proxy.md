@@ -530,3 +530,72 @@ admin:
   address:
     socket_address: { address: 0.0.0.0, port_value: 9090 }
 ```
+
+
+
+## Допонительная информация от переводчика
+
+### Установка Envoy на CentOS 7
+
+1. **Установите утилиту yum-config-manager.**
+
+   ```sh
+   $ sudo yum install -y yum-utils
+   ```
+
+2. **Добавить конфигурацию репозитория yum.**
+
+   ```sh
+   $ sudo yum-config-manager --add-repo https://getenvoy.io/linux/centos/tetrate-getenvoy.repo
+   ```
+
+   Nightly packages can be enabled using the `--enable` flag. To disable again, use the `--disable` flag.
+
+   Ночные пакеты могут быть включены с помощью флага `--enable`. Чтобы снова отключить, используйте флаг `--disable`.
+
+   ```sh
+   $ sudo yum-config-manager --enable tetrate-getenvoy-nightly
+   ```
+
+3. **Install Envoy binary.**
+
+   **Установите бинарный пакет Envoy.**
+
+   ```sh
+   $ sudo yum install -y getenvoy-envoy
+   ```
+
+4. **Убедитесь, что посланник установлен.**
+
+   ```sh
+   $ envoy --version
+   ```
+
+   
+
+По умолчанию в rpm отсутствует systemd service конфиг. Поэтому я создал [issue](https://github.com/envoyproxy/envoy/issues/8387)
+
+Добавьте systemd service конфиг /etc/systemd/system/envoy.service:
+
+```bash
+[Unit]
+Description=Envoy Proxy
+Documentation=https://www.envoyproxy.io/
+After=network-online.target
+Requires=envoy-auth-server.service
+Wants=nginx.service
+
+[Service]
+User=root
+Restart=on-failure
+ExecStart=/usr/bin/envoy --config-path /etc/envoy/config.yaml
+[Install]
+WantedBy=multi-user.target
+```
+
+Вам нужно создать директорию /etc/envoy/ и положить туда конфиг config.yaml.
+
+
+
+
+
