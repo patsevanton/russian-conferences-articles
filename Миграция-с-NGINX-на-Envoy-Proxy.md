@@ -14,7 +14,7 @@ Envoy - это высокопроизводительный распределе
 - apis for configuration management: envoy provides robust apis for dynamically managing its configuration.
 - API для управления конфигурацией: envoy предоставляет надежный API для динамического управления своей конфигурацией.
 - observability: deep observability of l7 traffic, native support for distributed tracing, and wire-level observability of mongodb, dynamodb, and more.
-- Наблюдаемость: глубокая наблюдаемость трафика L7, встроенная поддержка распределенной трассировки и наблюдаемость на уровне проводов mongodb, dynamodb и многое другое.
+- Наблюдаемость (Мониторинг): глубокая наблюдаемость трафика L7, встроенная поддержка распределенной трассировки и наблюдаемость на уровне проводов mongodb, dynamodb и многое другое.
 
 <cut/>
 
@@ -463,7 +463,7 @@ docker run -d katacoda/docker-http-server; docker run -d katacoda/docker-http-se
 
 With the services available, Envoy can successfully proxy traffic to the target destination.
 
-С доступными услугами Envoy может успешно прокси-трафик к месту назначения.
+С доступными услугами Envoy может успешно проксировать трафик к месту назначения.
 
 ```bash
 curl -H "Host: one.example.com" localhost -i
