@@ -6,7 +6,7 @@ Envoy - это высокопроизводительный распределе
 ## FEATURES Возможности
 
 - out of process architecture: envoy is a self contained, high performance server with a small memory footprint. it runs alongside any application language or framework.
-- Архитектура вне процесса: envoy - это автономный, высокопроизводительный сервер с небольшим объемом памяти. Он работает вместе с любым языком приложений или фреймворком.
+- Архитектура вне процесса: envoy - это автономный, высокопроизводительный сервер с небольшим потреблением памяти. Он работает вместе с любым языком приложений или фреймворком.
 - http/2 and grpc support: envoy has first class support for http/2 and grpc for both incoming and outgoing connections. it is a transparent http/1.1 to http/2 proxy.
 - Поддержка http/2 и grpc: envoy имеет первоклассную поддержку http/2 и grpc для входящих и исходящих соединений. это прозрачный прокси от http/1.1 до http/2.
 - advanced load balancing: envoy supports advanced load balancing features including automatic retries, circuit breaking, global rate limiting, request shadowing, zone local load balancing, etc.
