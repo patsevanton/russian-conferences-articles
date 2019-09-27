@@ -96,20 +96,20 @@ NGINX configurations generally have three key elements:
 
 Not all of the configuration will apply to Envoy Proxy, and you won’t need to configure certain aspects. Envoy Proxy has **four key types** that support the core infrastructure offered by NGINX. The core is:
 
-Не вся конфигурация будет применяться к Envoy Proxy, и вам не нужно настраивать определенные аспекты. Envoy Proxy имеет **четыре ключевых типа**, которые поддерживают базовую инфраструктуру, предлагаемую NGINX. Ядро это:
+Не вся конфигурация будет применяться к Envoy Proxy, и вам не нужно настраивать некоторые параметры. Envoy Proxy имеет **четыре ключевых типа**, которые поддерживают базовую инфраструктуру, предлагаемую NGINX. Ядро это:
 
 - **Listeners:** They define how Envoy Proxy accepts incoming requests. At present, Envoy Proxy only supports TCP-based listeners. Once a connection is made, it’s passed on to a set of filters for processing.
-- **Слушатели:** Они определяют, как Envoy Proxy принимает входящие запросы. В настоящее время Envoy Proxy поддерживает только прослушиватели на основе TCP. Как только соединение установлено, оно передается на набор фильтров для обработки.
+- **Слушатели:** Они определяют, как Envoy Proxy принимает входящие запросы. В настоящее время Envoy Proxy поддерживает только слушателей на основе TCP. Как только соединение установлено, оно передается на набор фильтров для обработки.
 - **Filters:** They are part of a pipeline architecture that can process inbound and outbound data. This functionality enables filters such as Gzip which compresses data before sending it to the client.
-- **Фильтры:** Они являются частью конвейерной архитектуры, которая может обрабатывать входящие и исходящие данные. Эта функция включает фильтры, такие как Gzip, который сжимает данные перед отправкой их клиенту.
+- **Фильтры:** Они являются частью конвейерной архитектуры, которая может обрабатывать входящие и исходящие данные. Данная функциональность включает фильтры, такие как Gzip, который сжимает данные перед отправкой их клиенту.
 - **Routers:** These forward traffic to the required destination, defined as a cluster.
 - **Маршрутизаторы:** Они перенаправляют трафик в требуемый пункт назначения, определенный как кластер.
 - **Clusters:** They define the target endpoint for traffic and the configuration settings.
-- **Кластеры:** Они определяют целевую конечную точку для трафика и параметры конфигурации.
+- **Кластеры:** Они определяют конечную точку для трафика и параметры конфигурации.
 
 We'll use these four components to create an Envoy Proxy configuration to match the NGINX configuration defined. Envoy's focus has been on API and dynamic configuration. In this case, the configuration will use static, hardcoded resources as defined by NGINX.
 
-Мы будем использовать эти четыре компонента для создания конфигурации Envoy Proxy в соответствии с определенной конфигурацией NGINX. Envoy сосредоточился на API и динамической конфигурации. В этом случае конфигурация будет использовать статические, жестко закодированные ресурсы, как определено NGINX.
+Мы будем использовать эти четыре компонента для создания конфигурации Envoy Proxy чтобы соответстветствовать определенной конфигурации NGINX. Цель Envoy работа с API и динамическая конфигурация. В этом случае базовая конфигурация будет использовать статические, жестко заданные параметры из NGINX.
 
 
 
