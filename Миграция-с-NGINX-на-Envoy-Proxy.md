@@ -1,20 +1,20 @@
 Envoy is a high performance C++ distributed proxy designed for single services and applications, as well as a communication bus and “universal data plane” designed for large microservice “service mesh” architectures. Built on the learnings of solutions such as NGINX, HAProxy, hardware load balancers, and cloud load balancers, Envoy runs alongside every application and abstracts the network by providing common features in a platform-agnostic manner. When all service traffic in an infrastructure flows via an Envoy mesh, it becomes easy to visualize problem areas via consistent observability, tune overall performance, and add substrate features in a single place.
 
-Envoy - это высокопроизводительный распределенный прокси-сервер (написанный на C++), предназначенный для отдельных сервисов и приложений, также это коммуникационная шина и «universal data plane», разработанный для больших микросервисных архитектур «service mesh». При его создании были учтены решения проблем, которые возникали при разработке таких серверов, как NGINX, HAProxy, аппаратных балансировщиков нагрузки и облачных балансировщиков нагрузки. Envoy работает вместе с каждым приложением и абстрагирует сеть, предоставляя общие функции независимо от платформы. Когда весь служебный трафик в инфраструктуре проходит через сетку Envoy, становится легко визуализировать проблемные области с помощью согласованной наблюдаемости, настройки общей производительности и добавления основных функций в определённом месте.
+Envoy - это высокопроизводительный распределенный прокси-сервер (написанный на C++), предназначенный для отдельных сервисов и приложений, также это коммуникационная шина и «универсальная плоскость данных», разработанная для больших микросервисных архитектур «сервисных сеток». При его создании были учтены решения проблем, которые возникали при разработке таких серверов, как NGINX, HAProxy, аппаратных балансировщиков нагрузки и облачных балансировщиков нагрузки. Envoy работает вместе с каждым приложением и абстрагирует сеть, предоставляя общие функции независимо от платформы. Когда весь служебный трафик в инфраструктуре проходит через сетку Envoy, становится легко визуализировать проблемные области с помощью согласованной наблюдаемости, настройки общей производительности и добавления основных функций в определённом месте.
 
 
 ## FEATURES Возможности
 
 - out of process architecture: envoy is a self contained, high performance server with a small memory footprint. it runs alongside any application language or framework.
-- Архитектура вне процесса: envoy - это автономный, высокопроизводительный сервер с небольшим потреблением памяти. Он работает вместе с любым языком приложений или фреймворком.
+- Архитектура вне процесса: envoy - это автономный, высокопроизводительный сервер занимающий небольшой объем оперативной памяти. Он работает совместно с любым языком приложения или фреймворком.
 - http/2 and grpc support: envoy has first class support for http/2 and grpc for both incoming and outgoing connections. it is a transparent http/1.1 to http/2 proxy.
-- Поддержка http/2 и grpc: envoy имеет первоклассную поддержку http/2 и grpc для входящих и исходящих соединений. это прозрачный прокси от http/1.1 до http/2.
+- Поддержка http/2 и grpc: envoy имеет первоклассную поддержку http/2 и grpc для входящих и исходящих соединений. Это прозрачный прокси от http/1.1 до http/2.
 - advanced load balancing: envoy supports advanced load balancing features including automatic retries, circuit breaking, global rate limiting, request shadowing, zone local load balancing, etc.
-- расширенная балансировка нагрузки: Envoy поддерживает расширенные функции балансировки нагрузки, включая автоматические повторные попытки, разрыв цепи, глобальное ограничение скорости, затенение запросов, локальную балансировку нагрузки зоны и т. д.
+- Расширенная балансировка нагрузки: envoy поддерживает расширенные функции балансировки нагрузки, включая автоматические повторные попытки, разрыв цепи, глобальное ограничение скорости, затенение запросов, локальную балансировку нагрузки зоны и т. д.
 - apis for configuration management: envoy provides robust apis for dynamically managing its configuration.
 - API для управления конфигурацией: envoy предоставляет надежный API для динамического управления своей конфигурацией.
 - observability: deep observability of l7 traffic, native support for distributed tracing, and wire-level observability of mongodb, dynamodb, and more.
-- Наблюдаемость (Мониторинг): глубокая наблюдаемость трафика L7, встроенная поддержка распределенной трассировки и наблюдаемость на уровне проводов mongodb, dynamodb и многое другое.
+- Наблюдаемость: глубокая наблюдаемость трафика L7, встроенная поддержка распределенной трассировки и наблюдаемость на уровне проводов mongodb, dynamodb и многое другое.
 
 <cut/>
 
