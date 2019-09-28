@@ -156,7 +156,7 @@ All further handling of the connection is entirely processed within the worker t
 
 All connection pools in Envoy are per worker thread. Though HTTP/2 connection pools only make a single connection to each upstream host at a time, if there are four workers, there will be four HTTP/2 connections per upstream host at steady state. By keeping everything within a single worker thread, almost all the code can be written without locks and as if it is single threaded. Having more workers than necessary will waste memory, create more idle connections, and lead to a lower connection pool hit rate.
 
-Для каждого рабочего потока в Envoy имеется соединение в пуле. Таким образом, пулы соединений HTTP/2 устанавливают только одно соединение для каждого внешнего хоста за раз, при наличии четырех рабочих потоков будет четыре соединения HTTP/2 для каждого внешнего хоста в стабильном состоянии. Сохраняя все в одном рабочем потоке, почти весь код может быть написан без блокировок, как если бы он был однопоточным. Если рабочих потоков больше чем необходимо, это приведёт к потере памяти, созданию большего количества простаивающих соединений и уменьшит число возвратов соединения обратно в пул.
+Для каждого рабочего потока в Envoy существует соединение в пуле. Таким образом, пулы соединений HTTP/2 устанавливают только одно соединение для каждого внешнего хоста за раз, при наличии четырех рабочих потоков будет четыре соединения HTTP/2 для каждого внешнего хоста в стабильном состоянии. Сохраняя все в одном рабочем потоке, почти весь код может быть написан без блокировок, как если бы он был однопоточным. Если рабочих потоков выделено больше чем необходимо, это может привести к не рациональному использованию памяти, созданию большого количества простаивающих соединений и уменьшения числа возвратов соединения обратно в пул.
 
 For more information, visit the [Envoy Proxy blog](https://blog.envoyproxy.io/envoy-threading-model-a8d44b922310).
 
@@ -183,11 +183,11 @@ You can configure these aspects via Filters within Envoy Proxy, which we will di
 
 Within the HTTP configuration block, the NGINX configuration specifies to listen on port 8080 and respond to incoming requests for the domains *one.example.com* and *www.one.example.com*.
 
-В блоке конфигурации HTTP конфигурация NGINX указывает прослушивать порт 8080 и отвечать на входящие запросы для доменов *one.example.com* и *www.one.example.com*.
+В блоке конфигурирования HTTP, конфигурация NGINX указывает прослушивать порт 8080 и отвечать на входящие запросы для доменов *one.example.com* и *www.one.example.com*.
 
 ```nginx
  server {
-    listen        80;
+    listen        8080;
     server_name   one.example.com  www.one.example.com;
 ```
 
