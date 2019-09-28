@@ -123,7 +123,7 @@ The first part of the *nginx.conf* defines some of the NGINX internals that shou
 
 The configuration below focuses on defining the number of worker processes and connections. This indicates how NGINX will scale to handle demand.
 
-Приведенная ниже конфигурация фокусируется на определении количества рабочих процессов и соединений. Это указывает на то, как NGINX будет масштабироваться для удовлетворения спроса.
+Приведенная ниже конфигурация определяет количество рабочих процессов и соединений. Это указывает на то, как NGINX будет масштабироваться для удовлетворения спроса.
 
 ```nginx
 worker_processes  2;
@@ -156,7 +156,7 @@ All further handling of the connection is entirely processed within the worker t
 
 All connection pools in Envoy are per worker thread. Though HTTP/2 connection pools only make a single connection to each upstream host at a time, if there are four workers, there will be four HTTP/2 connections per upstream host at steady state. By keeping everything within a single worker thread, almost all the code can be written without locks and as if it is single threaded. Having more workers than necessary will waste memory, create more idle connections, and lead to a lower connection pool hit rate.
 
-Все пулы соединений в Envoy для каждого рабочего потока. Хотя пулы соединений HTTP/2 устанавливают только одно соединение с каждым вышестоящим хостом за раз, при наличии четырех рабочих будет четыре соединения HTTP/2 для каждого вышестоящего хоста в устойчивом состоянии. Сохраняя все в одном рабочем потоке, почти весь код может быть написан без блокировок и, как если бы он был однопоточным. Наличие большего количества работников, чем необходимо, приведет к потере памяти, созданию большего количества незанятых соединений и снижению частоты обращений в пул соединений.
+Для каждого рабочего потока в Envoy имеется соединение в пуле. Таким образом, пулы соединений HTTP/2 устанавливают только одно соединение для каждого внешнего хоста за раз, при наличии четырех рабочих потоков будет четыре соединения HTTP/2 для каждого внешнего хоста в стабильном состоянии. Сохраняя все в одном рабочем потоке, почти весь код может быть написан без блокировок, как если бы он был однопоточным. Если рабочих потоков больше чем необходимо, это приведёт к потере памяти, созданию большего количества простаивающих соединений и уменьшит число возвратов соединения обратно в пул.
 
 For more information, visit the [Envoy Proxy blog](https://blog.envoyproxy.io/envoy-threading-model-a8d44b922310).
 
