@@ -225,7 +225,7 @@ There is no need to define the *server_name* as Envoy Proxy filters will handle 
 
 When a request comes into NGINX, a location block defines how to process and where to forward the traffic. In the following snippet, all the traffic to the site is proxied to an upstream cluster called *targetCluster*. The upstream cluster defines the nodes that should process the request. We will discuss this in the next step.
 
-Когда запрос поступает в NGINX, блок местоположения определяет, как обрабатывать и куда направлять трафик. В следующем фрагменте весь трафик на сайт передается в апстрим кластер с именем *targetCluster*. Upstream кластер определяет узлы, которые должны обрабатывать запрос. Мы обсудим это на следующем шаге.
+Когда запрос поступает в NGINX, блок местоположения определяет, как обрабатывать и куда направлять трафик. В следующем фрагменте весь трафик на сайт передается в upstream кластер с именем *targetCluster*. Upstream кластер определяет узлы, которые должны обрабатывать запрос. Мы обсудим это на следующем шаге.
 
 ```nginx
 location / {
