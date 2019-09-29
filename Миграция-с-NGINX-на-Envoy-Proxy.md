@@ -195,19 +195,19 @@ Within Envoy, this is managed by Listeners.
 
 Внутри Envoy этим управляют Слушатели.
 
-#### Envoy Listeners
+#### Слушатели Envoy
 
 The most important aspect of starting with Envoy Proxy is defining the listers. You need to create a configuration file that describes how you want to run the Envoy instance.
 
-Самый важный аспект начала работы с Envoy Proxy - это определение списков. Вам нужно создать файл конфигурации, который описывает, как вы хотите запустить экземпляр Envoy.
+Самый важный аспект начала работы с Envoy Proxy - это определение слушателей. Вам нужно создать файл конфигурации, который описывает, как вы хотите запустить экземпляр Envoy.
 
 The snippet below will create a new listener and bind it to port 8080. The configuration indicates to Envoy Proxy which ports it should be bound to for incoming requests.
 
-Приведенный ниже фрагмент создаст новый прослушиватель и свяжет его с портом 8080. Конфигурация указывает Envoy Proxy, к каким портам он должен быть привязан для входящих запросов.
+Приведенный ниже фрагмент создаст нового слушателя и свяжет его с портом 8080. Конфигурация указывает Envoy Proxy, к каким портам он должен быть привязан для входящих запросов.
 
 Envoy Proxy uses YAML notation for its configuration. If you are not familiarized with this notation can see this [link](https://yaml.org/spec/1.2/spec.html).
 
-Envoy Proxy использует нотацию YAML для своей конфигурации. Если вы не знакомы с этой нотацией, можете посмотреть эту  [ссылку](https://yaml.org/spec/1.2/spec.html).
+Envoy Proxy использует нотацию YAML для своей конфигурации. Для знакомства с этой нотацией, посмотрите здесь [ссылку](https://yaml.org/spec/1.2/spec.html).
 
 ```yaml
 Copy to Editorstatic_resources:
@@ -221,11 +221,11 @@ There is no need to define the *server_name* as Envoy Proxy filters will handle 
 
 Нет необходимости определять *server_name*, так как фильтры Envoy Proxy справятся с этим.
 
-## Step 4 - Location Configuration
+## Шаг 4 - Конфигурация местоположения
 
 When a request comes into NGINX, a location block defines how to process and where to forward the traffic. In the following snippet, all the traffic to the site is proxied to an upstream cluster called *targetCluster*. The upstream cluster defines the nodes that should process the request. We will discuss this in the next step.
 
-Когда запрос поступает в NGINX, блок местоположения определяет, как обрабатывать и куда направлять трафик. В следующем фрагменте весь трафик на сайт передается в восходящий кластер с именем *targetCluster*. Восходящий кластер определяет узлы, которые должны обрабатывать запрос. Мы обсудим это на следующем шаге.
+Когда запрос поступает в NGINX, блок местоположения определяет, как обрабатывать и куда направлять трафик. В следующем фрагменте весь трафик на сайт передается в апстрим кластер с именем *targetCluster*. Upstream кластер определяет узлы, которые должны обрабатывать запрос. Мы обсудим это на следующем шаге.
 
 ```nginx
 location / {
