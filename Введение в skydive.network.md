@@ -59,3 +59,39 @@ ansible-playbook -i inventory/hosts.multiple playbook.yml.sample
 После со своего компьютера заходим в `IP для сервера анализатора:8082`
 И видим примерно такую картину
 ![](https://habrastorage.org/webt/uq/oe/0z/uqoe0zexu4kmjcozf5dgu-0gh6o.png)
+
+С помощью skydive-flow-matrix активные коннекты между серверами.
+Сначала установим skydive-flow-matrix на вашем  рабочем компьютере.
+```
+git clone https://github.com/skydive-project/skydive-flow-matrix.git
+cd skydive-flow-matrix/
+apt install graphviz
+sudo pip install virtualenv
+virtualenv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+pip install .
+```
+
+Получим активные коннективности в текстовом виде.
+```
+skydive-flow-matrix --analyzer IP для сервера анализатора:8082 --username admin --password password 
+protocol,server,server_ip,port,server_proc,server_procname,client,client_ip,client_proc,client_procname
+TCP,skydive-apatsev-2,127.0.0.1,2379,/usr/bin/etcd,etcd,skydive-apatsev-2,127.0.0.1,/usr/bin/etcd,etcd
+TCP,skydive-apatsev-2,127.0.0.1,4001,/usr/bin/etcd,etcd,skydive-apatsev-2,127.0.0.1,/usr/bin/etcd,etcd
+TCP,skydive-apatsev-4,172.26.9.80,2380,/usr/bin/etcd,etcd,skydive-apatsev-2,172.26.9.78,/usr/bin/etcd,etcd
+TCP,skydive-apatsev-2,172.26.9.78,2380,/usr/bin/etcd,etcd,skydive-apatsev-3,172.26.9.79,/usr/bin/etcd,etcd
+TCP,skydive-apatsev-4,127.0.0.1,4001,/usr/bin/etcd,etcd,skydive-apatsev-4,127.0.0.1,/usr/bin/etcd,etcd
+TCP,skydive-apatsev-3,127.0.0.1,4001,/usr/bin/etcd,etcd,skydive-apatsev-3,127.0.0.1,/usr/bin/etcd,etcd
+TCP,skydive-apatsev-3,172.26.9.79,2380,/usr/bin/etcd,etcd,skydive-apatsev-2,172.26.9.78,/usr/bin/etcd,etcd
+TCP,skydive-apatsev-3,172.26.9.79,2380,/usr/bin/etcd,etcd,skydive-apatsev-4,172.26.9.80,/usr/bin/etcd,etcd
+TCP,skydive-apatsev-2,172.26.9.78,2380,/usr/bin/etcd,etcd,skydive-apatsev-4,172.26.9.80,/usr/bin/etcd,etcd
+TCP,skydive-apatsev-4,127.0.0.1,2379,/usr/bin/etcd,etcd,skydive-apatsev-4,127.0.0.1,/usr/bin/etcd,etcd
+TCP,skydive-apatsev-3,127.0.0.1,2379,/usr/bin/etcd,etcd,skydive-apatsev-3,127.0.0.1,/usr/bin/etcd,etcd
+TCP,skydive-apatsev-4,172.26.9.80,2380,/usr/bin/etcd,etcd,skydive-apatsev-3,172.26.9.79,/usr/bin/etcd,etcd
+```
+Так же получим активные коннективности в графическом виде.
+```
+skydive-flow-matrix --analyzer IP для сервера анализатора:8082 --username admin --password password --format render
+```
+![](https://habrastorage.org/webt/v_/uz/g7/v_uzg75p2nx3jxw_2t_o2zrskb0.png)
