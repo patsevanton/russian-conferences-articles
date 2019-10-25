@@ -246,3 +246,8 @@ Sonatype Nexus – интегрированная платформа управ�
 
 
 
+### Скриншоты:
+
+![](https://habrastorage.org/webt/mb/7a/e7/mb7ae7qibkvkuhq_vfrce9hjzoo.png)
+
+![](https://habrastorage.org/webt/jp/vw/pq/jpvwpqijp9ccgw5gzkz6ytv0iyy.png)
