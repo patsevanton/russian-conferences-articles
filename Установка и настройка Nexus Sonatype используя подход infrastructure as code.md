@@ -398,18 +398,18 @@ Sonatype Nexus – интегрированная платформа управ�
     httpd_default_admin_email: "admin@example.com"
 ```
 
-Set httpd default admin email address
+Установить адрес электронной почты администратора по умолчанию
 
-### LDAP configuration
+### Конфигурация LDAP
 
-Ldap connections and security realm are disabled by default
+Соединения LDAP и область безопасности по умолчанию отключены
 
 ```yaml
     nexus_ldap_realm: false
     ldap_connections: []
 ```
 
-[LDAP connection(s)](https://help.sonatype.com/display/NXRM3/LDAP) setup, each item goes as follow :
+[Соединения LDAP](https://help.sonatype.com/display/NXRM3/LDAP), каждый элемент выглядит следующим образом:
 
 ```yaml
     nexus_ldap_realm: true
@@ -439,7 +439,7 @@ Ldap connections and security realm are disabled by default
         ldap_group_subtree: false
 ```
 
-Example LDAP config for anonymous authentication (anonymous bind), this is also the "minimal" config :
+Пример конфигурации LDAP для анонимной аутентификации (анонимная привязка), это также «минимальная» конфигурация:
 
 ```yaml
     nexus_ldap_realm: true
@@ -456,7 +456,7 @@ Example LDAP config for anonymous authentication (anonymous bind), this is also 
         ldap_user_object_class: 'inetOrgPerson'
 ```
 
-Example LDAP config for simple authentication (using a DSA account) :
+Пример конфигурации LDAP для простой аутентификации (с использованием учетной записи DSA):
 
 ```yaml
     nexus_ldap_realm: true
@@ -478,7 +478,7 @@ Example LDAP config for simple authentication (using a DSA account) :
         ldap_user_subtree: false
 ```
 
-Example LDAP config for simple authentication (using a DSA account) + groups mapped as roles :
+Пример конфигурации LDAP для простой аутентификации (с использованием учетной записи DSA) + группы, сопоставленные как роли:
 
 ```yaml
     nexus_ldap_realm: true
@@ -506,7 +506,7 @@ Example LDAP config for simple authentication (using a DSA account) + groups map
         ldap_group_subtree: false
 ```
 
-Example LDAP config for simple authentication (using a DSA account) + groups mapped as roles dynamically :
+Пример конфигурации LDAP для простой аутентификации (с использованием учетной записи DSA) + группы, динамически сопоставленные как роли:
 
 ```yaml
     nexus_ldap_realm: true
@@ -530,7 +530,7 @@ Example LDAP config for simple authentication (using a DSA account) + groups map
         ldap_user_memberof_attribute: 'memberOf'
 ```
 
-### Privileges
+### Привилегии
 ```yaml
     nexus_privileges:
       - name: all-repos-read # used as key to update a privilege
@@ -545,10 +545,9 @@ Example LDAP config for simple authentication (using a DSA account) + groups map
         # script_name: name
 ```
 
-List of the [privileges](https://help.sonatype.com/display/NXRM3/Privileges) to setup. Please see
-documentation and GUI to check out which variables should be set depending on the type of privilege.
+Список [привилегий](https://help.sonatype.com/display/NXRM3/Privileges) для настройки. Посмотрите документацию и графический интерфейс, чтобы проверить, какие переменные должны быть установлены в зависимости от типа привилегии.
 
-Those items are combined with the following default values :
+Эти элементы объединяются со следующими значениями по умолчанию:
 
 ```yaml
     _nexus_privilege_defaults:
@@ -559,7 +558,7 @@ Those items are combined with the following default values :
 ```
 
 
-### Roles
+### Роли (внутри Nexus имеется виду)
 ```yaml
     nexus_roles:
       - id: Developpers # can map to a LDAP group id, also used as a key to update a role
@@ -571,9 +570,9 @@ Those items are combined with the following default values :
         roles: [] # references to other role names
 ```
 
-List of the [roles](https://help.sonatype.com/display/NXRM3/Roles) to setup.
+Список [ролей](https://help.sonatype.com/display/NXRM3/Roles) для настройки.
 
-### Users
+### Пользователи
 ```yaml
     nexus_local_users: []
       # - username: jenkins # used as key to update
@@ -585,7 +584,9 @@ List of the [roles](https://help.sonatype.com/display/NXRM3/Roles) to setup.
       #   roles:
       #     - developers # role ID
 ```
-Local (non-LDAP) users/accounts list to create in nexus. State `absent` will remove the user if it exists
+Local (non-LDAP) users/accounts list to create in nexus.
+
+Список локальных (не LDAP) пользователей/учетных записей для создания в Nexus. 
 
 ```yaml
       nexus_ldap_users: []
@@ -594,11 +595,11 @@ Local (non-LDAP) users/accounts list to create in nexus. State `absent` will rem
       #   roles:
       #     - "nx-admin"
 ```
-Ldap users/roles mappings. State `absent` will remove roles from the existing user if already present.
-Ldap users are not removed. Trying to set roles on a non existing user will result in an error.
+Маппинг Ldap пользователей/ролей. Состояние `absent` удалит роли из существующего пользователя, если он уже существует.
+Пользователи Ldap не удаляются. Попытка установить роль для несуществующего пользователя приведет к ошибке.
 
 
-### Content selectors
+### Селекторы контента
 ```yaml
   nexus_content_selectors:
   - name: docker-login
@@ -606,9 +607,10 @@ Ldap users are not removed. Trying to set roles on a non existing user will resu
     search_expression: format=="docker" and path=~"/v2/"
 ```
 
-For more info on Content selector see [documentation](https://help.sonatype.com/repomanager3/configuration/repository-management#RepositoryManagement-ContentSelectors)
+Для получения дополнительной информации о селекторе контента см. [Документацию](https://help.sonatype.com/repomanager3/configuration/repository-management#RepositoryManagement-ContentSelectors).
 
-To use content selector add new privilege with `type: repository-content-selector` and proper `contentSelector`
+Чтобы использовать селектор контента, добавьте новую привилегию с `type: repository-content-selector` и соответствующим` contentSelector`
+
 ```yaml
 - name: docker-login-privilege
   type: repository-content-selector
@@ -620,18 +622,22 @@ To use content selector add new privilege with `type: repository-content-selecto
   - browse
 ```
 
-### Blobstores and repositories
+### Blobstores и репозитории
 ```yaml
     nexus_delete_default_repos: false
 ```
 
 Delete the repositories from the nexus install initial default configuration. This step is only executed on first-time install (when `nexus_data_dir` has been detected empty).
 
+Удаление репозиториев из исходной конфигурации по умолчанию для Nexus. Этот шаг выполняется только при первой установке (когда `nexus_data_dir` пустой).
+
 ```yaml
     nexus_delete_default_blobstore: false
 ```
 
 Delete the default blobstore from the nexus install initial default configuration. This can be done only if `nexus_delete_default_repos: true` and all configured repositories (see below) have an explicit `blob_store: custom`. This step is only executed on first-time install (when `nexus_data_dir` has been detected empty).
+
+Удаление хранилища блобов (бинарных артефактов) выключено по умолчанию из исходной конфигурации. Для удаления хранилища блобов (бинарных артефактов) выключите  `nexus_delete_default_repos: true` . Этот шаг выполняется только при первой установке (когда `nexus_data_dir` пустой).
 
 ```yaml
     nexus_blobstores: []
@@ -650,6 +656,10 @@ Delete the default blobstore from the nexus install initial default configuratio
 [Blobstores](https://help.sonatype.com/display/NXRM3/Repository+Management#RepositoryManagement-BlobStores) to create. A blobstore path and a repository blobstore cannot be updated after initial creation (any update here will be ignored on re-provisionning).
 
 Configuring blobstore on S3 is provided as a convenience and is not part of the automated tests we run on travis. Please note that storing on S3 is only recommended for instances deployed on AWS.
+
+Cоздание [Blobstores](https://help.sonatype.com/display/NXRM3/Repository+Management#RepositoryManagement-BlobStores). Путь к хранилищу и репозиторию хранилищ не могут быть обновлены после первоначального создания (любое обновление здесь будет игнорироваться при повторной установке).
+
+Настройка хранилища BLOB-объектов на S3 предоставляется для удобства. Обратите внимание, что хранение на S3 рекомендуется только для экземпляров, развернутых на AWS.
 
 ```yaml
     nexus_repos_maven_proxy:
@@ -677,7 +687,7 @@ Configuring blobstore on S3 is provided as a convenience and is not part of the 
     #   # negative_cache_ttl: 1440
 ```
 
-Maven [proxy repositories](https://help.sonatype.com/display/NXRM3/Repository+Management#RepositoryManagement-ProxyRepository) configuration.
+Выше пример конфигурации [прокси-сервер](https://help.sonatype.com/display/NXRM3/Repository+Management#RepositoryManagement-ProxyRepository) Maven.
 
 ```yaml
     nexus_repos_maven_hosted:
@@ -687,6 +697,8 @@ Maven [proxy repositories](https://help.sonatype.com/display/NXRM3/Repository+Ma
 ```
 
 Maven [hosted repositories](https://help.sonatype.com/display/NXRM3/Repository+Management#RepositoryManagement-HostedRepository) configuration. Negative cache config is optionnal and will default to the above values if omitted.
+
+Конфигурация [размещенных (hosted) репозиториев](https://help.sonatype.com/display/NXRM3/Repository+Management#RepositoryManagement-HostedRepository) Maven. Конфигурация отрицательного кэша (-1) является необязательной и будет по умолчанию использовать вышеуказанные значения, если не указана.
 
 ```yaml
     nexus_repos_maven_group:
