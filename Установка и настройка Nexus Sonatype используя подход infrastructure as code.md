@@ -39,8 +39,10 @@ Sonatype Nexus – интегрированная платформа управ�
 
 ### Требования
 
-- Эта роль протестирована на CentOS 7, Ubuntu Xenial (16.04) and Bionic (18.04), Debian Jessie and Stretch
+- Установите [geerlingguy.java](https://galaxy.ansible.com/geerlingguy/java/) на рабочей станции где запускается playbook. 
 
+- Установите [geerlingguy.apache](https://galaxy.ansible.com/geerlingguy/apache/) на рабочей станции где запускается playbook. 
+- Эта роль протестирована на CentOS 7, Ubuntu Xenial (16.04) and Bionic (18.04), Debian Jessie and Stretch
 - `jmespath` библиотека должна быть установлена на рабочей станции где запускается playbook. Для установки выполните `sudo pip install -r requirements.txt`
 
 ### Пример ansible-playbook для установки nexus без LDAP с репозиториями Maven (java), Docker, Python, Ruby, NPM, Bower, RPM и gitlfs.
@@ -708,9 +710,9 @@ Maven [hosted repositories](https://help.sonatype.com/display/NXRM3/Repository+M
           - jboss
 ```
 
-Maven [group repositories](https://help.sonatype.com/display/NXRM3/Repository+Management#RepositoryManagement-RepositoryGroup) configuration.
+Конфигурация [группы](https://help.sonatype.com/display/NXRM3/Repository+Management#RepositoryManagement-RepositoryGroup) Maven.
 
-All three repository types are combined with the following default values :
+Все три типа репозитория объединяются со следующими значениями по умолчанию:
 
 ```yaml
     _nexus_repos_maven_defaults:
@@ -728,6 +730,9 @@ All three repository types are combined with the following default values :
 Docker, Pypi, Raw, Rubygems, Bower, NPM, Git-LFS and yum repository types:
 see `defaults/main.yml` for these options:
 
+Хранилища Docker, Pypi, Raw, Rubygems, Bower, NPM, Git-LFS и yum по умолчанию выключены:
+Смотрите `defaults/main.yml` для этих опций:
+
 ```yaml
       nexus_config_pypi: false
       nexus_config_docker: false
@@ -739,10 +744,7 @@ see `defaults/main.yml` for these options:
       nexus_config_yum: false
 ```
 
-These are all false unless you override them from playbook / group_var / cli, these all utilize the same mechanism as maven.
-
-Note that you might need to enable certain security realms if you want to use other repository types than maven. These are
-false by default
+Обратите внимание, что вам может потребоваться включить определенные области безопасности, если вы хотите использовать другие типы репозиториев, кроме maven. Это по умолчанию false
 
 ```yaml
 nexus_nuget_api_key_realm: false
@@ -750,19 +752,19 @@ nexus_npm_bearer_token_realm: false
 nexus_docker_bearer_token_realm: false  # required for docker anonymous access
 ```
 
-The Remote User Realm can also be enabled with
+Remote User Realm также может быть включена с помощью
 
 ```yaml
 nexus_rut_auth_realm: true
 ```
 
-and the header can be configured by defining
+и заголовок может быть настроен путем определения
 
 ```yaml
 nexus_rut_auth_header: "CUSTOM_HEADER"
 ```
 
-### Scheduled tasks
+### Запланированные задачи
 ```yaml
     nexus_scheduled_tasks: []
     #  #  Example task to compact blobstore :
@@ -800,16 +802,18 @@ nexus_rut_auth_header: "CUSTOM_HEADER"
     #      age: "24"
 ```
 
-[Scheduled tasks](https://help.sonatype.com/display/NXRM3/System+Configuration#SystemConfiguration-ConfiguringandExecutingTasks) to setup. `typeId` and task-specific `taskProperties`/`booleanTaskProperties` can be guessed either:
-* from the java type hierarchy of `org.sonatype.nexus.scheduling.TaskDescriptorSupport`
-* by inspecting the task creation html form in your browser
-* from peeking at the browser AJAX requests while manually configuring a task.
+[Запланированные задачи](https://help.sonatype.com/display/NXRM3/System+Configuration#SystemConfiguration-ConfiguringandExecutingTasks) для настройки. `typeId` и специфичные для задачи` taskProperties`/`booleanTaskProperties` можно угадать либо:
 
-**Task properties must be declared in the correct yaml block depending on their type**:
-* `taskProperties` for all string properties (i.e. repository names, blobstore names, time periods...).
-* `booleanTaskProperties` for all boolean properties (i.e. mainly checkboxes in nexus create task GUI).
+* из иерархии типов Java `org.sonatype.nexus.scheduling.TaskDescriptorSupport`
+* проверяя HTML-форму создания задачи в вашем браузере
+* от просмотра запросов AJAX в браузере при ручной настройке задачи.
 
-### Backups
+**Свойства задачи должны быть объявлены в правильном блоке yaml в зависимости от их типа**:
+
+* `taskProperties` для всех строковых свойств (т. е. имен репозиториев, имен хранилищ, периодов времени ...).
+* `booleanTaskProperties` для всех логических свойств (т. е. в основном чекбоксы в графическом интерфейсе задачи создания нексуса).
+
+### Резервные копии
 ```yaml
       nexus_backup_configure: false
       nexus_backup_cron: '0 0 21 * * ?'  # See cron expressions definition in nexus create task gui
@@ -820,140 +824,43 @@ nexus_rut_auth_header: "CUSTOM_HEADER"
       nexus_backup_keep_rotations: 4  # Keep 4 backup rotation by default (current + last 3)
 ```
 
-Backup will not be configured unless you switch `nexus_backup_configure: true`.
-In this case, a scheduled script task will be configured in nexus to run
-at interval specified by `nexus_backup_cron` (defaults to 21:00 every day).
-See [the groovy template for this task](templates/backup.groovy.j2) for details.
-This scheduled task is independent from the other `nexus_scheduled_tasks` you
-declare in your playbook
+Резервное копирование не будет настроено, пока вы не переключите `nexus_backup_configure` в `true`.
+В этом случае запланированная задача сценария будет настроена для запуска в Nexus
+с интервалом, указанным в `nexus_backup_cron` (по умолчанию 21:00 каждый день).
+См. [Шаблон groovy для этой задачи](templates / backup.groovy.j2) для получения подробной информации.
+Это запланированное задание не зависит от других `nexus_scheduled_tasks`, которые вы
+объявить в своем playbook.
 
-If you want to rotate backups, set `nexus_backup_rotate: true` and adjust
-the number of rotations you would like to keep with `nexus_backup_keep_rotations`
-(defaults to 4).
+Если вы хотите ротировать/удалять резервные копии, установите `nexus_backup_rotate: true` и настройте количество бекапов, которое вы хотели бы сохранить с помощью `nexus_backup_keep_rotations` (по умолчанию 4).
 
-When using rotation, if you want to save extra disk space during the backup process,
-you can set `nexus_backup_rotate_first: true`. This will configure a pre-rotation
-rather than the default post-rotation. Please note than in this case, old backup(s)
-is/are removed before the current one is done and successful.
+При использовании ротации, если вы хотите сэкономить дополнительное дисковое пространство во время процесса резервного копирования,
+Вы можете установить `nexus_backup_rotate_first: true`. Это настроит предварительное ротирование/удаление перед бекапом. По умолчанию ротиция происходит после создания резервной копии. Обратите внимание, чем в этом случае старые резервные копии
+удалятся до того, как текущий бекап будет сделан.
 
-#### Restore procedure
-Run your playbook with parameter `-e nexus_restore_point=<YYYY-MM-dd-HH-mm-ss>`
-(e.g. 2017-12-17-21-00-00 for 17th of December 2017 at 21h00m00s)
+#### Процедура восстановления
+Запустите playbook с параметром `-e nexus_restore_point=<YYYY-MM-dd-HH-mm-ss>`
+(например, 2017-12-17-21-00-00 для 17 декабря 2017 в 21:00
 
-#### Possible limitations
-Blobstore copies are made directly from nexus by the script scheduled task.
-This has only been tested on rather small blobstores (less than 50Go) and should
-be used with caution and tested carefully on larger installations before moving
-to production. In any case, you are free to implement your own backup scenario
-outside of this role.
+#### Удаление nexus
 
-### Special maintenance/debug variables
+**Предупреждение: это полностью удалит текущие данные. Обязательно сделайте резервную копию ранее, если это необходимо**
 
-These are not present in `defaults/main.yml` and are meant to be used on the command line only for maintenance/debug reasons.
-
-#### Purge nexus
-
-** Warning: this will completely erase the current data. Make sure to backup previously if needed **
-
-Use the `nexus_purge` variable if you need to restart from scratch and re-install a blank instance of nexus.
+Используйте переменную `nexus_purge`, если вам нужно перезапустить с нуля и переустановить экземпляр nexus с удалением всех данных.
 
 ```bash
 ansible-playbook -i your/inventory.ini your_nexus_playbook.yml -e nexus_purge=true
 ```
 
-#### Force groovy scripts registration
-
-_This one is safe and will only make the playbook run longer if it wasn't needed_
-
-For performance sake, we use a little trick with several rsync to detect which maintenance groovy scripts need to be registered in Nexus. On some occasions (e.g. bad admin password, recovering a backup from a previous nexus instance with unregistered scripts...), this can lead to situation where the role will fail when attempting to run the needed groovy scripts.
-
-The symptom: you get HTTP 404 errors when the role tries to run scripts like in the following example (use `-v` option for ansible playbook):
-
-```bash
-fatal: [nexus3-oss]: FAILED! => {"changed": false, "connection": "close", "content": "", "date": "Tue, 11 Sep 2018 07:57:44 GMT", "msg": "Status code was 404 and not [200, 204]: HTTP Error 404: Not Found", "redirected": false, "server": "Nexus/3.13.0-01 (OSS)", "status": 404, "url": "http://localhost:8081/service/rest/v1/script/update_admin_password/run", "x_content_type_options": "nosniff", "x_siesta_faultid": "914acef2-f644-4bd6-9a7d-ce19255ea3dd"}
-```
-
-In such cases, you can force the (re-)registration of the groovy scripts with the `nexus_force_groovy_scripts_registration` variable:
-```bash
-ansible-playbook -i your/inventory.ini your_playbook.yml -e nexus_force_groovy_scripts_registration=true
-```
-
-#### Change admin password after first install
+#### Изменить пароль администратора после первой установки
 
 ```yaml
     nexus_default_admin_password: 'admin123'
 ```
-**This should not be changed in your playbook**. This var is filled with the default nexus admin password on first install and ensures we can change the admin password to `nexus_admin_password`.
+**Это не должно быть изменено в вашем playbook**. Эта переменная заполняется стандартным паролем администратора Nexus при первой установке и гарантирует, что мы можем изменить пароль администратора на `nexus_admin_password`.
 
-If you want to change your admin password after first install, you can temporarily change this to your old password from the command line. After changing `nexus_admin_password` in your playbook, you can run:
+Если вы хотите изменить пароль администратора после первой установки, вы можете временно изменить его на старый пароль из командной строки. После изменения `nexus_admin_password` в вашей игровой книге вы можете запустить:
 
 ```bash
 ansible-playbook -i your/inventory.ini your_playbook.yml -e nexus_default_admin_password=oldPassword
 ```
-
-#### Upgrade nexus to latest version
-
-```yaml
-    nexus_upgrade: true
-```
-**This variable has no effect if `nexus_version` is fixed in your vars**
-
-Unless you set this variable, the role will keep the current installed nexus version when running against
-an already provisioned host. Passing this extra var will trigger automatic latest nexus version detection and upgrade
-if a newer version is available.
-
-**Setting this var as part of your playbook breaks idempotence** (i.e. your playbook will make changes to your system
-if a new version is available although no parameters have changed)
-
-We strongly suggest to use this variable only as an extra var to ansible-playbook call
-```bash
-ansible-playbook -i your/inventory.ini your_playbook.yml -e nexus_upgrade=true
-```
-
-##### Fix upgrade failing on timeout waiting for nexus port
-If you have a large nexus repository, you may occasionally see an error message when upgrading
-```
-RUNNING HANDLER [nexus3-oss : wait-for-nexus-port] *************
-fatal: [nexushost]: FAILED! => {"changed": false, "elapsed": 300, "msg": "Timeout when waiting for 127.0.0.1:8081"}
-```
-This is most likely because the nexus upgrade process (i.e. migrating internal orientdb) is taking longer than
-the default 300 seconds. You can overcome this situation by setting a custom timeout in seconds to or/and a number of retries
-for the handler task.
-```
-ansible-playbook -i your/inventory.ini your_playbook.yml \
--e nexus_upgrade=true \
--e nexus_wait_for_port_timeout=600
--e nexus_wait_for_port_retries=2
-```
-
-#### Skip provisionning tasks
-```yaml
-    nexus_run_provisionning: false
-```
-This var is unset by default and will default to `true`. Setting it to `false` will cause the role to skip all of the
-provisionning tasks and will therefore *not create/update*:
-* ldap configurations
-* content selectors
-* privileges
-* roles
-* users (except checking/updating admin password)
-* blobstores
-* repositories
-* tasks (backup will still be configured if enabled)
-
-This can save time if you have lots of configured repositories/users/roles... and you want to play the role
-to simply check nexus is correctly installed, or restore a backup, or upgrade nexus version.
-
-We strongly suggest to use this variable only as an extra var to ansible-playbook call
-```bash
-ansible-playbook -i your/inventory.ini your_playbook.yml -e nexus_run_provisionning=false
-```
-
-## Dependencies
-
-The java and httpd requirements /can/ be fulfilled with the following galaxy roles :
-  - [geerlingguy.java](https://galaxy.ansible.com/geerlingguy/java/)
-  - [geerlingguy.apache](https://galaxy.ansible.com/geerlingguy/apache/)
-
-Feel free to use them or implement your own install scenario at your convenience.
 
