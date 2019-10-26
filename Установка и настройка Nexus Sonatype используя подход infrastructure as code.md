@@ -39,11 +39,14 @@ Sonatype Nexus – интегрированная платформа управ�
 
 ### Требования
 
+- Прочитайте про использование ansible в интернете.
+- Установите ansible `pip install ansible` на рабочей станции где запускается playbook. 
 - Установите [geerlingguy.java](https://galaxy.ansible.com/geerlingguy/java/) на рабочей станции где запускается playbook. 
-
 - Установите [geerlingguy.apache](https://galaxy.ansible.com/geerlingguy/apache/) на рабочей станции где запускается playbook. 
 - Эта роль протестирована на CentOS 7, Ubuntu Xenial (16.04) and Bionic (18.04), Debian Jessie and Stretch
 - `jmespath` библиотека должна быть установлена на рабочей станции где запускается playbook. Для установки выполните `sudo pip install -r requirements.txt`
+- Сохраните файл playbook (пример ниже) в файл nexus.yml
+- Запустите установку nexus `ansible-playbook -i host nexus.yml`
 
 ### Пример ansible-playbook для установки nexus без LDAP с репозиториями Maven (java), Docker, Python, Ruby, NPM, Bower, RPM и gitlfs.
 
