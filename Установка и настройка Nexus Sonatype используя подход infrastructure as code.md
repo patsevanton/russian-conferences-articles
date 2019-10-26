@@ -867,3 +867,5 @@ ansible-playbook -i your/inventory.ini your_nexus_playbook.yml -e nexus_purge=tr
 ansible-playbook -i your/inventory.ini your_playbook.yml -e nexus_default_admin_password=oldPassword
 ```
 
+Телеграм канал по Nexus Sonatype: https://t.me/ru_nexus_sonatype
+
