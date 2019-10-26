@@ -1,6 +1,6 @@
 ## Введение
 
-Sonatype Nexus – интегрированная платформа управления, с помощью которой разработчики могут проксировать и управлять зависимостями Java, образами Docker, Python, Ruby, NPM, Bower, RPM-пакетами и gitlfs, а также распространять свое программное обеспечение. 
+Sonatype Nexus – интегрированная платформа управления, с помощью которой разработчики могут проксировать и управлять зависимостями Java(maven), образами Docker, Python, Ruby, NPM, Bower, RPM-пакетами и gitlfs, а также распространять свое программное обеспечение. 
 
 ### Зачем нужен Sonatype Nexus?
 
@@ -12,7 +12,7 @@ Sonatype Nexus – интегрированная платформа управ�
 
 ### Артефакты поддерживаемые в базовой поставке Sonatype Nexus:
 
-- Java (jar)
+- Java, Maven (jar)
 - Docker
 - Python (pip)
 - Ruby (gem)
@@ -314,44 +314,46 @@ Sonatype Nexus – интегрированная платформа управ�
 
 * `nexus_installation_dir` содержит установленные исполняемые файлы
 * `nexus_data_dir` содержит всю конфигурацию, репозитории и загруженные артефакты. Кастомные пути blobstores `nexus_data_dir` могут быть настроены, смотрите ниже `nexus_blobstores`.
-* `nexus_tmp_dir` содержит все временные файлы. Путь по умолчанию для redhat был перемещен из `/tmp` для преодоления потенциальные проблемы с автоматическими процедурами очистки. Смотри #168.
+* `nexus_tmp_dir` содержит все временные файлы. Путь по умолчанию для redhat был перемещен из `/tmp` для преодоления потенциальные проблемы с автоматическими процедурами очистки. Смотрите #168.
 
-### Nexus JVM Ram setting
+### Настройка использование памяти Nexus JVM
 ```yaml
     nexus_min_heap_size: "1200M"
     nexus_max_heap_size: "{{ nexus_min_heap_size }}"
     nexus_max_direct_memory: "2G"
 ```
-These are the defaults for Nexus. **Please do not modify those values** _unless you have read [the memory section of nexus system requirements](https://help.sonatype.com/repomanager3/system-requirements#SystemRequirements-Memory)_ and you understand what you are doing.
+Это настройки по умолчанию для Nexus. **Пожалуйста, не изменяйте эти значения** _Если вы не прочитали [раздел памяти системных требований nexus](https://help.sonatype.com/repomanager3/system-requirements#SystemRequirements-Memory)_ и не понимаете, что они делают.
 
-As a second warning, here is an extract from the above document:
-> Increasing the JVM heap memory larger than recommended values in an attempt to improve performance is not recommended. This actually can have the opposite effect, causing the operating system to thrash needlessly.
+Как второе предупреждение, вот выдержка из вышеупомянутого документа:
 
-### Admin password
+> Не рекомендуется увеличивать память JVM heap больше рекомендуемых значений в попытке повысить производительность. Это на самом деле может иметь противоположный эффект, приводя к ненужной работе операционной системы.
+
+### Пароль администратора
 ```yaml
     nexus_admin_password: 'changeme'
 ```
-The 'admin' account password to setup. _This works only on first time install by default_. Please see [Change admin password after first install](#change-admin-password-after-first-install) if you want to change it later with the role.
+Пароль учетной записи «admin» для настройки. _Это работает только при первой установке по умолчанию_. Пожалуйста, смотрите [Изменить пароль администратора после первой установки](# change-admin-password-after-first-install), если вы хотите изменить его позже с помощью роли.
 
-**It is strongly advised that you do not keep your password in clear text in you playbook and use [ansible-vault encryption](https://docs.ansible.com/ansible/latest/user_guide/vault.html) (either inline or in a separate file loaded with include_vars for example)**
+**Настоятельно не рекомендуется хранить свой пароль в виде открытого текста в playbook, а использовать [шифрование ansible-vault] (https://docs.ansible.com/ansible/latest/user_guide/vault.html) (либо встроенный или в отдельный файл, загруженный, например, с помощью include_vars)**
 
 
-### Default anonymous access
+### Анонимный доступ по умолчанию
 ```yaml
     nexus_anonymous_access: false
 ```
 
-Allow [anonymous access](https://help.sonatype.com/display/NXRM3/Anonymous+Access) to nexus.
+Анонимный доступ по умолчанию вылючен. Подробнее про [анонимный доступ](https://help.sonatype.com/display/NXRM3/Anonymous+Access).
 
-### Public hostname
+### Публичное имя хоста
 ```yaml
     nexus_public_hostname: 'nexus.vm'
     nexus_public_scheme: https
 ```
 
-The fully qualified domain name and scheme under which the nexus instance will be accessible to its clients.
+Полное доменное имя и схема (https или http), по которой экземпляр Nexus будет доступен для его клиентов.
 
-### API access for this role
+### Доступ API для этой роли
+
 ```yaml
     nexus_api_hostname: localhost
     nexus_api_scheme: http
@@ -359,25 +361,10 @@ The fully qualified domain name and scheme under which the nexus instance will b
     nexus_api_context_path: "{{ nexus_default_context_path }}"
     nexus_api_port: "{{ nexus_default_port }}"
 ```
-These vars control how the role connects to the nexus API for provisionning.
-**For advance usage only. You most probably do not want to change these default settings**
+Эти переменные контролируют, как роль подключается к API Nexus для предоставления.
+**Только для продвинутых пользователей. Скорее всего, вы не хотите изменять эти настройки по умолчанию**
 
-### Branding capabalities
-```yaml
-    nexus_branding_header: ""
-    nexus_branding_footer: "Last provisionned {{ ansible_date_time.iso8601 }}"
-```
-
-Header and footer branding, those can contain HTML.
-
-### Audit capability
-```yaml
-    nexus_audit_enabled: false
-```
-
-The [Auditing capability of nexus](https://help.sonatype.com/repomanager3/security/auditing) is off by default. You can turn it on by switching this to `true`. Please note that the audit data is stored in nexus db, persits accross reboots and is not automatically rotated/cleared.
-
-### Reverse proxy setup
+### Настройка обратного прокси
 ```yaml
     httpd_setup_enable: false
     httpd_server_name: "{{ nexus_public_hostname }}"
@@ -388,15 +375,14 @@ The [Auditing capability of nexus](https://help.sonatype.com/repomanager3/securi
     httpd_copy_ssl_files: true
 ```
 
-Setup an [SSL Reverse-proxy](https://help.sonatype.com/display/NXRM3/Run+Behind+a+Reverse+Proxy#RunBehindaReverseProxy-Example:ReverseProxySSLTerminationatBasePath).
-This needs httpd installed. Note : when `httpd_setup_enable` is set to `true`, nexus binds to 127.0.0.1:8081 thus *not* being directly accessible on HTTP port 8081 from an external IP.
+Установите [Обратный прокси-сервер SSL](https://help.sonatype.com/display/NXRM3/Run+Behind+a+Reverse+Proxy#RunBehindaReverseProxy-Example:ReverseProxySSLTerminationatBasePath).
+Для этого нужно установить httpd. Примечание: когда для `httpd_setup_enable` установлено значение` true`, nexus связывается с 127.0.0.1:8081, таким образом *не* будучи напрямую доступным через HTTP-порт 8081 с внешнего IP-адреса.
 
-The default hostname used is `nexus_public_hostname`. If you need different names for whatever reason, you can set
-`httpd_server_name` to a different value.
+Используемое имя хоста по умолчанию - `nexus_public_hostname`. Если вам нужны разные имена по какой-либо причине, вы можете установить `httpd_server_name` с другим значением.
 
-With `httpd_copy_ssl_files: true` (default), the above certs must exist in your playbook dir and will be copied to the server and configured in apache. `httpd_ssl_certificate_chain_file` is optional and must be left unset if you do not want to configure a chain file.
+С `httpd_copy_ssl_files: true` (по умолчанию) вышеупомянутые сертификаты должны существовать в вашей директории playbook и будут скопированы на сервер и настроены в apache.
 
-If you want to use existing certificates on the server, set `httpd_copy_ssl_files: false` and provide the following variables
+Если вы хотите использовать существующие сертификаты на сервере, установите `httpd_copy_ssl_files: false` и предоставьте следующие переменные:
 
 ```yaml
     # These specifies to the vhost where to find on the remote server file
@@ -406,7 +392,7 @@ If you want to use existing certificates on the server, set `httpd_copy_ssl_file
     # httpd_ssl_cert_chain_file_location: "{{ httpd_ssl_cert_file_location }}"
 ```
 
-`httpd_ssl_cert_chain_file_location` is optional and must be left unset if you do not want to configure a chain file
+`httpd_ssl_cert_chain_file_location` является необязательным и должен быть оставлен неустановленным, если вы не хотите настраивать файл цепочки
 
 ```yaml
     httpd_default_admin_email: "admin@example.com"
