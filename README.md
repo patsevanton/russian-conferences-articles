@@ -1,9 +1,4 @@
 # Russian-conference-article
-[![license badge]][license]
-[![stars badge]][stars]
-[![forks badge]][forks]
-[![issues badge]][issues]
-[![contributors_badge]][contributors]
 
 Коллективный перевод видеодокладов c Российских конференций, митапов в статьи
 
