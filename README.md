@@ -32,4 +32,4 @@
 
 6) Загрузите изображения на [habrastorage.org](https://habrastorage.org/)
 
-7) Для редактирования статьи в markdown можете использовать [typora](
+7) Для редактирования статьи в markdown можете использовать [typora](https://typora.io)
