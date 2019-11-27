@@ -1,6 +1,27 @@
-﻿у про классные штуки такие как виктории метры капитанов толще знать что такое круто много ли здесь знает а кто больше знает что такое то нас решеткой и периметре делать давайте лекторий метре кто знает сегодня знали где apart она слышит только лежит меньше нормально окей я надеюсь прокормить все слова да ну я тоже расскажу них приправить из так что такое про металл эта система мониторинга которая собирает метрики какие-то торги то и сохраняет их local storage после это она умеет записывать это метрики прямому сторож умеет собирать солер и риккарди 
+В докладе будет сравнение Thanos и VictoriaMetrics.
 
-наружу и все но пролетаю средства ограничения у него нет нет global кого review это когда у вас есть несколько метаются независимых они собирают метрики и вы хотите посмотреть сделать запрос поверх всех этих метрик собранных сразу frame to us of promise это не позволяет правительство производительность ограничено только одним сервером его нельзя масштабировать на несколько серверов не о нем автоматически масштабирует донецке сортировку вы только можете вручную разделить ваши таргитай которые скрепляют между этим приготовил сами и как-то собирать на 
+![](https://habrastorage.org/webt/vm/ha/hd/vmhahdu2edj4dsc6o3lvzaf-noo.png)
+
+https://www.youtube.com/watch?v=HyOXAdQE0Pk
+
+
+![](https://habrastorage.org/webt/pg/3x/hc/pg3xhcm_wiipwhdxavyd6e1q8sm.png)
+
+![](https://habrastorage.org/webt/ly/t4/ly/lyt4lyh_ig976fd0yrj_kxgto50.png)
+
+![](https://habrastorage.org/webt/b4/jo/gz/b4jogziezacw5myfzttwx7-c26g.png)
+
+![](https://habrastorage.org/webt/tj/hb/2x/tjhb2xocarftzjxirb0mmdoyy7u.png)
+
+![](https://habrastorage.org/webt/op/ni/ao/opniaodpqcis34bw3f4-twdnsic.png)
+
+Сначала расскажу про prometheus. Prometheus это система мониторинга, которая собирает метрики каких-то target и сохраняет их в local storage. Prometheus умеет записывать метрики в remote storage, умеет собирать алерты и recording rules. 
+
+Ограничения Prometheus:
+
+Но у Prometheus есть ограничения. У него нет global query view. Это когда у вас есть несколько независимых экземпляров prometheus. Они собирают метрики. И вы хотите сделать запрос поверх всех этих метрик, собранных с разных экземпляров prometheus. Prometheus это не позволяет.
+
+У prometheus производительность ограничено только одним сервером. Его нельзя масштабировать на несколько серверов. не о нем автоматически масштабирует донецке сортировку вы только можете вручную разделить ваши таргитай которые скрепляют между этим приготовил сами и как-то собирать на 
 
 низкой сервера и объем метрик про метаюсь и ограничен только одним сервером по той же причине что нему власти ривера ваться в несколько на несколько серверов и про метаюсь не так-то просто организовать сохранность данных из вас использует про митоз у вас есть отчёты backup это прометею соски дано никого нет но если для сведения у правительства есть возможность snapshot of risk of насосов но в мгновенных насосов ботанских можно сделать бэкап и тут надо почитать 
 
@@ -140,17 +161,8 @@ metrics можете использовать и данное преимущес
 
 
 
-![](https://habrastorage.org/webt/vm/ha/hd/vmhahdu2edj4dsc6o3lvzaf-noo.png)
 
-![](https://habrastorage.org/webt/pg/3x/hc/pg3xhcm_wiipwhdxavyd6e1q8sm.png)
 
-![](https://habrastorage.org/webt/ly/t4/ly/lyt4lyh_ig976fd0yrj_kxgto50.png)
-
-![](https://habrastorage.org/webt/b4/jo/gz/b4jogziezacw5myfzttwx7-c26g.png)
-
-![](https://habrastorage.org/webt/tj/hb/2x/tjhb2xocarftzjxirb0mmdoyy7u.png)
-
-![](https://habrastorage.org/webt/op/ni/ao/opniaodpqcis34bw3f4-twdnsic.png)
 
 ![](https://habrastorage.org/webt/kg/y1/wf/kgy1wf1db2occcivabh3lqppvw4.png)
 
