@@ -55,9 +55,27 @@ https://www.youtube.com/watch?v=HyOXAdQE0Pk
 
 ![](https://habrastorage.org/webt/wg/bq/-b/wgbq-b3pwr1emeewan-q5hszprs.png)
 
-Он берет данные, которая сохранил про митоз на локальный диск и записывает их копируют ps3 либо глупо у которых либо другой облик сторож таким образом он обеспечивает глубокую запрашивать данные сохраненное в у вас три ветки parameters of он поддерживает пранки и api про металл савская и он использует код про 
+Thanos берет данные, которая сохранил prometheus на локальный диск и копируют их в S3 либо в [GCS](https://cloud.google.com/storage/) либов другой object storage.
 
-метался то есть использовать корочками таз и ноги части кода проминаются перед пользуются то ну там и то на самом деле разрабатывает те же разработчики что и параметров про лекторий метрик вот это вот ссылка где мы впервые рассказали что такое траектория метрик это за бы стремился 2 параметра очевидной ссылки он получает данные с promises детский правительство ремоут right to 
+![](https://habrastorage.org/webt/p7/4g/rj/p74grj159fi9xb58vq-hphcrqyi.png)
+
+Таким образом Thanos обеспечивает global query view. Вы можете запрашивать данные сохраненное в object storage или в S3 c нескольких prometheus.
+
+![](https://habrastorage.org/webt/aj/3u/wi/aj3uwi8dd4wgy-fyogditn--kek.png)
+
+Thanos поддерживает PromQL и prometheus API.
+
+![](https://habrastorage.org/webt/sr/t7/ql/srt7qlyoruhbxr5wglfuyhi9jp4.png)
+
+Thanos использует код prometheus, он использовует storage prometheus и многие части кода переиспользуются Thanos.
+
+![](https://habrastorage.org/webt/3y/ws/ik/3ywsiklzziqimz1aig7uzieblqw.png)
+
+Thanos на самом деле разрабатывает те же разработчики, что и prometheus.
+
+![](https://habrastorage.org/webt/bm/gr/bh/bmgrbh1y5arap-nilpvleilsaei.png)
+
+Про [VictoriaMetrics](https://github.com/VictoriaMetrics/VictoriaMetrics). Вот ссылка где мы впервые рассказали что [VictoriaMetrics](https://github.com/VictoriaMetrics/VictoriaMetrics). Это за бы стремился 2 параметра очевидной ссылки он получает данные с promises детский правительство ремоут right to 
 
 pee протоколу поддерживаем про метался также обеспечил global полюбит так как несколько метров пишет вадим место в питере метрика и соответственно вы можете сделать запрос и поэтому всем данным он также поддерживает какие-то на промке all i promise api и в отличие от таноса виктор 
 
@@ -184,20 +202,6 @@ metrics можете использовать и данное преимущес
 крупных может быть двести-триста другими нарисовать пару сотен турбина то ветряных не знаю круг мел и если еще у нас российские авиалинии которые хотят внедрить виктор и метрика 17 никак не могут поднимем остались договор выводы такие что victory metrics это нас решают похожие задачи но по разным способам это глубокое view масштабирование горизонтальная и произвольно решил спасибо
 
 
-
-
-
-
-
-![](https://habrastorage.org/webt/p7/4g/rj/p74grj159fi9xb58vq-hphcrqyi.png)
-
-![](https://habrastorage.org/webt/aj/3u/wi/aj3uwi8dd4wgy-fyogditn--kek.png)
-
-![](https://habrastorage.org/webt/sr/t7/ql/srt7qlyoruhbxr5wglfuyhi9jp4.png)
-
-![](https://habrastorage.org/webt/3y/ws/ik/3ywsiklzziqimz1aig7uzieblqw.png)
-
-![](https://habrastorage.org/webt/bm/gr/bh/bmgrbh1y5arap-nilpvleilsaei.png)
 
 ![](https://habrastorage.org/webt/z9/q2/wv/z9q2wvhshsoqb1ron0jx47djiwc.png)
 
