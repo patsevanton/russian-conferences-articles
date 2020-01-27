@@ -252,7 +252,7 @@ P.S. №4 Для установка wal-g используя rpm вы может
 
 P.S. №5 Как сделать в создание и хранение в S3 полный бекап и инкрементальный бекап, а на ленту сохранение только полного бекапа? Если есть идеи, подскажите в коментариях или в личку.
 
-![](https://habrastorage.org/webt/w0/ag/58/w0ag587zwuxbwjiuwqhkjldgvii.png)
+![](https://habrastorage.org/webt/r8/hh/ks/r8hhkssl2kpkvvqvat1xgwe8eie.png)
 
 
 
