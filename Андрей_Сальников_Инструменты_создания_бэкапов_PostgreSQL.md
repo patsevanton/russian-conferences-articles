@@ -1,14 +1,10 @@
-
-
-**Предлагаю ознакомиться с рашифровкой доклада Андрей Сальников из Data Egret "Инструменты создания бэкапов PostgreSQL"** **. В конце обновленная сводная таблица по инстрментам**
-
-
+**Предлагаю ознакомиться с расшифровкой доклада Андрей Сальников из Data Egret "Инструменты создания бэкапов PostgreSQL"** **. В конце обновленная сводная таблица по инструментам**
 
 Данный доклад посвящен доступным инструментам бэкапирования PostgreSQL. Логические backup, бинарные backup, встроенные средства бэкапирования и сторонние инструменты. Нужны ли инкрементальные backup, когда они могут действительно помочь. Посмотрим, когда и какой инструмент уместнее использовать. Как лучше автоматизировать процесс бэкапирования и проверки целостности сделанного бэкапа. Посмотрим вблизи на инструменты, такие как [pg_dump](https://www.postgresql.org/docs/10/app-pgdump.html), [pg_basebackup](https://www.postgresql.org/docs/10/app-pgbasebackup.html), [barman](https://www.2ndquadrant.com/en/resources/barman/), [wal-e](https://github.com/wal-e/wal-e), [wal-g](https://github.com/wal-g/wal-g), [pgbackrest](https://pgbackrest.org/), [BART](https://www.enterprisedb.com/enterprise-postgres/edb-postgres-backup-and-recovery-tool) и [pg_probackup](https://postgrespro.ru/products/extensions/pg_probackup).
 
-https://www.youtube.com/watch?v=Us6cHVNA4vk
+<oembed>https://www.youtube.com/watch?v=Us6cHVNA4vk</oembed>
 
-кат
+<cut />
 
 Меня зовут Сальников Андрей, я сотрудник компании Data Egret и этот доклад будет посвящён инструментам создания бэкапов в PostgreSQL.
 
