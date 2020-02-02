@@ -223,12 +223,13 @@ http://bit.do/lesovsky_sql
 Вопрос: Есть ли какие-то аналоги AWR-отчетов или … агрегации? Известно вам о чем-то таком?
 Ответ: Да, я знаю, что такое AWR, это крутая штука. На данный момент есть самые разные велосипеды, которые реализуют примерно следующую модель. С некоторым интервалом времени пишутся некоторые baselines в тот же самый PostgreSQL или в отдельное хранилище. Их можно погуглить в интернете, они есть. Один из разработчиков такой штуки сидит на форуме sql.ru в ветке PostgreSQL. Его можно там поймать. Да, такие штуки есть, их можно использовать. Плюс в своем [pgCenter](https://github.com/lesovsky/pgcenter) я тоже пишу штуку, которая позволяет делать то же самое.
 
-Опрос: Какой self-hosted монитонинг PostgreSQL вы используете?
+Опрос: Какой self-hosted мониторинг PostgreSQL вы используете?
 
-https://github.com/lesovsky/zabbix-extensions
+- Zabbix + дополнения от Алексея Лесовского или zabbix 4.4 или libzbxpgsql zabbix
 
-https://github.com/pg-monz/pg_monz
+- https://github.com/pg-monz/pg_monz
 
-https://github.com/cybertec-postgresql/pgwatch2
+- https://github.com/cybertec-postgresql/pgwatch2
+- https://github.com/postgrespro/mamonsu
 
 Опрос: Если вы ипользуете postgres_exporter, то какой дашборд вы используете? (Их там несколько. Они уже устаревшие. Может сообщество создат обновленный шаблон?)
