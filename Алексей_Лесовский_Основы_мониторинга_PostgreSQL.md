@@ -231,5 +231,7 @@ http://bit.do/lesovsky_sql
 
 - https://github.com/cybertec-postgresql/pgwatch2
 - https://github.com/postgrespro/mamonsu
+- [percona monitoring and management postgresql](https://www.percona.com/doc/percona-monitoring-and-management/conf-postgres.html)
+- [pganalyze](https://github.com/pganalyze/collector)
 
 Опрос: Если вы ипользуете postgres_exporter, то какой дашборд вы используете? (Их там несколько. Они уже устаревшие. Может сообщество создат обновленный шаблон?)
