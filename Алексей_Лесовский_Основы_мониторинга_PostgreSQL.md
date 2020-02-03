@@ -226,12 +226,14 @@ http://bit.do/lesovsky_sql
 Опрос: Какой self-hosted мониторинг postgresql (с дашбордом) вы считаете самым лучшим??
 
 - Zabbix + дополнения от Алексея Лесовского или zabbix 4.4 или libzbxpgsql + zabbix
-
+- [pgCenter](https://github.com/lesovsky/pgcenter) 
 - https://github.com/pg-monz/pg_monz
-
 - https://github.com/cybertec-postgresql/pgwatch2
 - https://github.com/postgrespro/mamonsu
 - [percona monitoring and management postgresql](https://www.percona.com/doc/percona-monitoring-and-management/conf-postgres.html)
 - [pganalyze](https://github.com/pganalyze/collector)
+- [powa](https://github.com/powa-team/powa)
+- [pgbadger](https://github.com/darold/pgbadger)
+- [pgcluu](https://github.com/darold/pgcluu)
 
 Если вы ипользуете postgres_exporter, то какой дашборд вы используете? Их там несколько. Они уже устаревшие. Может сообщество создат обновленный шаблон?
