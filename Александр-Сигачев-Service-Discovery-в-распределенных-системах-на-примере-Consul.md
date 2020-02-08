@@ -205,4 +205,32 @@ Mess – это тоже оркестратор, наподобие Kubernetes, 
 
  
 
+![](https://habrastorage.org/webt/gs/gb/qo/gsgbqoevcf8s9bipcboq_352wqq.png)
 
+![](https://habrastorage.org/webt/lw/ed/qn/lwedqnz0yo65okktwubqaqt9ih4.png)
+
+![](https://habrastorage.org/webt/xy/cq/z_/xycqz_5qtn_nxxpegm7mu-rsaf4.png)
+
+![](https://habrastorage.org/webt/bg/ba/wc/bgbawcrp4ouevoqnopkpfignk28.png)
+
+![](https://habrastorage.org/webt/3q/nx/dl/3qnxdlcsdjbetna83vlxvejpjqg.png)
+
+![](https://habrastorage.org/webt/3x/h_/gn/3xh_gnbho0nmrk8qywsiv058_no.png)
+
+![](https://habrastorage.org/webt/yw/j1/ul/ywj1ulwcgatsd5s3dr6sgkefat0.png)
+
+![](https://habrastorage.org/webt/jb/x8/jf/jbx8jfoevu6a5bt5k32xgl8anc0.png)
+
+![](https://habrastorage.org/webt/k7/xc/tj/k7xctj20rqiy9ri9jl_8ciwqsq0.png)
+
+![](https://habrastorage.org/webt/ts/kd/ea/tskdeasgovv-sjkyy1e1pspt0fi.png)
+
+![](https://habrastorage.org/webt/pj/pp/jp/pjppjpyk3v_yq42gp5gybzr2slq.png)
+
+![](https://habrastorage.org/webt/o2/ve/ee/o2veee2ogo-bocu5zpiicme89kc.png)
+
+![](https://habrastorage.org/webt/8a/ao/_w/8aao_wosqqatxmm-crepvoyts-w.png)
+
+![](https://habrastorage.org/webt/8h/l3/dc/8hl3dcn2qbg3nwzaihfhyvowb1o.png)
+
+![](https://habrastorage.org/webt/yk/qu/hw/ykquhwon6291fh3ve6jeyk2n8zi.png)
