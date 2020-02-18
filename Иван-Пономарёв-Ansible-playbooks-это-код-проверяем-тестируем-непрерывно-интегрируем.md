@@ -32,13 +32,13 @@
 
 ![](https://habrastorage.org/webt/i-/pb/-i/i-pb-iobvlx80mqokwtgj6ytuu0.png)
 
-Нужно автоматизированное тестирование и CI делать. Но как? Ведь это не просто код, на котором unit-tests запускаем как на Java или на Python, это же configuration is code. Как это делать?
+Нужно делать автоматизированное тестирование и CI. Но как? Ведь это не просто код, на котором unit-tests запускаем как на Java или на Python, это же configuration is code. Как это делать?
 
 ![](https://habrastorage.org/webt/bp/m5/hy/bpm5hydmqirbdjn2uvxrlhxmhmi.png)
 
 Прежде чем мы перейдем к тестам, давайте упростим проблему и посмотрим, что мы можем проверить, не запуская код, а просто глядя на этот код. 
 
-Прежде всего проверить является ли код вообще синтаксически валидным. Для этой задачи у нас есть три инструмента, которые можно использовать совместно. Это YAMLLint, Ansible-lint и Syntax check в самом playbook. Сейчас для начала пробежимся по ним. 
+Прежде всего проверить является ли код вообще синтаксически валидным. Для этой задачи у нас есть три инструмента, которые можно использовать совместно. Это [YAMLLint](http://www.yamllint.com/), [Ansible-lint](https://docs.ansible.com/ansible-lint/) и [Syntax check](https://docs.ansible.com/ansible/latest/cli/ansible.html) в самом playbook. Сейчас для начала пробежимся по ним. 
 
 ![](https://habrastorage.org/webt/rg/cj/hp/rgcjhpmrkjjubwqyqv9xvoszxi0.png)
 
