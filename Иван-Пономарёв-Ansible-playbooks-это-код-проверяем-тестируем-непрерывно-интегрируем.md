@@ -1,22 +1,26 @@
-**Иван Пономарёв — Ansible playbooks — это код: проверяем, тестируем, непрерывно интегрируем**
+**Предлагаю ознакомиться с расшифровкой доклада Иван Пономарёв "Ansible playbooks — это код: проверяем, тестируем, непрерывно интегрируем"**
 
-Тут в зале есть кто-то, кто Ansible еще не пользовался на практике и просто хочет посмотреть? О, есть такие. А кто ни за что бы не стал кодить на Python? Если вдруг вы тут по ошибке, то у нас есть в других залах отличные доклады. А мы поговорим про Ansible и у нас будет немножко о кодировании на Python в конце. 
+По мере разрастания кодовой базы в Ansible приходят знакомые проблемы: сложность поддержки кода, ошибки и страх изменений. У знакомых проблем есть знакомое решение: автоматическое тестирование и CI. В докладе Иван покажет, как с использованием ряда инструментов решить проблемы «хрупкости» Ansible-кода, выполнить статический анализ, протестировать Ansible-скрипты и настроить CI-системы для публикации ролей в Ansible Galaxy.
+
+<oembed>https://www.youtube.com/watch?v=UkP0PGMbWxY</oembed>
+
+<cut />
 
 Немного о себе. Я работаю в небольшой софтовой компании. Мы делаем софт на заказ. Раз в неделю я преподаю В МФТИ на той же кафедре, на которой я когда-то учился. 
 
-С чем приходится иметь дело
+![](https://habrastorage.org/webt/nf/ta/07/nfta07piewosflcsbxpy5kor--u.png)
 
-Компания у нас небольшая. Мы работаем с пулом заказчиков. Мы поставляем им различные системы. Расскажу о диапазоне наших работ. Самые простые – это классическая «трехзвенка», где 1-2 сервера и несколько десятков пользователей, но это все должно стоять и работать. Самый сложный проект, который есть у нас в пуле – это DigitalOcean. И мы используем вот такую связку: Terraform + Ansible. Мы ноды разворачиваем при помощи Terraform, а с помощью Ansible мы конфигурируем все наши виртуальные машины для того, чтобы ставить там то, что надо. 
+Компания у нас небольшая. Мы работаем с пулом заказчиков. Мы поставляем им различные системы. Расскажу о диапазоне наших работ. Самые простые – это классическая «трехзвенка», где 1-2 сервера и несколько десятков пользователей, но это все должно стоять и работать. Самый сложный проект, который есть у нас в пуле – это около 40 серверов в DigitalOcean. И мы используем вот такую связку: Terraform + Ansible. Мы ноды разворачиваем при помощи Terraform, а с помощью Ansible мы конфигурируем все наши виртуальные машины для того, чтобы ставить там то, что надо. 
 
-Десятки ролей
+![](https://habrastorage.org/webt/s-/qw/d7/s-qwd7u14wwm_i79vtj3ifdr3uw.png)
 
 Когда мы начали использовать Ansible с его низким порогом входа и прекрасной экосистемой, у нас стали появляться роли в соответствии с best practices. И ролей стало накапливаться много-много для фронта, для бэка, для мониторинга, для кэша, логов и т. д. 
 
-Как все было
+![](https://habrastorage.org/webt/eg/ar/gh/egarghk4xofk4ikuz5j1jeakse8.png)
 
 У нас есть первый проект для одного заказчика. Второй проект для второго заказчика. Каждый делается по best practices, но некоторые роли пересекаются. Соответственно, ребята просят дать им рольку для установки чего-нибудь, которую можно будет скопировать в репозиторий кода и чуть-чуть подпилить под свои нужны. 
 
-Много кода – знакомые проблемы
+![](https://habrastorage.org/webt/nj/uh/ag/njuhagvg09hsrbwnqqk5jmgc23y.png)
 
 И код стал расти как снежный ком, и стали знакомые проблемы возникать. Это:
 
@@ -33,17 +37,17 @@
 - 
 - Отладка в процессе деплоя. Запустим playbook, а там посмотрим, что будет.  
 
-Знакомые проблемы – знакомое решение
+![](https://habrastorage.org/webt/i-/pb/-i/i-pb-iobvlx80mqokwtgj6ytuu0.png)
 
 Нужно автоматизированное тестирование и CI делать. Но как? Ведь это не просто код, на котором unit-tests запускаем как на Jave или на Python, это же configuration is code. Как это делать?
 
-Что мы можем проверить сразу?
+![](https://habrastorage.org/webt/bp/m5/hy/bpm5hydmqirbdjn2uvxrlhxmhmi.png)
 
 Прежде чем мы перейдем к тестам, давайте упростим проблему и посмотрим, что мы можем проверить, не запуская код, а просто глядя на этот код. 
 
 Прежде всего проверить является ли код вообще синтаксически валидным. Для этой задачи у нас есть три инструмента, которые можно использовать совместно. Это YAMLLint, Ansible-lint и Syntax check в самом playbook. Сейчас для начала пробежимся по ним. 
 
-Adrienverge/YAMLLint
+![](https://habrastorage.org/webt/rg/cj/hp/rgcjhpmrkjjubwqyqv9xvoszxi0.png)
 
 - 
 - Проект YAMLLint проверяет синтаксис YAML. YAML – не так прост, как вы знаете. И он проверяет много чего. У него десятки всяких чеков.
@@ -59,41 +63,40 @@ Adrienverge/YAMLLint
 
 Он более строк, чем Ansible к коду, но он позволяет некие проблемы убрать. Например, у нас разработка ведется под Windows и если попадаются переносы строк в Windows-style в конфигурационных файлах, то это беда. YAMLLint – это решает.
 
-YAMLLint – c yamllint.yml.
+![](https://habrastorage.org/webt/g-/av/n5/g-avn5ij32qy-p-ethg2ii0momw.png)
 
 Так выглядит вывод YAMLLint. И обратите внимание, что мы эти правила можем настроить. Отключить какие-то проверки. Например, можем сделать длину строки побольше или еще что-то. YAMLLint проверяет просто все yamllint-файлы в вашей папке, поэтому если это не Ansible playbooks или роли, а просто какие-то конфигурационные файлы, то он их тоже проверяет. 
 
-Willthames/Ansible-lint
+![](https://habrastorage.org/webt/tt/0h/fy/tt0hfyelhpl2ce_yz-gv06d6zcs.png)
+
+![](https://habrastorage.org/webt/mg/fm/vz/mgfmvzpu54jsgq3yughva-ie4eg.png)
 
 Ansible-lint – это прекрасный проект, который содержит десятка два good practices.
 
 Для примера:
 
-- 
 - Command module или shell module. Часто с этим путаются новички. И Ansible-lint это находит.  
-
-- 
 - Используются command или standard modules.  
-
-- 
 - Он проверяет idempotence вашего использования command и shell. Про idempotence мы чуть-чуть поговорим позже поподробней. Он строже, чем сам Ansible. И он проверяет best practices вашего кода.
-
-- 
 - И если вы хотите на Python что-нибудь пописать, то там есть фреймворк, который дает возможность расширять эти правила и добавлять новые.  
+
+![](https://habrastorage.org/webt/u_/cv/xz/u_cvxz-8vy7zjmtahzf8garcof0.png)
 
 Запускается это вот так вот. Здесь есть одни грабли. Если ваш код использует какие-то стандартные роли, то он будет обходить в том числе и стандартные роли. Но в стандартных ролях есть критические ворнинги и поэтому он завалит CI-сборку. Поэтому стандартные роли исключите. Вот так выглядит его вывод.
 
-Syntax check
+![](https://habrastorage.org/webt/pi/uu/bd/piuubdpass_jwhus5pbwkwppqqc.png)
 
 Третий инструмент – это Syntax check, встроенный в сам Ansible. Тут все просто. Но единственные грабли, которые также нужно учесть – это если вы делаете на CI, то установите все свои стандартные роли, потому что Syntax check хоть и называется Syntax check, но проверяет не только синтаксис, он заходит вовнутрь всех ролей и тоже их обходит. И если там какая-то роль не установлена, то у вас завалится сборка.
 
-Все три инструмента – в CI-скрипт
+![](https://habrastorage.org/webt/e-/-r/8s/e--r8s3rjxdbcjdubnnrxdv3kak.png)
 
 Все это вы можете объединить в скрипт вашей любимой CI-системы. у меня это Jenkins, а вы можете использовать что угодно. И получить уже вот такой pipeline. Получить вы его можете прямо сейчас, не вставая с места. Это ничего вам не будет стоитть, вы просто получаете довольно подробный статический анализ всего вашего Ansible-хозяйства.
 
+![](https://habrastorage.org/webt/8u/xb/vu/8uxbvuxkjrr6dnkrddxsv4nqy7m.png)
+
 Но, как известно, возможности статического анализа ограничены. Все-таки, чтобы протестировать программу нужно запускать. Как же тут быть?
 
-История вопроса
+![](https://habrastorage.org/webt/qw/rr/mg/qwrrmgn-vgntjqmu-xsm3fszvpq.png)
 
 История вопроса вот какая. Jeff Geerling – это известный человек в Ansible-экосистеме. Он автор множества ролей, он автор книги «Ansible for DevOps».
 
@@ -139,6 +142,42 @@ Test matrix
 
 Во-вторых, вы можете сами написать драйвер. Там есть для этого заготовка. 
 
+
+
+
+
+![](https://habrastorage.org/webt/my/md/z_/mymdz_tcpxpr0oqq2dju3q6x8-8.png)
+
+![](https://habrastorage.org/webt/jv/f0/ag/jvf0agrgtaoon9n2frjkp79pdki.png)
+
+![](https://habrastorage.org/webt/ko/-u/hl/ko-uhlyjoskb4ecbx1tnjhhyq24.png)
+
+![](https://habrastorage.org/webt/ov/du/qs/ovduqsqkvbgjkinm_d_txkvfnju.png)
+
+![](https://habrastorage.org/webt/wf/ed/6g/wfed6gpup-uhfxzypzjyljzrmje.png)
+
+![](https://habrastorage.org/webt/sq/i9/3v/sqi93vsxqfvtrydvzim_add-j_i.png)
+
+![](https://habrastorage.org/webt/gq/-a/at/gq-aat0xi_za7ivwowhvwyzrz-w.png)
+
+![](https://habrastorage.org/webt/d_/lu/6s/d_lu6sbyrw1jzgmhmwmnyzhm0pu.png)
+
+![](https://habrastorage.org/webt/72/8d/im/728dimppa5gdm8wduhgxkdf50kq.png)
+
+![](https://habrastorage.org/webt/pn/yi/xm/pnyixm6epqfwgxsocthjpo7mueq.png)
+
+![](https://habrastorage.org/webt/wb/3w/yn/wb3wynbjsnbxjez2gx175oteaam.png)
+
+![](https://habrastorage.org/webt/dq/s-/r4/dqs-r4l6l85jvy9lisxd2wfaj64.png)
+
+![](https://habrastorage.org/webt/zl/up/va/zlupvavg_cyxfje1hhkmayrzhle.png)
+
+![](https://habrastorage.org/webt/wr/ka/hb/wrkahbv7gzh_0rsbqke7goeiyvq.png)
+
+![](https://habrastorage.org/webt/yk/wi/q7/ykwiq7vk_vt8wdp52zrktdtk1og.png)
+
+![](https://habrastorage.org/webt/0b/gm/ad/0bgmadx7ytt05b623n_ol78joq0.png)
+
 И есть Vagrant, и есть многое другое. Заходите в документацию по Molecule, там достаточно большое количество вариантов, но docker – это наиболее простой и легкий, его можно здесь и сейчас на машине запустить.
 
 Подключение зависимостей
@@ -169,13 +208,8 @@ Converge
 
 Три вида:
 
-- 
 - Testinfra (Python, default).
-
-- 
 - Serverspec (Ruby).
-
-- 
 - Goss (written in Go, tests in YAML).
 
 Если так случилось, что у вас в команде уже есть какие-то инфраструктурные тесты, например, на Serverspec, то вы можете подключить готовые инфраструктурные тексты в Molecule.
@@ -290,16 +324,9 @@ Travis-CI
 
 На самом деле идея очень-очень простая. Если у вас имеется некий конфигурационный файл, то что мы можем проверить? 
 
-- 
 - Мы можем проверить формат значений переменных. Если у нас в значении порт, то это порт, а не что-нибудь. Если хост, то хост. Если URL, то URL.  
-
-- 
 - Мы можем проверить, что у нас не утекают в явном виде пароли.  
-
-- 
 - Мы можем проверить уникальность портов. Если вы назвали две переменные одинаковым портом, то, как правило, это ошибка, в Ansible особенно.  
-
-- 
 - И другие более специфические вещи. Например, Андрей Сатарин рассказывал в своем докладе о том, что ему необходимо было проверять, что разные instances сервиса ставятся в машины, расположенные в разных стойках, потому что иначе не будет достаточного file save. Потому что если их запихнуть все в одну стойку и стойка отключится, то тогда какая разница, что у нас было 3 instances?  
 
 И на самом деле идея проста. Мы берем и пишем эти проверки, используя тестовой фреймворк, например, pytest. Просто это неожиданно, потому что это неисполняемый код, а статический. Сейчас я покажу, как это может выглядеть.
@@ -342,27 +369,15 @@ Travis-CI
 
 Первый вывод – тестируйте ваш Ansible.
 
-- 
 - Во-первых, эту троицу: YAMLLint + Ansible-lint + Syntax check вы можете подсоединить прямо сегодня. Если у вас есть какие-то портянки с Ansible-кодом, есть какие-то репозитории, где это все лежит, просто возьмите и подключите. Посмотрите, какие ворнинги там возникнут. Потом у вас будет увлекательное время, чтобы пофиксить. Ansible-lint может вам многое рассказать, многому вас научить, потому что его best practices многие не знают.  
-
-- 
 - Проверяйте роли на Molecule.  
-
-- 
 - Вставляйте проверки в хэндлеры.  
-
-- 
 - И тестируйте конфигурацию.
 
 Molecule is ‘must have’ при разработке ролей
 
-- 
 - Если у вас есть где-то роли, то попробуйте Molecule. Это просто molecule test.  
-
-- 
 - Лень разбираться с тестом? Попробуйте converge и idempotence.  
-
-- 
 - Совсем лень разбираться? Пусть он хотя синтаксис проверит.  
 
 Назвался кодом – полезай в CI!
@@ -447,11 +462,86 @@ Jenkins Multibranch тоже отлично для нас работает.
 
  Если говорить о хостах, то это не про Molecule точно, потому что Molecule тестирует роль, выполняя ее на тестовых хостах. У нее там возникает некий динамический inventory. Molecule сама знает на какие хосты нагонять эти роли и она их будет выполнять. Если какие-то другие случаи… Что делает Molecule? Molecule всего лишь в какой-то момент выполняет файл, который называет playbook.yml. И что у вас в playbook.yml ей не интересно, главное, чтобы там был валидный playbook. Если там какая-то сложная Jinja, то – прекрасно. Она либо будет работать, либо свалится. И тогда у вас Molecule все это свалит.
 
+![](https://habrastorage.org/webt/d4/lf/ok/d4lfokwbrnbw0din9z9zztsw-ou.png)
 
- 
+![](https://habrastorage.org/webt/9t/i7/dp/9ti7dpbx3vyhq0we3_zlw1qvp8i.png)
 
+![](https://habrastorage.org/webt/6n/xb/zn/6nxbzn_vxumz-n2g6ovdgcff3lq.png)
 
- 
+![](https://habrastorage.org/webt/wf/do/98/wfdo98snolnlm4h1g1gxyhkojvg.png)
 
+![](https://habrastorage.org/webt/1o/eg/rs/1oegrsh2wq8ywmy6vvecgdjocx4.png)
 
- 
+![](https://habrastorage.org/webt/zh/qs/u0/zhqsu0kpfsgqfbauu8hn7otzt5q.png)
+
+![](https://habrastorage.org/webt/jv/p9/vw/jvp9vwpal0og_tc9bqcakc7af8u.png)
+
+![](https://habrastorage.org/webt/yc/ds/gl/ycdsglouflle8lxkplabyh7c3a0.png)
+
+![](https://habrastorage.org/webt/q_/fa/3v/q_fa3vjdcg7fcvxbpwfct_vafxw.png)
+
+![](https://habrastorage.org/webt/dc/by/-g/dcby-g5pxpfyolbid1wbfezlhhs.png)
+
+![](https://habrastorage.org/webt/9p/vb/bt/9pvbbtal3_h6lhus3xpyjvr6o64.png)
+
+![](https://habrastorage.org/webt/ah/2f/nt/ah2fntrmiqiybu-8v864v7bmkqm.png)
+
+![](https://habrastorage.org/webt/0i/cd/2w/0icd2wxc0aypghabejearlmzxss.png)
+
+![](https://habrastorage.org/webt/9g/ml/uq/9gmluqfpql9ot8rmqmjavikpkzw.png)
+
+![](https://habrastorage.org/webt/hg/av/rc/hgavrc82hgywcye5xkyqm5bknjc.png)
+
+![](https://habrastorage.org/webt/cw/2_/oy/cw2_oy1vknpgl_x11srbuegvihy.png)
+
+![](https://habrastorage.org/webt/kn/de/yd/kndeydeuaimjnu2bmgs2ekqadh4.png)
+
+![](https://habrastorage.org/webt/ng/yr/tr/ngyrtrhqjvhroywdhjzgj2ielwg.png)
+
+![](https://habrastorage.org/webt/nn/5j/re/nn5jrelzhhbbnd6xlwpgkgrhe7o.png)
+
+![](https://habrastorage.org/webt/hl/uj/ao/hlujaokyhvxxozxviyxxvs25gnm.png)
+
+![](https://habrastorage.org/webt/fj/e2/bx/fje2bx3wnisexoe7oos43rn5peu.png)
+
+![](https://habrastorage.org/webt/__/fw/0q/__fw0qet_ehwql4ousfupgkc3xc.png)
+
+![](https://habrastorage.org/webt/ec/of/xj/ecofxj1thtspbigbxnxydwf8eri.png)
+
+![](https://habrastorage.org/webt/dl/hv/ar/dlhvarqg_cksv7oepmhakepmt_i.png)
+
+![](https://habrastorage.org/webt/mp/0v/zi/mp0vzik3lii8bjig_0mfxolcoqq.png)
+
+![](https://habrastorage.org/webt/v1/qu/ss/v1qussep3_c0mdbhxdnm66eoiua.png)
+
+![](https://habrastorage.org/webt/bg/p3/t_/bgp3t_on2vb9p2k0poevu5txkxk.png)
+
+![](https://habrastorage.org/webt/yd/4p/v_/yd4pv_xcw3a7po3qyhzpyk-x1bw.png)
+
+![](https://habrastorage.org/webt/a1/rx/g6/a1rxg6i44u5ybwotvbhuo7xhtxg.png)
+
+![](https://habrastorage.org/webt/f7/wf/ir/f7wfirmtx2m0avb6pbkyhhhmfzy.png)
+
+![](https://habrastorage.org/webt/av/e8/ic/ave8icjotwx98amrm-hemktlj3m.png)
+
+![](https://habrastorage.org/webt/0c/ge/8g/0cge8g9b5rcd3y7zjtcurvhkek4.png)
+
+![](https://habrastorage.org/webt/nd/k_/53/ndk_53txd6_wytpacr-8bfacv80.png)
+
+![](https://habrastorage.org/webt/hk/ch/uh/hkchuh90w1l651tffrcu2e2hc68.png)
+
+![](https://habrastorage.org/webt/r_/ko/vx/r_kovxpxhggjar5zgdfkns8jp0s.png)
+
+![](https://habrastorage.org/webt/gp/qu/p1/gpqup1m4hi2jngatrkgf0ki2kju.png)
+
+![](https://habrastorage.org/webt/6f/vo/gm/6fvogmb9p-lj1lzce90bisk3mrs.png)
+
+![](https://habrastorage.org/webt/ns/lr/9r/nslr9ruw6lznmu6apuua3dti97w.png)
+
+![](https://habrastorage.org/webt/tj/wn/8k/tjwn8klvrwdzl9r8fddpwnwagre.png)
+
+![](https://habrastorage.org/webt/ib/bi/bz/ibbibzu1dccagtq8w_fslbqpo14.png)
+
+![](https://habrastorage.org/webt/k5/ck/3b/k5ck3blav0i70f_s6s5a9k3g2_q.png)
+
+![](https://habrastorage.org/webt/kl/ay/5n/klay5nrakvoxev7akq9cefxbdzu.png)
