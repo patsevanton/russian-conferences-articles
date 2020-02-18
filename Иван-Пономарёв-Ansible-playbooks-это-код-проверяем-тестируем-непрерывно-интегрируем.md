@@ -100,41 +100,57 @@ Ansible-lint – это прекрасный проект, который сод
 
 История вопроса вот какая. Jeff Geerling – это известный человек в Ansible-экосистеме. Он автор множества ролей, он автор книги «Ansible for DevOps».
 
+
+
+![](https://habrastorage.org/webt/my/md/z_/mymdz_tcpxpr0oqq2dju3q6x8-8.png)
+
 В 14-ом году он написал вот эту статью, предлагая в Travis разворачивать роли, которые он тестирует. 2 года спустя он предлагает в продолжении этой статьи делать то же самое, но в разных docker-контейнерах. Таким образом за один раз, он прогоняет на 7-ми разных операционных системах свои роли. 
 
-Meet Molecule
+![](https://habrastorage.org/webt/jv/f0/ag/jvf0agrgtaoon9n2frjkp79pdki.png)
 
 И в этой же статье он упоминает Molecule. Эта штука, которая существует с 15-го года. Она сейчас очень активно развивается. И это очень удобный инструмент для тестирования Ansible-ролей. Это типичный OpenSource проект, который хорошо интегрирует другие проекты. Устанавливается он в ваш … . Нужно поставить ansible, molecule и если вы будете тестировать в Docker, то docker-py.
 
-Структура проекта Molecule
+
+
+![](https://habrastorage.org/webt/ko/-u/hl/ko-uhlyjoskb4ecbx1tnjhhyq24.png)
 
 И этот инструмент тестирует роли, т. е. он работает внутри отдельной роли, не проекта Ansible, а внутри одной роли. Соответственно внутри роли у вас могут быть разные сценарии. Внутри сценария вы настраиваете instances, на которые вы будете накатывать эту роль. Допустим, на разные операционные системы. 
 
+![](https://habrastorage.org/webt/ov/du/qs/ovduqsqkvbgjkinm_d_txkvfnju.png)
+
 Кроме того, у каждого сценария есть свой playbook. Playbook – это то, что будет выполняться, накатываясь на instances.
+
+![](https://habrastorage.org/webt/wf/ed/6g/wfed6gpup-uhfxzypzjyljzrmje.png)
 
 И есть конфигурационные тесты. Сейчас все покажем. 
 
-Инициализация
+![](https://habrastorage.org/webt/sq/i9/3v/sqi93vsxqfvtrydvzim_add-j_i.png)
 
 Во-первых, инициализация. Если вы хотите создать новую роль уже с molecule, то вы пишите вот такую команду. И она создает вам папку со всеми файлами, даже с readme-файлом, т. е. со всеми вещами, необходимыми для создания Ansible-роли. А внутри папки Molecule у них единственный сценарий под названием Default возникает. В принципе, одного названия под названием Default мне лично всегда хватало, я более одного сценария не писал. 
 
+![](https://habrastorage.org/webt/gq/-a/at/gq-aat0xi_za7ivwowhvwyzrz-w.png)
+
 Если вы хотите добавить molecule в вашу существующую роль, то вам надо выполнить вот такую команду. Она тоже добавить Default-сценарий. Там никакой магии нет, она просто папки создает и файлы туда прописывает. Вы можете просто копировать уже из существующих ролей, которые под Molecule, папки в новой роли и там все это переиспользовать очень легко. 
 
-Запуск
+![](https://habrastorage.org/webt/d_/lu/6s/d_lu6sbyrw1jzgmhmwmnyzhm0pu.png)
 
 После того, как мы инициализировали, заходите в консоль и пишите: molecule test. Все, у вас Molecule тестирует вашу роль. Как правило, это упадет. Пришло сообщение об ошибке. И не понятно, почему она упала. Если мы заполним флажок «--debug», то она скажет, что вы забыли установить «docker-py». А я несколькими слайдами ранее говорил, что docker-py надо ставить отдельно. Этот «--debug» помогает разобраться с тем, что пошло не так.
 
-Test matrix
+![](https://habrastorage.org/webt/72/8d/im/728dimppa5gdm8wduhgxkdf50kq.png)
+
+![](https://habrastorage.org/webt/pn/yi/xm/pnyixm6epqfwgxsocthjpo7mueq.png)
 
 Потом она покажет вам Test matrix. Это некий план или сценарий, по которому Molecule будет работать с вашей ролью. Как видите, она уже предлагает некую матрицу. На первых этапах она проверяет статический анализ. Потом она проверяет syntax, converge, idempotence и заканчивается все сносом тестовых instances, на которые это все ставилось. 
 
-Настройка instances
+
+
+![](https://habrastorage.org/webt/wb/3w/yn/wb3wynbjsnbxjez2gx175oteaam.png)
 
 Самое интересное, на что Molecule накатывает ваши роли, на какие instances, откуда она эти ресурсы берету. Эти ресурсы настраиваются вот в таком файлике -  molecule.yml. Вы можете прописать в разделе Platforms столько instances, сколько вам нужно. Если вы их пропишите 3 или 5, то будет 3 или 5. И Ansible на этапе converge будет их раскатывать сразу на несколько нод. 
 
 Если это docker, то здесь вы прописываете базовые image. Заметьте, что здесь image хитрые. Сделано это для того, чтобы у нас работал systemd. Если ваши роли раскатывает какие-то сервисы, которые работают в systemd, а, как известно, docker с этим не работает, но можно воспользоваться хитрыми базовыми контейнерами, коммитить их потом не придется. И таким образом можно обойти. И у вас будут тестироваться роли, которые сервисы ставят в systemd.
 
-Кроме docker, есть драйверы
+![](https://habrastorage.org/webt/dq/s-/r4/dqs-r4l6l85jvy9lisxd2wfaj64.png)
 
 Кроме docker вы можете использовать другие драйверы.
 
@@ -146,63 +162,39 @@ Test matrix
 
 
 
-![](https://habrastorage.org/webt/my/md/z_/mymdz_tcpxpr0oqq2dju3q6x8-8.png)
-
-![](https://habrastorage.org/webt/jv/f0/ag/jvf0agrgtaoon9n2frjkp79pdki.png)
-
-![](https://habrastorage.org/webt/ko/-u/hl/ko-uhlyjoskb4ecbx1tnjhhyq24.png)
-
-![](https://habrastorage.org/webt/ov/du/qs/ovduqsqkvbgjkinm_d_txkvfnju.png)
-
-![](https://habrastorage.org/webt/wf/ed/6g/wfed6gpup-uhfxzypzjyljzrmje.png)
-
-![](https://habrastorage.org/webt/sq/i9/3v/sqi93vsxqfvtrydvzim_add-j_i.png)
-
-![](https://habrastorage.org/webt/gq/-a/at/gq-aat0xi_za7ivwowhvwyzrz-w.png)
-
-![](https://habrastorage.org/webt/d_/lu/6s/d_lu6sbyrw1jzgmhmwmnyzhm0pu.png)
-
-![](https://habrastorage.org/webt/72/8d/im/728dimppa5gdm8wduhgxkdf50kq.png)
-
-![](https://habrastorage.org/webt/pn/yi/xm/pnyixm6epqfwgxsocthjpo7mueq.png)
-
-![](https://habrastorage.org/webt/wb/3w/yn/wb3wynbjsnbxjez2gx175oteaam.png)
-
-![](https://habrastorage.org/webt/dq/s-/r4/dqs-r4l6l85jvy9lisxd2wfaj64.png)
-
-![](https://habrastorage.org/webt/zl/up/va/zlupvavg_cyxfje1hhkmayrzhle.png)
-
-![](https://habrastorage.org/webt/wr/ka/hb/wrkahbv7gzh_0rsbqke7goeiyvq.png)
-
-![](https://habrastorage.org/webt/yk/wi/q7/ykwiq7vk_vt8wdp52zrktdtk1og.png)
-
 ![](https://habrastorage.org/webt/0b/gm/ad/0bgmadx7ytt05b623n_ol78joq0.png)
 
 И есть Vagrant, и есть многое другое. Заходите в документацию по Molecule, там достаточно большое количество вариантов, но docker – это наиболее простой и легкий, его можно здесь и сейчас на машине запустить.
 
-Подключение зависимостей
+
 
 Следующий важный момент, когда вы начинаете этим пользоваться, вам нужно подключить зависимости. Под зависимостями я имею в виду роли, от которых зависит тестируемая роль. 
 
 Это прописывается в файле requirements.yml как и положено по best practices Ansible. И вы можете указать настройку – какие роли, каких версий вам нужны для того, чтобы протестировать вашу роль как зависимость. И на этапе dependency именно роли именно этих версий будут скачены. 
 
-Этап статического анализа (lint)
+![](https://habrastorage.org/webt/wr/ka/hb/wrkahbv7gzh_0rsbqke7goeiyvq.png)
 
 Этап статистического анализа использует эту троицу, о которой я рассказывал в самом начале: YAMLLint, Ansible-lint, Syntax check.
 
-Converge
+![](https://habrastorage.org/webt/yk/wi/q7/ykwiq7vk_vt8wdp52zrktdtk1og.png)
 
 Этап converge на ваши тестовые instances накатывает файл playbook.yml. И что вы там напишите, то он и сделает. Вы можете даже вашу тестируемую роль туда не подключать, а что-то другое. Т. е. этап converge выполняет файл playbook.yml. Здесь вы можете несколько ролей выполнить, как-то их сконфигурировать и посмотреть, как они будут работать совместно. 
+
+![](https://habrastorage.org/webt/zl/up/va/zlupvavg_cyxfje1hhkmayrzhle.png)
 
 Подключение к тестовой ноде для отладки результатов выполнения
 
 Если что-то пошло не так, что делать? Converge прошел или не прошел – не понятно, что происходит. Вы можете запуститься с ключиком «destroy=never». Это значит – никогда не удаляй тестовые instances. И если вы в docker, то обычным образом через интерактив терминала залогиниться в ваш контейнер и посмотреть, какие файлы не туда легли и посмотреть, что там вообще происходит. 
 
-Проверка идемпотентности
+![](https://habrastorage.org/webt/d4/lf/ok/d4lfokwbrnbw0din9z9zztsw-ou.png)
+
+![](https://habrastorage.org/webt/9t/i7/dp/9ti7dpbx3vyhq0we3_zlw1qvp8i.png)
 
 Следующий этап после converge. Предположим, роль сработала. На все ваши тестовые instances раскатилась, все здорово. Molecule еще раз выполняет вашу роль. Раньше, когда не было def в Ansible, Jeff Geerling предлагал так: проверять, что ничего не изменено при втором прогоне. Это проверка идемпотентности, т. е. ваша роль написана таким образом, что она не делает лишних операций. Если операции не нужно делать, она их не делает. Сейчас она использует «--def» и если так получится, что роль ваша работает и действительно делает то, что нужно, но при втором прогоне хотя бы одна вещь поменяется, то это будет file non-idempotent.
 
-Инфраструктурные тесты
+![](https://habrastorage.org/webt/6n/xb/zn/6nxbzn_vxumz-n2g6ovdgcff3lq.png)
+
+
 
 И самая интересная часть в Molecule – это инфраструктурные тесты. Роль прошла и все установилось. Но чтобы узнать, что все там работает или нет, для этого нужно использовать инфраструктурные тесты. Molecule поддерживает разные инфраструктурные тесты. 
 
@@ -216,99 +208,119 @@ Converge
 
 Если инфраструктурных тестов еще нет, я рекомендую Testinfra, потому что она на Python как Molecule и Ansible. И все будет сделать проще.
 
-Testinfra bootstrap
+![](https://habrastorage.org/webt/wf/do/98/wfdo98snolnlm4h1g1gxyhkojvg.png)
 
 Testinfra в ваш дефолтовый сценарий Molecule положит. И вы можете прописывать туда тесты. 
+
+![](https://habrastorage.org/webt/1o/eg/rs/1oegrsh2wq8ywmy6vvecgdjocx4.png)
 
 Что можно проверить? Что мы обычно проверяем, когда сконфигурировали на сервере и хотим посмотреть – шевелиться оно или нет? Мы лезем в shell и выполняем какую-то команду. И смотрим, что нам выдала эта команда. 
 
 Это можно сделать вот таким вот образом. Вы пишите питоновскую процедуру, получаете аргументом host. У этого host вызываете метод «run». И дальше можете получить return code, и можете получить stdout и stderr и проверить этот вывод. 
 
-Умный assert
+![](https://habrastorage.org/webt/zh/qs/u0/zhqsu0kpfsgqfbauu8hn7otzt5q.png)
 
 Мы в assert, допустим, написали, что rc=0. Если бы он был не равен нулю или если бы мы что-то там не нашли, то вывод в питоновском assert умный, он показывает вам контекст вашего питоновского кода, где что слетело, что именно чему не равно.
 
-Быстрый перезапуск тестов
+![](https://habrastorage.org/webt/jv/p9/vw/jvp9vwpal0og_tc9bqcakc7af8u.png)
 
 Когда вы гоняете molecule test, то самое длительное время – это накатка Ansible скриптов на instances. И чтобы не тратить время на накатку тестовых скриптов на instances, вы можете воспользоваться снова флагом «destroy=never» и вызывать molecule verify. В этом случае он будет просто выполнять инфраструктурные тесты на ваших готовых instances.
 
-‘Keep the bar green to keep your infrastructure clean’
+![](https://habrastorage.org/webt/yc/ds/gl/ycdsglouflle8lxkplabyh7c3a0.png)
 
 Вот, как это выглядит, когда инфраструктурные тесты зеленые. Когда в 2000-ом году появился JUnit, то у них был такой девиз – keep the bar green to keep your code clean. И мы теперь может тоже самое сказать про инфраструктуру. 
 
-Веб-сервисы
+![](https://habrastorage.org/webt/q_/fa/3v/q_fa3vjdcg7fcvxbpwfct_vafxw.png)
 
 Что еще можно проверять? Мы можем проверять все, что мы можем проверять через командную строку. Установили curl, можем подергать какие-то сервисы, можем попроверять вывод curl.
 
-Процессы
+![](https://habrastorage.org/webt/dc/by/-g/dcby-g5pxpfyolbid1wbfezlhhs.png)
 
 Но в Testinfra есть еще хорошие абстракции для проверки других вещей. Например, процессы. Host.process дает вам фильтруемую коллекцию процессов, запущенных сейчас на host. Вы можете фильтровать по какому-то фильтру, по какому-то аргументу. Например, по названию запущенного файла. И проверить его свойства. Например, что от правильного пользователя запущен этот процесс, что не от root его запускаем. Или что он запущен с какими-то определенными аргументами. 
 
-Сервисы
+![](https://habrastorage.org/webt/9p/vb/bt/9pvbbtal3_h6lhus3xpyjvr6o64.png)
 
 С сервисами все просто. Можете получить сервис по имени и проверить – запущен он или нет. 
 
-Файлы и их содержимое
+![](https://habrastorage.org/webt/ah/2f/nt/ah2fntrmiqiybu-8v864v7bmkqm.png)
 
 И также очень легко проверять файлы и их содержимое. Например, если наш запуск сервиса порождает какие-то логи, в которые мы хотим зайти и проверить, что в этих логах что-то появилось, то это очень легко сделать.
 
+![](https://habrastorage.org/webt/0i/cd/2w/0icd2wxc0aypghabejearlmzxss.png)
+
 Во-первых, по exists мы можем проверить, что файл вообще существует по данному пути. А при помощи contains очень легко можно проверить, что этот файл содержит какую-то подстроку, которая нам сигналит, что все ОК. 
+
+![](https://habrastorage.org/webt/9g/ml/uq/9gmluqfpql9ot8rmqmjavikpkzw.png)
 
 Если кто-то любит TDD, то используя быструю итерацию перезапуска теста, мы можем сначала писать тесты под Ansible, а потом уже сам Ansible. Т. е. Ansible-код становится таким же кодом, как код на Jave или на Python и разрабатывать его можно теми же средствами. 
 
 Тут, может быть, кто-то вспомнит, пока мы говорили про Testinfra, что в самом Ansible есть модуль assert. Действительно, хорошая мысль – включить такую проверку прямо в Ansible-роль. Jython – это Java-интерпретатор Python в JVM. Установили, выполнили команду в jython version. Проверили, что он дает какой-то осмысленный вывод. 
 
+![](https://habrastorage.org/webt/hg/av/rc/hgavrc82hgywcye5xkyqm5bknjc.png)
+
 Хорошая идея, только она не пройдет, если вы пользуетесь Molecule, потому что Molecule скажет, что этот код не идемпотентный. Почему? Потому что Jython --version выполняется всякий раз. Это не пропустит и Ansible-lint. И даже если вы загасите в Ansible-lint эту проверку, то потом Molecule на этапе идемпотентности вас не пропустит. Поэтому нельзя просто так взять и вставить assert в код Ansible.
 
-Проверки в хэндлерах
+![](https://habrastorage.org/webt/cw/2_/oy/cw2_oy1vknpgl_x11srbuegvihy.png)
 
 Но, в принципе, его вставить можно, если мы вставим в хэндлер проверку. Например, мы скачиваем эту программу, устанавливаем эту программу в разных местах кода. И мы нотифицируем некоторые хэндлеры, которые потом, в случае если мы скачаем новую версию, либо установили, они потом запустятся и проверит, что это работает. 
 
 Идея – использовать проверки в хэндлерах, мне кажется, очень хорошей. Если на production что-то пошло не так, то вы узнаете об этом сразу, т. е. еще в процессе запуска Ansible playbooks у вас будет осмысленный вывод. 
 
-Что еще можно проверить в хэндлерах?
+![](https://habrastorage.org/webt/kn/de/yd/kndeydeuaimjnu2bmgs2ekqadh4.png)
+
+ас в playbook.yml ей не интересно, главное, чтобы там был валидный playbook. Если там какая-то сложная Jinja, то – прекрасно. Она либо будет работать, либо свалится. И тогда у вас Molecule все это свалит.
+
+
 
 Еще в хэндлерах можно проверить файлы и их содержимое. В хэндлерах можно проверить веб-сервисы. Этого достаточно, это такой аналог инфраструктурных тестов. Он попроще, чем Testinfra, но достаточно мощный. Это хорошая идея и я призываю писать Ansible-код таким образом. 
 
-Role development process
+![](https://habrastorage.org/webt/ng/yr/tr/ngyrtrhqjvhroywdhjzgj2ielwg.png)
 
 Теперь немножко поговорим про процесс разработки ролей. Он стандартный. Репозиторий для ролей – это Galaxy. И он жестко привязан к GitHub, т. е. если вы разрабатываете роли в Opensource, то это только лишь GitHub. И GitHub-процесс с проверкой на CI на валидность вашей роли. И то, что попадает в Master, то мы считаем релизом. Если мы хотим ссылаться на какую-то версию, то мы можем поставить какой-то тэг на Master. Это будет ссылкой на версию вашей роли.
 
-CI: Jenkins Multibranch Pipeline
+![](https://habrastorage.org/webt/nn/5j/re/nn5jrelzhhbbnd6xlwpgkgrhe7o.png)
 
 Как это сделать? Запуск Molecule легко организовать в вашей CI-системе. Если это Jenkins, то тут есть грабли. Если мы работаем с Jenkins Multibranch, то он чекаутит с контрольной версии не в папку с названием этого проекта MyRole, а он чекаутит в уникальную папку с большим набором цифр и букв. И в результате у Ansible сносит крышу, потому что он не понимает ничего, потому что он ищет роль под названием MyRole, а там другое название. Но это можно исправить небольшим костылем. Если ему подсунуть symlink внутри подпапочку, то это все решается.
 
-Разделение по стадиям
+![](https://habrastorage.org/webt/hl/uj/ao/hlujaokyhvxxozxviyxxvs25gnm.png)
+
+
+
+![](https://habrastorage.org/webt/fj/e2/bx/fje2bx3wnisexoe7oos43rn5peu.png)
 
 Вы можете заморочиться и разделить выполнение Molecule на стадии. Если вы так сделаете, то вы получите вот такую красивую матрицу в Jenkins. И если у вас что-то слетело на каком-то этапе, то вы можете увидеть на каком этапе оно слетело у вас. Но честно скажу, что я так не делал. Я видел статью, где было сказано, что нужно делать именно так, но я ограничиваюсь только molecule test.
 
-Travis-CI
+![](https://habrastorage.org/webt/__/fw/0q/__fw0qet_ehwql4ousfupgkc3xc.png)
 
 Другая опция, которая будет для вас более актуальной, если вы разрабатываете роли в OpenSource, это Travis. Тут все очень просто. Мы указываем в сервисе docker, мы указываем инсталляцию, что нам нужно поставить Ansible docker-py. Кстати, хорошая идея – указывать явные версии того, что вы хотите поставить, иначе у вас сборка сегодня может выполниться, а завтра может не выполниться.
 
-И очень простой скрипт molecule test, если у вас роль, которую вы разрабатываете, находится в GitHub репозитории. 
+И очень простой скрипт molecule test, если у вас роль, которую вы разрабатываете, находится в GitHub репозитории.
+
+![](https://habrastorage.org/webt/ec/of/xj/ecofxj1thtspbigbxnxydwf8eri.png)
 
 И используя вот такой webhooks, вы нотифицируете Ansible Galaxy тем, что роль ваша хорошая, т. е. build passing, build failing.
 
 И в результате вы имеете в окне поиска ролей в Galaxy вот такие бейджики. Это не те бейджики, которые в GitHub, это бейджики именно в Ansible Galaxy. Чтобы их получить надо пользоваться Travis и тем webhook. Из другого CI это, может быть, можно сделать, но я не понял пока, как это можно сделать. Задокументированный вариант только через Travis.
 
-Было
+![](https://habrastorage.org/webt/dl/hv/ar/dlhvarqg_cksv7oepmhakepmt_i.png)
 
 После того, как все внедрилось, что получается? У нас было вот что-то, т. е. какие-то проекты, какие-то роли, между ними copy-paste-modify.
 
-Стало
+![](https://habrastorage.org/webt/mp/0v/zi/mp0vzik3lii8bjig_0mfxolcoqq.png)
 
 Общие роли, которые мы используем между проектами, вынесли в Galaxy, они расшариваются. Соответственно, каждая роль тестируется в Molecule. Допиливают роль каждый под свой проект сам и это становится общим достоянием.
 
 На остальную часть, которая уникальна для каждого проекта, на нее навешен linting. Эти три инструмента: YAMLLint, Ansible-lint, Syntax Check. И это уже гораздо лучше, чем было. 
 
-Можно еще что-то улучшить?
+![](https://habrastorage.org/webt/v1/qu/ss/v1qussep3_c0mdbhxdnm66eoiua.png)
 
 Здесь возникает вопрос. Можно ли пойти дальше и еще что-нибудь улучшить? У нас есть часть, которая в Ansible Galaxy и которая проверяется Molecule, у нас имеются роли, которые мы в Molecule тоже можем проверить внутри. 
 
-Как быть с конфигурацией?
+![](https://habrastorage.org/webt/bg/p3/t_/bgp3t_on2vb9p2k0poevu5txkxk.png)
 
 Но есть большая часть конфигурационного кода, который содержит переменные, всякие конфигурационные файлы. И это достаточно большие куски кода, которые не проверяются никак. Вернее, мы проверили, что YAML в well format и больше ничего не проверили здесь. 
+
+![](https://habrastorage.org/webt/yd/4p/v_/yd4pv_xcw3a7po3qyhzpyk-x1bw.png)
 
 Можем ли мы еще что-то проверить? Как быть с конфигурацией? Плохая новость в том, что Molecule – только для ролей. Но вы можете комбинацию проверить в Molecule.
 
@@ -320,7 +332,7 @@ Travis-CI
 
 Кто-нибудь знает этих людей? Это докладчики с конференции по тестированию ПО – Heisenbug. Они рассказывали про такую вещь, как конфигурационное тестирование. 
 
-Тесты конфигурации
+![](https://habrastorage.org/webt/a1/rx/g6/a1rxg6i44u5ybwotvbhuo7xhtxg.png)
 
 На самом деле идея очень-очень простая. Если у вас имеется некий конфигурационный файл, то что мы можем проверить? 
 
@@ -331,11 +343,13 @@ Travis-CI
 
 И на самом деле идея проста. Мы берем и пишем эти проверки, используя тестовой фреймворк, например, pytest. Просто это неожиданно, потому что это неисполняемый код, а статический. Сейчас я покажу, как это может выглядеть.
 
-Проверяем валидность портов
+![](https://habrastorage.org/webt/f7/wf/ir/f7wfirmtx2m0avb6pbkyhhhmfzy.png)
 
 Например, как мы можем проверить валидность портов? Мы можем написать вот такой вот параметризованный тест, являющийся частью pytest, который проверяет для всех пар ключ значений, где ключ – это переменная, которая держит порт, а значение – это значение этой переменной. Мы можем обычные asserts написать, что это интовое поле, что порт находится в разрешенном вами диапозоне. Т. е. идея очень простая. Вам надо написать генератор на Python, который вам будет выдавать все values-значения для переменных, в которых содержатся порты.
 
-Обходим нужные нам переменные…
+![](https://habrastorage.org/webt/av/e8/ic/ave8icjotwx98amrm-hemktlj3m.png)
+
+
 
 Как мы отличим переменные, которые содержат порты от других переменных? Мы это можем сделать вот таким вот образом. Мы можем договориться, что наши переменные, в которых порты прописываются, имеют: re.compile(‘port$’). И если у вас есть другая функция «var_values», которая выдает вам все переменные, все пары ключ значений, все переменные в вашем Ansible playbooks, то вот таким образом вы можете отфильтровать из этого потока «var_values» только те, которые оканчиваются на «port». И как на слайде ранее параметризовать тот тест, и тогда этот тест будет выполняться на портах, будет их проверять.
 
@@ -343,29 +357,29 @@ Travis-CI
 
 Это не так сложно, но так как мы рассчитываем уже на некоторые соглашения, которые есть в вашем коде, то здесь не может быть универсального решения. Это решение придется уже самим разрабатывать. 
 
- Проверяем уникальность портов
+![](https://habrastorage.org/webt/0c/ge/8g/0cge8g9b5rcd3y7zjtcurvhkek4.png)Как можно проверить уникальность портов? Очень просто. Если у нас уже есть port_var_values, который возвращает нам все переменные с портами, то мы можем их собрать в один сет и на каждом шаге проверять, что они уникальный порт задают. 
 
-Как можно проверить уникальность портов? Очень просто. Если у нас уже есть port_var_values, который возвращает нам все переменные с портами, то мы можем их собрать в один сет и на каждом шаге проверять, что они уникальный порт задают. 
-
-‘Keep the bar green to keep the configuration clean’
+![](https://habrastorage.org/webt/nd/k_/53/ndk_53txd6_wytpacr-8bfacv80.png)
 
 Таким образом мы можем еще один слог сказать, но теперь уже для тестов конфигурации: Keep the bar green to keep the configuration clean’. Вот как это выглядит, когда все сработало.
 
 Обратите внимание, что там внизу написано, что у нас выполнилось 101 тестов. Это не значит, что мы написали 101 тестов. Это значит, что параметризованные тесты выполнились 101 раз для 101 пары переменной и значения. Он все просуммировал, естественно. Т. е. большие количества проверок не означают, что для этих проверок надо много кода писать. На самом деле кода писать надо довольно мало, т. е. так же как и для инфраструктурных текстов. 
 
-Ловим «утекающие» пароли
+![](https://habrastorage.org/webt/hk/ch/uh/hkchuh90w1l651tffrcu2e2hc68.png)
 
 И напоследок, как можно поймать «утекающий» пароль в таком случае. Во-первых, мы выделим из Ansible-потока ключ значений переменных, выделим те, которые содержать в себе пароль. 
 
 Выделить их можно так: они заканчиваются либо на слово «password», либо на слово «pass», либо на слово «pwd». И, во-вторых, мы просто проверяем, что в значении должен быть placeholder, который ссылается на что-то, например, на какую-то переменную, которая находится в values. И все, этого достаточно. 
 
-Ай-яй-яй!
+![](https://habrastorage.org/webt/r_/ko/vx/r_kovxpxhggjar5zgdfkns8jp0s.png)
+
+![](https://habrastorage.org/webt/gp/qu/p1/gpqup1m4hi2jngatrkgf0ki2kju.png)
 
 Вот это реальный случай. Был такой pull request. Запустился тест. И этот тест возвращает мне k=’myskq_root_password’, v=’12345’. Т. е. плохо не то, что password – 12345, а то, что он в GitHub теперь. И понятно, что такой pull request мержить нельзя. 
 
 Но давайте к выводам переходить.
 
-Тестируйте ваш Ansible!
+![](https://habrastorage.org/webt/6f/vo/gm/6fvogmb9p-lj1lzce90bisk3mrs.png)
 
 Первый вывод – тестируйте ваш Ansible.
 
@@ -374,23 +388,25 @@ Travis-CI
 - Вставляйте проверки в хэндлеры.  
 - И тестируйте конфигурацию.
 
-Molecule is ‘must have’ при разработке ролей
+![](https://habrastorage.org/webt/ns/lr/9r/nslr9ruw6lznmu6apuua3dti97w.png)
 
 - Если у вас есть где-то роли, то попробуйте Molecule. Это просто molecule test.  
 - Лень разбираться с тестом? Попробуйте converge и idempotence.  
 - Совсем лень разбираться? Пусть он хотя синтаксис проверит.  
 
-Назвался кодом – полезай в CI!
+![](https://habrastorage.org/webt/tj/wn/8k/tjwn8klvrwdzl9r8fddpwnwagre.png)
 
 Я верю, что все должно быть как код: инфраструктура как код, база данных как код, документация как код. Что это значит? Это не только лежать в репозитории, не только лежать в Git, а это значит, что должен быть pipeline, должна быть процедура изменения этого кода. 
 
-CI/CD для Ansible-ролей
+![](https://habrastorage.org/webt/ib/bi/bz/ibbibzu1dccagtq8w_fslbqpo14.png)
 
 Штатный набор инструментов, который они сами предлагают, - это GitHub + Travis + Calaxy, это если вы разрабатываете роли в OpenSource. Правда, я вижу мало поводов разрабатывать не в OpenSource.
 
+![](https://habrastorage.org/webt/k5/ck/3b/k5ck3blav0i70f_s6s5a9k3g2_q.png)
+
 Jenkins Multibranch тоже отлично для нас работает.
 
-Ссылки
+![](https://habrastorage.org/webt/kl/ay/5n/klay5nrakvoxev7akq9cefxbdzu.png)
 
 Ссылки, про которые я упоминал будут, на слайдах, будут расшарены. 
 
@@ -460,88 +476,4 @@ Jenkins Multibranch тоже отлично для нас работает.
 
 *В моих проектах иногда бывают достаточно сложные навороты с* *Jinja**. Допустим,* *Jinja* *может генерировать список хостов, которые я использую как переменные в хост. Как это будет работать?*
 
- Если говорить о хостах, то это не про Molecule точно, потому что Molecule тестирует роль, выполняя ее на тестовых хостах. У нее там возникает некий динамический inventory. Molecule сама знает на какие хосты нагонять эти роли и она их будет выполнять. Если какие-то другие случаи… Что делает Molecule? Molecule всего лишь в какой-то момент выполняет файл, который называет playbook.yml. И что у вас в playbook.yml ей не интересно, главное, чтобы там был валидный playbook. Если там какая-то сложная Jinja, то – прекрасно. Она либо будет работать, либо свалится. И тогда у вас Molecule все это свалит.
-
-![](https://habrastorage.org/webt/d4/lf/ok/d4lfokwbrnbw0din9z9zztsw-ou.png)
-
-![](https://habrastorage.org/webt/9t/i7/dp/9ti7dpbx3vyhq0we3_zlw1qvp8i.png)
-
-![](https://habrastorage.org/webt/6n/xb/zn/6nxbzn_vxumz-n2g6ovdgcff3lq.png)
-
-![](https://habrastorage.org/webt/wf/do/98/wfdo98snolnlm4h1g1gxyhkojvg.png)
-
-![](https://habrastorage.org/webt/1o/eg/rs/1oegrsh2wq8ywmy6vvecgdjocx4.png)
-
-![](https://habrastorage.org/webt/zh/qs/u0/zhqsu0kpfsgqfbauu8hn7otzt5q.png)
-
-![](https://habrastorage.org/webt/jv/p9/vw/jvp9vwpal0og_tc9bqcakc7af8u.png)
-
-![](https://habrastorage.org/webt/yc/ds/gl/ycdsglouflle8lxkplabyh7c3a0.png)
-
-![](https://habrastorage.org/webt/q_/fa/3v/q_fa3vjdcg7fcvxbpwfct_vafxw.png)
-
-![](https://habrastorage.org/webt/dc/by/-g/dcby-g5pxpfyolbid1wbfezlhhs.png)
-
-![](https://habrastorage.org/webt/9p/vb/bt/9pvbbtal3_h6lhus3xpyjvr6o64.png)
-
-![](https://habrastorage.org/webt/ah/2f/nt/ah2fntrmiqiybu-8v864v7bmkqm.png)
-
-![](https://habrastorage.org/webt/0i/cd/2w/0icd2wxc0aypghabejearlmzxss.png)
-
-![](https://habrastorage.org/webt/9g/ml/uq/9gmluqfpql9ot8rmqmjavikpkzw.png)
-
-![](https://habrastorage.org/webt/hg/av/rc/hgavrc82hgywcye5xkyqm5bknjc.png)
-
-![](https://habrastorage.org/webt/cw/2_/oy/cw2_oy1vknpgl_x11srbuegvihy.png)
-
-![](https://habrastorage.org/webt/kn/de/yd/kndeydeuaimjnu2bmgs2ekqadh4.png)
-
-![](https://habrastorage.org/webt/ng/yr/tr/ngyrtrhqjvhroywdhjzgj2ielwg.png)
-
-![](https://habrastorage.org/webt/nn/5j/re/nn5jrelzhhbbnd6xlwpgkgrhe7o.png)
-
-![](https://habrastorage.org/webt/hl/uj/ao/hlujaokyhvxxozxviyxxvs25gnm.png)
-
-![](https://habrastorage.org/webt/fj/e2/bx/fje2bx3wnisexoe7oos43rn5peu.png)
-
-![](https://habrastorage.org/webt/__/fw/0q/__fw0qet_ehwql4ousfupgkc3xc.png)
-
-![](https://habrastorage.org/webt/ec/of/xj/ecofxj1thtspbigbxnxydwf8eri.png)
-
-![](https://habrastorage.org/webt/dl/hv/ar/dlhvarqg_cksv7oepmhakepmt_i.png)
-
-![](https://habrastorage.org/webt/mp/0v/zi/mp0vzik3lii8bjig_0mfxolcoqq.png)
-
-![](https://habrastorage.org/webt/v1/qu/ss/v1qussep3_c0mdbhxdnm66eoiua.png)
-
-![](https://habrastorage.org/webt/bg/p3/t_/bgp3t_on2vb9p2k0poevu5txkxk.png)
-
-![](https://habrastorage.org/webt/yd/4p/v_/yd4pv_xcw3a7po3qyhzpyk-x1bw.png)
-
-![](https://habrastorage.org/webt/a1/rx/g6/a1rxg6i44u5ybwotvbhuo7xhtxg.png)
-
-![](https://habrastorage.org/webt/f7/wf/ir/f7wfirmtx2m0avb6pbkyhhhmfzy.png)
-
-![](https://habrastorage.org/webt/av/e8/ic/ave8icjotwx98amrm-hemktlj3m.png)
-
-![](https://habrastorage.org/webt/0c/ge/8g/0cge8g9b5rcd3y7zjtcurvhkek4.png)
-
-![](https://habrastorage.org/webt/nd/k_/53/ndk_53txd6_wytpacr-8bfacv80.png)
-
-![](https://habrastorage.org/webt/hk/ch/uh/hkchuh90w1l651tffrcu2e2hc68.png)
-
-![](https://habrastorage.org/webt/r_/ko/vx/r_kovxpxhggjar5zgdfkns8jp0s.png)
-
-![](https://habrastorage.org/webt/gp/qu/p1/gpqup1m4hi2jngatrkgf0ki2kju.png)
-
-![](https://habrastorage.org/webt/6f/vo/gm/6fvogmb9p-lj1lzce90bisk3mrs.png)
-
-![](https://habrastorage.org/webt/ns/lr/9r/nslr9ruw6lznmu6apuua3dti97w.png)
-
-![](https://habrastorage.org/webt/tj/wn/8k/tjwn8klvrwdzl9r8fddpwnwagre.png)
-
-![](https://habrastorage.org/webt/ib/bi/bz/ibbibzu1dccagtq8w_fslbqpo14.png)
-
-![](https://habrastorage.org/webt/k5/ck/3b/k5ck3blav0i70f_s6s5a9k3g2_q.png)
-
-![](https://habrastorage.org/webt/kl/ay/5n/klay5nrakvoxev7akq9cefxbdzu.png)
+ Если говорить о хостах, то это не про Molecule точно, потому что Molecule тестирует роль, выполняя ее на тестовых хостах. У нее там возникает некий динамический inventory. Molecule сама знает на какие хосты нагонять эти роли и она их будет выполнять. Если какие-то другие случаи… Что делает Molecule? Molecule всего лишь в какой-то момент выполняет файл, который называет playbook.yml. И что у в
