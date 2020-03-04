@@ -187,7 +187,7 @@ SuperSet
  Sankeys/ River Streamgrahps
 
  
- 
+
   
 
  Sankeys – интересный график. Он либо Streamgrahps, либо River. Но я его называю River. Он тоже позволяет искать какие-то аномалии. Он очень удобный. Рекомендую использовать его для поиска.
@@ -318,3 +318,98 @@ SuperSet
 
  *Спасибо!*
 
+
+
+![](https://habrastorage.org/webt/10/t3/se/10t3sel6gvtt2x2ggbzy2rjqyry.png)
+
+![](https://habrastorage.org/webt/lj/nx/08/ljnx08sqikrcvju_cjcn99ife88.png)
+
+![](https://habrastorage.org/webt/vn/td/c_/vntdc_ihesxo8ghx_ifgm0k8epo.png)
+
+![](https://habrastorage.org/webt/sh/c-/or/shc-ormtiwe8hlupjaun76rq4du.png)
+
+![](https://habrastorage.org/webt/gt/ao/zy/gtaozyt355vu8t6iyvq39mgubks.png)
+
+![](https://habrastorage.org/webt/ks/ds/ej/ksdsej-t5vybm3-wbexr1xrv36a.png)
+
+![](https://habrastorage.org/webt/h_/hd/ls/h_hdlstm4ndmchpmxwaeevi_eye.png)
+
+![](https://habrastorage.org/webt/ej/kg/yl/ejkgyljzlotigwu02h0u7wqknds.png)
+
+![](https://habrastorage.org/webt/co/rl/7i/corl7itcrhehcvwt1goxnffci0m.png)
+
+![](https://habrastorage.org/webt/zy/fw/dm/zyfwdmhagvmsxod_li1zfib-lxu.png)
+
+![](https://habrastorage.org/webt/k4/21/nw/k421nw4tnsgyqxwhftxjwp1pe1i.png)
+
+![](https://habrastorage.org/webt/y8/tj/l2/y8tjl2w8ukyy87n8jocc8x23rj4.png)
+
+![](https://habrastorage.org/webt/ej/iw/ej/ejiwej5zwhkwksgv6zoxy4tmiha.png)
+
+![](https://habrastorage.org/webt/ux/af/o4/uxafo4vxsqnqh1kwikqfuzjtl4g.png)
+
+![](https://habrastorage.org/webt/kg/ff/nk/kgffnk-lcenlj3xppseyy-7m9ue.png)
+
+![](https://habrastorage.org/webt/6r/mq/4d/6rmq4dkd3xo4t1v7wbioukpf8w0.png)
+
+![](https://habrastorage.org/webt/c5/hb/9x/c5hb9xmoj5rnpz_bzkgklz-qqow.png)
+
+![](https://habrastorage.org/webt/bo/_q/nh/bo_qnhhpq2dyf2vrxe5bzclynro.png)
+
+![](https://habrastorage.org/webt/ip/if/7t/ipif7tlh4x9tnht7mer2cwi403k.png)
+
+![](https://habrastorage.org/webt/2d/nn/8b/2dnn8bqtcpxy167tkfzuaa7peba.png)
+
+![](https://habrastorage.org/webt/ru/s5/vi/rus5vihxu5fpfz6rs_tg-q-92ns.png)
+
+![](https://habrastorage.org/webt/ic/zd/mn/iczdmnavxcgrjib_p-utl3wrr8i.png)
+
+![](https://habrastorage.org/webt/vw/qq/vp/vwqqvpoupf9t4elxw7emkioulqc.png)
+
+![](https://habrastorage.org/webt/lu/c5/9c/luc59czh0oh3x-wgc1uxzdmuuxy.png)
+
+![](https://habrastorage.org/webt/3n/9h/ks/3n9hksc2k3gy_hqeupuvrea-hr0.png)
+
+![](https://habrastorage.org/webt/hj/7w/lr/hj7wlro7ml--wtl6qlxgkzbkiam.png)
+
+![](https://habrastorage.org/webt/hx/mb/ot/hxmbotoall-p01axivgnwvci6ue.png)
+
+![](https://habrastorage.org/webt/l_/ns/wm/l_nswmaevwawdkknuxbqkrvoq04.png)
+
+![](https://habrastorage.org/webt/wd/h2/ay/wdh2aypdci1xwavzx41-bj4kup0.png)
+
+![](https://habrastorage.org/webt/vy/1l/_0/vy1l_0nj5lwcqu9k_ko5z-b5lnq.png)
+
+![](https://habrastorage.org/webt/nz/zj/o4/nzzjo4ujzv03mfr3ngnm2kdlff8.png)
+
+![](https://habrastorage.org/webt/va/lf/yk/valfykyht3j5ewcqhu65ve39msm.png)
+
+![](https://habrastorage.org/webt/wy/jx/bo/wyjxboohczywpeydzofra-k4nt4.png)
+
+![](https://habrastorage.org/webt/a-/1h/jd/a-1hjdkqn0cspegz9l6sgff8obm.png)
+
+![](https://habrastorage.org/webt/zg/do/0e/zgdo0ezkjdrlwblxmdtvmufs-ka.png)
+
+![](https://habrastorage.org/webt/yl/le/zb/yllezbf9hefvo-y5urwjwmwbbye.png)
+
+![](https://habrastorage.org/webt/g_/y2/ia/g_y2iaoy8ppec39ozmk846xk0py.png)
+
+![](https://habrastorage.org/webt/jy/sd/iu/jysdiufa39wfdklrccb2fanzwlu.png)
+
+![](https://habrastorage.org/webt/ft/mr/zt/ftmrztobflja9ar5nofzjzehcnu.png)
+
+![](https://habrastorage.org/webt/jz/v3/-7/jzv3-7pf904we1b0gkbwlaluf_8.png)
+
+![](https://habrastorage.org/webt/h0/jk/8h/h0jk8htqr3fnmtvdnkbg7o5u0f0.png)
+
+![](https://habrastorage.org/webt/e1/fd/kj/e1fdkjgzkgn02g1nqasz0semrfs.png)
+
+![](https://habrastorage.org/webt/cr/xn/n0/crxnn0y09czmh8nie3lefjj84om.png)
+
+![](https://habrastorage.org/webt/ue/nl/pc/uenlpc-eid88xnpm9xow58ykori.png)
+
+![](https://habrastorage.org/webt/kw/v9/sc/kwv9scspb-fnrjedq_aimgqembe.png)
+
+![](https://habrastorage.org/webt/-j/h4/ig/-jh4ig5bbar7b8tzozj9dvn6yjy.png)
+
+![](https://habrastorage.org/webt/k9/_h/n0/k9_hn0nkl5tmcz84galxsk1qkgu.png)
