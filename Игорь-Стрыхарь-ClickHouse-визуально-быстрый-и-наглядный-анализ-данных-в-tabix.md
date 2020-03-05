@@ -344,14 +344,10 @@ Angular.
 
 
 
+P.S. Мини-инструкция по установке tabix
+
+- скачать последний релиз <https://github.com/smi2/tabix.ui/releases>
+- распаковать, скопировать директорию `build` в  nginx root_path
+- Настройить nginx
 
 
-![](https://habrastorage.org/webt/lu/c5/9c/luc59czh0oh3x-wgc1uxzdmuuxy.png)
-
-
-
-![](https://habrastorage.org/webt/h0/jk/8h/h0jk8htqr3fnmtvdnkbg7o5u0f0.png)
-
-![](https://habrastorage.org/webt/e1/fd/kj/e1fdkjgzkgn02g1nqasz0semrfs.png)
-
-![](https://habrastorage.org/webt/-j/h4/ig/-jh4ig5bbar7b8tzozj9dvn6yjy.png)
