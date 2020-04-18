@@ -1,6 +1,10 @@
+**Предлагаю ознакомиться с расшифровкой доклада начала 2020 года Георгия Рылова "WAL-G: новые возможности и расширение сообщества"**
 
+У меинтейнеров open-source возникает множество проблем по мере их роста. Как писать все больше требуемых фич, чинить все больше issues'ов и успевать смотреть все больше pull request'ов? На примере WAL-G(backup-tool for PostgreSQL) расскажу про то, как мы решали эти проблемы, запустив курс по Open-source разработке в университете, чего мы добились и куда будем двигаться дальше.
 
-**WAL-G: новые возможности и расширение сообщества**
+![](https://habrastorage.org/webt/k8/vx/dz/k8vxdz9e6ve7dqwsdwmeku_bbqi.png)
+
+<cut />
 
 Всем еще раз привет! Я разработчик в Яндексе из Екатеринбурга. И сегодня я расскажу про WAL-G.
 
@@ -223,3 +227,85 @@ Pool request уже помержен, т. е. я его проверил. Я п�
 *Когда ожидать?*
 
 Я не знаю. Месяц подождите, точно проверим.
+
+
+
+![](https://habrastorage.org/webt/ro/7b/vg/ro7bvgtbfngoiwizj8wpl4hj2vc.png)
+
+![](https://habrastorage.org/webt/qo/ee/bg/qoeebglcwbvgccnra20gntucm_g.png)
+
+![](https://habrastorage.org/webt/n2/rm/os/n2rmosumag8sfmvcrbasbcdsbei.png)
+
+![](https://habrastorage.org/webt/dc/ve/jc/dcvejcvlgk5lwtlrcqgfozncfbg.png)
+
+![](https://habrastorage.org/webt/gz/eo/n1/gzeon1tfui8qntyobcgzmgn3zgw.png)
+
+![](https://habrastorage.org/webt/re/fk/1j/refk1juhjwtp89w55gvq-mfnezi.png)
+
+![](https://habrastorage.org/webt/so/qo/zb/soqozbcdfooe399tnk0ggrfpdnq.png)
+
+![](https://habrastorage.org/webt/zh/of/cs/zhofcsbg_txtxtlpg6ysi-a7jbe.png)
+
+![](https://habrastorage.org/webt/hx/ul/n6/hxuln6pp7hrxrx7fbicas5d7zpc.png)
+
+![](https://habrastorage.org/webt/ko/g0/fh/kog0fhlqpozhaiv3rzufxco6j2c.png)
+
+![](https://habrastorage.org/webt/f1/ck/4g/f1ck4gnhxeg_fdqnb72su8uxnxi.png)
+
+![](https://habrastorage.org/webt/ev/_z/yr/ev_zyrqffizybi0q3dk56czff8y.png)
+
+![](https://habrastorage.org/webt/34/ch/kc/34chkcrxfrcsydniilsegajajj8.png)
+
+![](https://habrastorage.org/webt/in/zo/xo/inzoxoxe4im6bycut0kazqvw9k4.png)
+
+![](https://habrastorage.org/webt/ib/tt/yk/ibttyk3x8vhjdhmlidfcoftzhpa.png)
+
+![](https://habrastorage.org/webt/um/rb/uz/umrbuzczeyrsa39war8dsfkc7dc.png)
+
+![](https://habrastorage.org/webt/xh/ys/wj/xhyswjxzbpiigqo0t7ugo5ifkee.png)
+
+![](https://habrastorage.org/webt/pn/3i/nx/pn3inxnooeibzyqp5leqpv06uau.png)
+
+![](https://habrastorage.org/webt/ni/zh/il/nizhilpavkpzlpifwtjmwosibeu.png)
+
+![](https://habrastorage.org/webt/hb/6y/7s/hb6y7sr10emt0wttvvzqef-8v9i.png)
+
+![](https://habrastorage.org/webt/31/zx/rw/31zxrwrrvc6beqvbougfqzzm7em.png)
+
+![](https://habrastorage.org/webt/-l/vv/3e/-lvv3e0lemwjuo8ndzjodfatuwq.png)
+
+![](https://habrastorage.org/webt/lq/u0/e7/lqu0e7trfspvnwgluvuwlrqaz3y.png)
+
+![](https://habrastorage.org/webt/j9/k0/9r/j9k09rurbbhsusr5l0krggvmyx0.png)
+
+![](https://habrastorage.org/webt/v4/nm/jp/v4nmjpjulush_flu8zocyi4sfpy.png)
+
+![](https://habrastorage.org/webt/bz/wy/pv/bzwypvza_vaetwx2wgtf-gmiohu.png)
+
+![](https://habrastorage.org/webt/oe/xd/ix/oexdixzvtuzsrlmeb2jqckunsl0.png)
+
+![](https://habrastorage.org/webt/ex/f8/bc/exf8bckfouv7w3gvozcwp6m5xt8.png)
+
+![](https://habrastorage.org/webt/r5/xa/-k/r5xa-knduujrknyx-yesmrdtoks.png)
+
+![](https://habrastorage.org/webt/vj/yx/wx/vjyxwx6z1kykevm7qniptjdbsi4.png)
+
+![](https://habrastorage.org/webt/rz/bz/vk/rzbzvk1592grxnf8zulp0mo48k0.png)
+
+![](https://habrastorage.org/webt/aa/gn/3n/aagn3nqfw0vu-9tcy_ti4xld5ty.png)
+
+![](https://habrastorage.org/webt/zt/ik/bu/ztikbutjb9ttazxrh_jzfds-tgw.png)
+
+![](https://habrastorage.org/webt/fd/ii/v1/fdiiv1svgnmo5qhfxl-yeqv0kzu.png)
+
+![](https://habrastorage.org/webt/p6/or/bi/p6orbi51juzipgo74fhidvneigs.png)
+
+![](https://habrastorage.org/webt/95/cw/np/95cwnptmcsivuqpezf3mryoxtae.png)
+
+![](https://habrastorage.org/webt/zg/rh/xk/zgrhxkkpzgbjcmd_2nc-wc7sg5m.png)
+
+![](https://habrastorage.org/webt/ay/km/7q/aykm7qhcekmxotncl-uhelvruuy.png)
+
+![](https://habrastorage.org/webt/ar/nt/ai/arntaih-km8krjuktpvmbolvamq.png)
+
+![](https://habrastorage.org/webt/ak/t6/op/akt6opoptio--sbh-6iyhvwcqku.png)
