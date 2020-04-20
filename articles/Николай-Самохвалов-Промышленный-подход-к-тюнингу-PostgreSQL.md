@@ -407,60 +407,8 @@ https://gist.github.com/NikolayS/08d9b7b4845371d03e195a8d8df43408
 
 *Обычно – да.* 
 
-Спасибо за интересный вопрос, мы покапаем на этот счет. 
+Спасибо за интересный вопрос, мы покапаем на этот счет.
 
-![](https://habrastorage.org/webt/8x/cq/l9/8xcql9saewv42solvrgmgskz2rk.png)
+P.S. От себя добавлю что если в Postgres находятся конфидициальные данные и им нельзя попадать в тестовое окружение, то можно воспользоваться [PostgreSQL Anonymizer](https://labs.dalibo.com/postgresql_anonymizer). Схема примерно следующая:
 
-![](https://habrastorage.org/webt/tk/do/3b/tkdo3bdxsem-j59rdqocmm4ffrw.png)
-
-![](https://habrastorage.org/webt/nb/5y/ux/nb5yuxkw4luyjrownswz4zuiang.png)
-
-![](https://habrastorage.org/webt/09/oy/yu/09oyyudifgomqobnwe97q5alokw.png)
-
-![](https://habrastorage.org/webt/ts/c0/xz/tsc0xzrbwrnj3vxxhik14xjkrbq.png)
-
-![](https://habrastorage.org/webt/rl/k2/tl/rlk2tle16ta1oesqpv4gess5yps.png)
-
-![](https://habrastorage.org/webt/6b/o_/ff/6bo_ff_ggb-kkljgcn2zhwv7y5u.png)
-
-![](https://habrastorage.org/webt/ag/-9/go/ag-9goiefsyht2v7b51guybuu5g.png)
-
-![](https://habrastorage.org/webt/mq/kd/wr/mqkdwr7hxdquawnw6mwfphlcf-m.png)
-
-![](https://habrastorage.org/webt/lj/p4/8z/ljp48zqmsmpv2-m_w72o7nelh5o.png)
-
-![](https://habrastorage.org/webt/gp/qw/ut/gpqwut1tzlbcugoisan2bhaqekk.png)
-
-![](https://habrastorage.org/webt/om/aj/nr/omajnrk4wstyls2zmst3iqrqsmw.png)
-
-![](https://habrastorage.org/webt/k5/i-/e0/k5i-e0jofipwxfzo5w6ogdty4p4.png)
-
-![](https://habrastorage.org/webt/hw/pq/5g/hwpq5gphdy4_f9-woxg_ubgvbk8.png)
-
-![](https://habrastorage.org/webt/sp/9u/bi/sp9ubie0p8vz8zoo-qykeopsua4.png)
-
-![](https://habrastorage.org/webt/sl/0o/uj/sl0ouj4wydm3vpjuvdh90rzjxvq.png)
-
-![](https://habrastorage.org/webt/lj/j7/0n/ljj70nioo8urhqodwbdepx41eyc.png)
-
-![](https://habrastorage.org/webt/t-/ce/tu/t-cetuatdxuks4bhtfykg19i1qw.png)
-
-![](https://habrastorage.org/webt/an/u7/qd/anu7qdnf1npxpbpty3ze9arkf0i.png)
-
-![](https://habrastorage.org/webt/do/oj/ht/doojht35xe1fp6ngiqt02n06auw.png)
-
-![](https://habrastorage.org/webt/yb/l7/av/ybl7avaviyxhkvwxdg6lfisfhhw.png)
-
-![](https://habrastorage.org/webt/f_/l_/ap/f_l_apranrriuxnijoxdg0u4g8o.png)
-
-![](https://habrastorage.org/webt/ku/zk/-f/kuzk-f35dr6znd_quepyxlofrdw.png)
-
-![](https://habrastorage.org/webt/jf/m5/s-/jfm5s-4n6bsxcb-nuhkg3txnxik.png)
-
-![](https://habrastorage.org/webt/_4/44/yj/_444yjjo3zse8drqe59zlyllipm.png)
-
-![](https://habrastorage.org/webt/13/6m/-v/136m-v3n6oe1hdza8ykhuf2ctiu.png)
-
-![](https://habrastorage.org/webt/8j/ct/ai/8jctaipvucxjs6-n3l425adux0q.png)
-
-![](https://habrastorage.org/webt/qp/gv/jg/qpgvjgmc7of93m_9q9zxuuorgki.png)
+![](https://habrastorage.org/webt/o8/w3/ax/o8w3axqxfal2lflat2sfj9ld-ga.png)
