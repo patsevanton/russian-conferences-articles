@@ -462,6 +462,10 @@ select * from pg_stat_activity where state in
 
 https://github.com/lesovsky/uber-scripts/blob/master/postgresql/sql/c4_06_show_locked_queries.sql
 
+https://github.com/lesovsky/uber-scripts/blob/master/postgresql/sql/show_locked_queries_95.sql
+
+https://github.com/lesovsky/uber-scripts/blob/master/postgresql/sql/show_locked_queries_96.sql
+
 http://big-elephants.com/2013-09/exploring-query-locks-in-postgres/
 
 И вот два запроса, которые позволяют отслеживать блокировки. Мы используем представление (VIEWs) pg_locks, которая позволяет отслеживать эти тяжеловесные lock.
@@ -501,9 +505,7 @@ where shared_blks_dirtied > 0 order by 2 desc;
 
 ![](https://habrastorage.org/webt/pd/ig/z1/pdigz16w5yckclnm9sofmaf0eba.png)
 
-```sql
 https://github.com/PostgreSQL-Consulting/pg-utils/blob/master/sql/global_reports/query_stat_total.sql
-```
 
 Мы pg_stat_statements используем для построения отчетов. Мы раз в сутки сбрасываем статистику. Накапливаем ее. Перед сбросом статистики в следующий раз, строим отчет. Вот ссылка на отчет. Вы можете его посмотреть.
 
