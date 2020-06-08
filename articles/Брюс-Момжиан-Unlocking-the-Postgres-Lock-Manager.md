@@ -4,6 +4,8 @@
 
 ![](https://habrastorage.org/webt/ty/-6/ui/ty-6uiivopfbn26wlezoscj2awy.png)
 
+(Примечание: Все SQL запросы из слайдов вы можете получить по этой ссылке: http://momjian.us/main/writings/pgsql/locking.sql)
+
 Привет! Замечательно снова быть здесь в России. Я прошу прощение, что я не смог приехать в прошлом году, но в этом году у Ивана и у меня большие планы. Я, надеюсь, что буду здесь гораздо чаще. Я обожаю приезжать в Россию. Я буду посещать Тюмень, Тверь. Я очень рад, что мне удастся побывать в этих городах. 
 
 Меня зовут Брюс Момжиан. Я работаю в EnterpriseDB и работаю с Postgres более 23 лет. Я живу в Филадельфии, в США. Путешествую примерно 90 дней в году. И посещаю порядка 40 конференций. Мой [веб сайт](https://momjian.us/), который содержит слайды, которые я вам буду сейчас показывать. Поэтому после конференции вы можете с моего личного сайта их скачать. Там также содержатся около 30 презентаций. А также есть видео и большое количество записей в блоге, более 500. Это достаточно содержательный ресурс. И если вам интересен этот материал, то я вас приглашаю им воспользоваться. 
@@ -17,7 +19,7 @@
 ![](https://habrastorage.org/webt/ko/eq/pc/koeqpc9kesmf5qyjmlcf7bkey2i.png)
 
 1. Блокировка является проблемой для большого количества людей, которые работают в базах данных и у которых работают одновременно несколько процессов. Им необходима блокировка. Т. е. сегодня я вам дам базовые знания по блокировке.  
-2. Идентификаторы транзакции. Это довольно скучная часть презентации, но их необходимо понять.
+2. Идентификаторы транзакций. Это довольно скучная часть презентации, но их необходимо понять.
 3. Далее мы поговорим о типах блокировки. Это достаточно механическая часть.  
 4. И далее мы приведем некоторые примеры блокировок. И это будет достаточно сложно для восприятия.  
 
@@ -35,7 +37,7 @@
 
 ![](https://habrastorage.org/webt/wi/ha/cn/wihacnekca_ard5l0wr0a28zfk4.png)
 
-Здесь мы видим термины, которые меня смущают. Например, SHARE UPDATE ECXLUSIVE. Далее расшарить строку эксклюзивно. Честно говоря, эти названия не очень понятны. Мы постараемся их более детально рассмотреть. Некоторые содержать слово «share», которое значит – отделиться. Некоторые содержат слово «exclusive» - эксклюзивный. В некоторых содержатся оба эти слова. Я бы хотел начать с того, как эти блокировки работают. 
+Здесь мы видим термины, которые меня смущают. Например, SHARE UPDATE ECXLUSIVE. Далее SHARE RAW ECXLUSIVE. Честно говоря, эти названия не очень понятны. Мы постараемся их более детально рассмотреть. Некоторые содержать слово «share», которое значит – отделиться. Некоторые содержат слово «exclusive» - эксклюзивный. В некоторых содержатся оба эти слова. Я бы хотел начать с того, как эти блокировки работают. 
 
 ![](https://habrastorage.org/webt/bk/bn/gj/bkbngjiwtsy--n4vn5vdriac6lc.png)
 
@@ -55,15 +57,17 @@
 
 ![](https://habrastorage.org/webt/ry/cv/cp/rycvcputt0-zjjaw_qd8-2eqho8.png)
 
+http://momjian.us/main/writings/pgsql/locking.sql
+
 Смотрим. Красным цветом выделен номер транзакции. Здесь показана функция SELECT pg_back. Она возвращает мою транзакцию и ID этой транзакции. 
 
-Еще один момент, если вам нравится эта презентация и вы хотите запустить ее в своей базе данных, то вы можете пройти по этой ссылке, выделенной розовым цветом, и скачать SQL для этой презентации. И можете просто запустить ее  в вашем PSQL и вся презентация окажется у вас на экране незамедлительно. Она не будет содержать цветов, но по крайней мере мы сможете ее увидеть.
+Еще один момент, если вам нравится эта презентация и вы хотите запустить ее в своей базе данных, то вы можете пройти по этой ссылке, выделенной розовым цветом, и скачать SQL для этой презентации. И можете просто запустить ее в вашем PSQL и вся презентация окажется у вас на экране незамедлительно. Она не будет содержать цветов, но по крайней мере мы сможете ее увидеть.
 
 ![](https://habrastorage.org/webt/zd/4u/xy/zd4uxy8mi9mt_eykebehpgneo8c.png)
 
 В данном случае мы видим ID транзакции. Это номер, который мы ей присвоили. И есть еще один тип ID транзакции в Postgres, который называется виртуальный ID транзакция
 
-. И мы должны понять это. Это очень важно, иначе мы не сможем понять блокировку в Postgres.
+И мы должны понять это. Это очень важно, иначе мы не сможем понять блокировку в Postgres.
 
 Виртуальный ID транзакция – это ID транзакции, которая не содержит постоянных значений. Например, если я запускаю команду SELECT, то я, скорее всего, не буду менять базу данных, я ничего не буду блокировать. Поэтому, когда мы запускаем простой SELECT, мы не даем этой транзакции постоянный ID. Мы там даем ей только виртуальный ID.
 
@@ -105,15 +109,13 @@
 
 Чтобы создать запрос и посмотреть, что происходит в Postgres, нам нужно выпустить запрос в system view. В данном случае красным цветом у нас выделен pg_lock. Pg_lock – это системная таблица, которая говорит нам, какие блокировки сейчас используются в Postgres.
 
-![](https://habrastorage.org/webt/nr/c1/8-/nrc18-rlejg40j6lu1mjuugkodg.png)
-
 Тем не менее мне очень сложно показать вам pg_lock сам по себе, потому что это довольно сложно. Поэтому я создал view, который показывает pg_locks. И он также выполняет для меня некоторую работу, которая позволяет мне лучше понять. Т. е. он исключает мои блокировки, мою собственную сессию и т. д. Это просто стандартный SQL и он позволяет лучше вам показать, что происходит. 
 
-![](https://habrastorage.org/webt/se/x1/kf/sex1kfzsm2tygn617zoajpr3fk8.png)
+![](https://habrastorage.org/webt/nr/c1/8-/nrc18-rlejg40j6lu1mjuugkodg.png)
 
-Еще одна проблема в том, что этот view очень широкий, поэтому мне приходится создать второй – lockview2. И он показывает мне еще колонки из таблицы. И еще один, который показывает мне остальные колонки. Это достаточно сложно, поэтому я постарался представить это как можно проще. 
+Еще одна проблема в том, что этот view очень широкий, поэтому мне приходится создать второй – lockview2.
 
-В PDF в папке PSQL вы можете это взять, также вы можете взять с моего сайта. 
+![](https://habrastorage.org/webt/se/x1/kf/sex1kfzsm2tygn617zoajpr3fk8.png) И он показывает мне еще колонки из таблицы. И еще один, который показывает мне остальные колонки. Это достаточно сложно, поэтому я постарался представить это как можно проще. 
 
 ![](https://habrastorage.org/webt/qx/r6/m6/qxr6m6qjqrjnhchy8xqhtiuso-o.png)
 
@@ -129,41 +131,53 @@
 
 Далее, если мы смотрим во вторую колонку, то там ничего нет. Они пустые. 
 
+![](https://habrastorage.org/webt/az/70/hd/az70hdzyqazow_5irgpuuce4zji.png)
+
 И если я запускаю команду «SELECT», то это имплицитный способ запросить AccessShareLock. Поэтому я выпускаю свою таблицу и запускаю запрос, и запрос возвращает несколько строк. И в одной из строк мы видим AccessShareLock. Таким образом SELECT вызывает AccessShareLock в таблице. И он не конфликтует практически ни с чем, потому что это блокировка низкого уровня. 
 
-![](https://habrastorage.org/webt/az/70/hd/az70hdzyqazow_5irgpuuce4zji.png)
+![](https://hsto.org/webt/kt/j3/w6/ktj3w6gqbn4gwuxlwfutrynkrt8.png)
+
+
+
+
 
 Что если я запущу SELECT и у меня будет три разных таблиц? Ранее я запускал только одну таблицу, теперь я запускаю три. И pg_class, pg_namespace и pg_attribute.
 
+![](https://habrastorage.org/webt/jc/2f/ni/jc2fnithwb-lik3giz6o1sdltrw.png)
+
 И теперь, когда я смотрю на запрос, я вижу 8-9 AccessShareLocks в трех таблицах. Почему? Синим цветом выделено три таблицы: pg_attribute, pg_class, pg_namespace. Но вы также можете видеть, что все индексы, которые определены через эти таблицы, также имеют AccessShareLock.
 
-И это блокировка, которая практически не конфликтует с другими. А все, что она делает, это просто не дает нам сбросить таблицу, пока мы ее выбираем. Это имеет смысл. Т. е. если мы выбираем таблицу, она в этот момент исчезает, то это неправильно, поэтому AccessShare – это блокировка низкого уровня, которая говорит нам «не удаляйте эту таблицу, пока я работаю». По сути, это все, что она делает. 
+И это блокировка, которая практически не конфликтует с другими. А все, что она делает, это просто не дает нам сбросить таблицу, пока мы ее выбираем. Это имеет смысл. Т. е. если мы выбираем таблицу, она в этот момент исчезает, то это неправильно, поэтому **AccessShare – это блокировка низкого уровня, которая говорит нам "не удаляйте эту таблицу, пока я работаю"**. По сути, это все, что она делает. 
 
-Explicit ROW SHARE Locking
+![](https://habrastorage.org/webt/u0/ty/8_/u0ty8_qyjuu5u5-r-6greycfmtg.png)
 
-ROW SHARE – это блокировка немного отличается. Возьмем пример. SELECT ROW SHARE. Не знаю, сколько из вас используют SHARE LOCKs, но это способ блокировки каждой строки по отдельности. Таким образом никто не может удалить их или изменить их, пока мы их смотрим. 
+ROW SHARE – это блокировка немного отличается. 
 
-Implicit ROW SHARE Locking
+![](https://habrastorage.org/webt/zk/gj/n3/zkgjn3bmn640cob3xvnrow5ow4g.png)
 
-Итак, то, что делает SHARE LOCK? Мы видим, что ID транзакции 681 для SELECT’а. И это интересно. Что у нас здесь произошло? Первый раз мы видим номер в поле «Lock». Мы берем ID транзакции, и он говорит, что блокирует ее в эксклюзивном режиме. Все, что он делает, он говорит, что у меня есть строка, которая технически заблокирована где-то в таблице. Но не говорит, где конкретно. Чуть позже мы более подробно это рассмотрим.
+Возьмем пример. **SELECT ROW SHARE способ блокировки каждой строки по отдельности**. Таким образом никто не может удалить их или изменить их, пока мы их смотрим. 
 
-Explicit ROW EXCLUSIVE Locking
+![](https://habrastorage.org/webt/4h/og/ha/4hogharj-bsbodrw2mkrpzjforw.png)Итак, то, что делает SHARE LOCK? Мы видим, что ID транзакции 681 для SELECT’а. И это интересно. Что у нас здесь произошло? Первый раз мы видим номер в поле «Lock». Мы берем ID транзакции, и он говорит, что блокирует ее в эксклюзивном режиме. Все, что он делает, он говорит, что у меня есть строка, которая технически заблокирована где-то в таблице. Но не говорит, где конкретно. Чуть позже мы более подробно это рассмотрим.
+
+![](https://habrastorage.org/webt/ju/nw/mv/junwmv7jwbpxgc4s0qopob7kvhg.png)
 
 Здесь мы говорим, что блокировка используется нами.
 
-Implicit ROW SHARE EXCLUSIVE Locking
+![](https://habrastorage.org/webt/yq/fh/yr/yqfhyrdt8xz_xz9e6ekavwqehta.png)
 
 Итак, эксклюзивная блокировка эксплицитно говорит, что она эксклюзивная. И также если вы удаляете строку в этой таблице, то это и пройдет, как вы можете видеть. 
 
-Explicit SHARE UPDATE EXCLUSIVE Locking
+![](https://habrastorage.org/webt/88/st/xw/88stxwweuhwtfiooq3udq2blchk.png)
 
-SHARE EXCLUSIVE – это более длинная блокировка. Это команда анализатора, которая будет использоваться.
+**SHARE EXCLUSIVE – это более длинная блокировка.** Это команда анализатора, которая будет использоваться.
 
-Explicit SHARE Locking
+![](https://habrastorage.org/webt/dv/mv/7s/dvmv7s-8huuwoslr5rljhu0dstw.png)
+
+![](https://habrastorage.org/webt/wk/pw/m9/wkpwm9xmt4m-ie1h13snfrb799a.png)
 
 SHARE LOCK – вы можете эксплицитно заблокировать в режиме share.
 
-Implicit SHARE Locking
+![](https://habrastorage.org/webt/-o/i2/li/-oi2linulgdo8lgnqv87txb8ykg.png)
 
 Вы можете также создать уникальный индекс. И там вы можете увидеть SHARE LOCK, который является их частью. И он блокирует таблицу и устанавливает на нее блокировку SHARE LOCK.
 
@@ -171,41 +185,43 @@ Implicit SHARE Locking
 
 Если я создаю уникальный индекс одновременно, то у меня будет другой тип блокировки, потому что, как вы помните, использование одновременных индексов снижает требование к блокировке. И если я использую нормальную блокировку, нормальный индекс, то я таким образом предотвращу запись в индекс таблицы во время его создания. Если я использую их одновременно, то мне надо использовать другой тип блокировки. 
 
-Explicit SHARE ROW EXCLUSIVE Locking
+![](https://habrastorage.org/webt/gy/yb/je/gyybjexmhcgztjcq4h27tmhdocs.png)
 
 SHARE ROW EXCLUSIVE – опять ее можно задать эксплицитно.
 
-Implicit SHARE ROW EXCLUSIVE Locking
+![](https://habrastorage.org/webt/i7/ni/h9/i7nih9tusd1zcwfomm5fpmy72uc.png)
 
 Или можем создать правило, т. е. взять какой-то определенный случай, при котором она будет использоваться.
 
-Explicit EXCLUSIVE Locking
+![](https://habrastorage.org/webt/5l/h1/ws/5lh1wsisbjbqdpridfgekbv_tus.png)
 
 EXCLUSIVE блокировка означает, что никто другой менять таблицу не сможет. 
 
-Explicit ACCESS EXCLUSIVE Locking
+![](https://habrastorage.org/webt/pd/nz/zy/pdnzzyuxly0zfcmvjw18vlnbbzy.png)
 
 Здесь мы видим различные типы блокировок. 
 
-Implicit ACCESS EXCLUSIVE Locking
+![](https://habrastorage.org/webt/dt/zv/w4/dtzvw4xuw_5-435qnrxqfh4xtvs.png)
 
 ACCESS EXCLUSIVE, например, это команда блокировки. Например, если вы создаете кластер в таблице, то это будет означать, что никто не сможет записывать туда. И она блокирует не только саму таблицу, но и индексы также.
+
+![](https://habrastorage.org/webt/1i/e8/vr/1ie8vrwyrky3jvkglu20anyarqs.png)
 
 Это вторая страница блокировки ACCESS EXCLUSIVE, где мы видим конкретно, что она блокирует в таблице. Она блокирует отдельные строки таблицы, что достаточно интересно.
 
 Это вся базовая информация, которую я хотел дать. Мы говорили о блокировках, об ID транзакций, говорили о виртуальных ID транзакций, о постоянных ID транзакций. 
 
-1. Lock Examples
+![](https://habrastorage.org/webt/aa/lc/yv/aalcyvja84ifuy1mkdw2kjjlfps.png)
 
 И теперь мы пройдемся по примерам блокировок. Это самая интересная часть. Мы посмотрим очень интересные случаи. И моя задача в этой презентации – дать вам лучшее представление о том, что Postgres на самом деле делает, когда он пытается блокировать те или иные вещи. Мне кажется, что он очень хорошо умеет блокировать отдельные части. 
 
 Давайте рассмотрим определенные примеры.
 
-Row Locks Are Not Visible in pg_locks
+![](https://habrastorage.org/webt/f3/ox/on/f3oxontnqztymukor7gdwl49owc.png)
 
 Мы начнем с таблиц и с одной строки в таблице. Когда я вставляю что-то, у меня отображается ExclusiveLock, ID транзакции и ExclusiveLock на таблице. 
 
-Two Rows A	re Similarly Invisible
+![](https://habrastorage.org/webt/y0/vc/ji/y0vcji_5zb9ggz98jbosrhrll8a.png)
 
 А что будет, если я вставлю еще два ряда? И теперь в нашей таблице три ряда. И я вставил один ряд и получил вот это на выходе. И если я вставляю еще два ряда, что здесь странного? Здесь есть странность, потому что я добавил три ряда к этой таблице, но у меня все еще два ряда в таблице блокировки. И это, по сути, основополагающее поведение Postgres.
 
@@ -213,53 +229,71 @@ Two Rows A	re Similarly Invisible
 
 И на этом слайде очень важно, что здесь явно демонстрируется, что есть еще одна система, которая работает внутри NBCC, которая блокирует отдельные ряды. Поэтому, когда вы блокируете миллиарды рядов, то Postgres не создает миллиард отдельных команд на блокировку. И это очень хорошо сказывается на производительности. 
 
-Update Also Causes an Index Lock
+![](https://habrastorage.org/webt/pz/l-/h2/pzl-h2nxh9nwwkl_kn2nizfyoj0.png)
 
 А как насчет обновления? Я сейчас обновляю ряд, и вы можете заметить, что он сразу выполнил две разные операции. Он одновременно заблокировал таблицу, но он также заблокировал индекс. И ему нужно было блокировать индекс, потому что есть уникальные ограничения на этой таблице. И мы хотим убедиться, что никто его не меняет, поэтому мы его блокируем.
 
-Two Row Updates Are Similar
+![](https://habrastorage.org/webt/gs/ev/mr/gsevmr4vqpvn1jy1iphqpofwquk.png)
 
 А что будет, если я хочу обновить два ряда? И мы видим, что он ведет себя также. Мы проводим в два раза больше обновлений, но точно такое же количество строчек блокировки. 
 
 Если вам интересно, как Postgres это делает, вам нужно послушать мои выступления, чтобы узнать, как Postgres внутренне маркирует эти ряды, которые он меняет. И у Postgres есть способ, при помощи которого он это делает, но он это не делает на уровне блокировки таблиц, он делает на более низком и на более эффективном уровне.
 
-Delete of One Row Is Similar
+![](https://habrastorage.org/webt/qd/c1/pz/qdc1pzbps7xox5wav3_9n6qna_s.png)
 
 А если я хочу что-то удалить? Если я удаляю, например, один ряд и у меня все еще есть мои два вводных у блокировки, и даже если я захочу удалить их все, то они все равно там присутствуют.
 
+![](https://habrastorage.org/webt/9i/jr/nh/9ijrnhqlocj_kbj3towy8pbetj4.png)
+
 И, например, я хочу вставить 1 000 строчек, а потом или удалить, или добавить 1 000 строчек, то те индивидуальные ряды, которые я добавляю или меняю, они не записываются здесь. Они записываются на более маленьком уровне внутри самого ряда. И во время выступления в NBCC я говорил об этом в деталях. Но очень важно, когда вы анализируете блокировки, убедиться, что у вас блокировка на уровне таблицы и что здесь вы не видите, как ведется запись отдельных рядов. 
 
-Explicit Row Locks Are Similar
+![](https://habrastorage.org/webt/cn/bz/yq/cnbzyqrrrvr9ydrqyh7tzgtd8zo.png)
 
 А как насчет эксплицитной блокировки?
 
-Three Explicit Row Locks Are Similar
+![](https://habrastorage.org/webt/lw/zz/tt/lwzzttmi-cbsglpuhsjlgbdesbi.png)
 
 Если я нажму «обновить», то у меня есть два заблокированных ряда. И если выделю их все и нажму «обновить везде», то у меня все равно остаются две записи блокировки. Мы не создаем отдельные записи на каждый отдельный ряд. Потому что тогда падает производительность, там может быть этого слишком много. И мы можем оказаться в неприятной ситуации. 
 
-Explicit Shared Row Locks Are Similar
+![](https://habrastorage.org/webt/hs/2k/oz/hs2koz_w3jrxzezq2xkujtjok94.png)
+
+![](https://habrastorage.org/webt/1d/1j/am/1d1jam27-cid6s0jm0yflvyyxtm.png)
 
 И тоже самое, если мы делаем shared, мы можем делать на 30 раз. 
 
-Restore Table Lockdemo
+![](https://habrastorage.org/webt/pd/sm/bl/pdsmblbbrchqmv9d1o-tobqvwik.png)
 
 Мы восстанавливаем нашу таблицу, все удаляем, потом снова вставляем один ряд.
 
-UPDATE Is Not Blocked by SELECT
+![](https://habrastorage.org/webt/wl/3t/vp/wl3tvpiiggfrwwy1yc2iovgevky.png)
 
 Еще один вид поведения, который вы видите в Postgres, это очень хорошо известное и желаемое поведение – это то, что вы можете проводить обновление или выборы. И вы можете это делать одновременно. И выборы не блокируют обновления и тоже самое в обратную сторону. Мы говорим читающему не блокировать того, кто пишет, а тот, кто пишет, не блокировал читателя. 
 
+![](https://habrastorage.org/webt/1z/t8/y1/1zt8y1aaadf1ri8x0vikzs-iube.png)
+
 Я вам покажу пример этого. Я сделаю сейчас выбор. Мы потом сделаем INSERT. И вы потом сможете увидеть – 694. Вы сможете увидеть ID транзакции, которая провела эту вставку. И это то, как это работает. 
+
+![](https://habrastorage.org/webt/jr/wb/ej/jrwbejin2jrdcxoronmyffxolyw.png)
 
 И если я сейчас посмотрю на свой бэкенд ID, то он стал – 695. И я могу увидеть, что 695 появляется в моей таблице. И если я провожу обновление здесь вот так, то я получаю другой кейс. В этом случае 695 – эксклюзивная блокировка, а у обновления такое же поведение, но между ними не возникает конфликта, что достаточно необычно. 
 
+![](https://habrastorage.org/webt/gk/xl/-h/gkxl-hpyyvujgiwu9c-4q9khj-y.png)
+
+
+
+![](https://habrastorage.org/webt/4r/0j/mw/4r0jmwlw1hjbpfa3skdt1oplnh0.png)
+
 И вы можете заметить, что на верху – это ShareLock, а внизу – это ExclusiveLock. И обе транзакции получились. И нужно послушать мое выступление в NBCC, чтобы понять, как это происходит. Но это иллюстрация того, что вы можете делать это одновременно, т. е. одновременно делать SELECT и UPDATE.
 
-Two Concurrent Updates Show Locking
+![](https://habrastorage.org/webt/lv/tb/n5/lvtbn511ui9hsih_tbhw9u88_3m.png)
 
 Давайте мы сбросим и еще раз сделаем одну операцию. Если вы попробуете запустить одновременно два обновления на одном и том же ряду, то оно заблокируется. И помните, я говорил, что читающий не блокирует писателя, а писатель читателя, но один писатель блокирует другого писателя. Т. е. мы не можем делать так, чтобы два человека одновременно обновляли один и тот же ряд. Нужно ждать, пока один из них закончит. 
 
+![](https://habrastorage.org/webt/4e/7n/yt/4e7nyt84khptnikltinuyytuoru.png)
+
 И для того, чтобы это проиллюстрировать я посмотрю на Lockdemo таблицу. И мы посмотрим на один ряд. На транзакцию 698. Мы это обновим до 2-х. 699 – это первое обновление. И оно прошло успешно или оно находится в ожидающей транзакции и ожидает, когда мы подтвердим или отменим. 
+
+![](https://habrastorage.org/webt/hh/d7/sf/hhd7sfp2u6wsvktx_jk9hkx3s6o.png)
 
 Но посмотрите на другое – 2/51 – это наша первая транзакция, наша первая сессия. 3/112 – это второй запрос, который появился сверху и который поменял это значение на 3. И если вы заметете, то верхний заблокировал сам себя, который 699. Но 3/112 не предоставили блокировку. В колонке Lock_mode написано, что он ожидает. Он ожидает 699. И если вы посмотрите, где 699, он там. И что сделала первая сессия? Она создала эксклюзивную блокировку на своем собственном транзакционном ID. Это то, как Postgres это делает. Он блокирует собственный транзакционный ID. И если вы хотите ждать, пока кто-то подтвердит или отменит, то нужно ждать, пока есть ожидающаяся транзакция. И поэтому мы можем увидеть странную строчку. 
 
@@ -273,69 +307,167 @@ Two Concurrent Updates Show Locking
 
 Транзакция 700 – это единственная блокировка, она больше никого не ждет, потому что ее закоммитили. Она просто ждет, чтобы транзакция завершилась. Как только 699 заканчивается, мы больше ничего не ждем. И теперь транзакция 700 говорит, что все хорошо, что все блокировки, которые нужны, у нее есть во всех разрешенных таблицах. 
 
-Three Concurrent Updates Show Locking
+![](https://habrastorage.org/webt/29/wt/gn/29wtgnmrm_0qjcp1vbmabyvj974.png)
 
 И чтобы еще усложнить все это дело, мы создаем еще один view, который в этот раз нам предоставит иерархию. Я не ожидаю, что вы поймете этот запрос. Но это даст нам более ясный вид того, что происходит. 
+
+![](https://habrastorage.org/webt/nm/fg/1n/nmfg1nwfbtigfsk7tazxnv_3dvq.png)
 
 Это находится в SQL-файле, который вы можете скачать. 
 
 Это рекурсивный вид, у которого также есть еще одна секция. И оно потом снова возвращает все вместе. Давайте использовать это. 
 
+![](https://habrastorage.org/webt/c9/-3/v_/c9-3v_j-pdbxdxxhxllwnbsstvs.png)
+
 Что, если мы сделаем три одновременных обновления и скажем, что ряд сейчас равен трем. И мы поменяем 3 на 4. И вот мы видим 4. И транзакционный ID 702. И затем я поменяю 4 на 5. А 5 на 6, а 6 на 7. И я выстраиваю в очередь ряд людей, которые будут ожидать того, чтобы эта одна транзакция закончилась.
+
+![](https://habrastorage.org/webt/6l/tu/hi/6ltuhiwe6vxtf8c0stv_36fwofw.png)
 
 И все становится понятным. Какой первый ряд? Это 702. Это транзакционный ID, который изначально задал это значение. А что у меня написано в колонке Granted? У меня есть отметки. Это те мои обновления, которые (5, 6, 7) не могут быть одобрены, потому что мы ждем, чтобы транзакционный ID 702 закончился. Там у нас есть блокировка транзакционного ID. И получается 5 транзакционных блокировок ID.
 
+![](https://habrastorage.org/webt/xq/il/md/xqilmdyqzuwhgcn7dlxqeilu9vo.png)
+
 И если вы посмотрите на 704, на 705, то там еще ничего не написано, потому что они еще не знают, что происходит. Они просто пишут, что без понятия, что происходит. И они просто уйдут в сон, потому что они ждут, пока кто-то закончит и их разбудят, когда появится возможность поменять ряд. Это то, как это выглядит.
+
+![](https://habrastorage.org/webt/lr/nv/-9/lrnv-9bbj9ffaa1jarcva_wxuoa.png)
 
 Понятно, что они все ждут 12-ую строчку. Это то, что мы видели прямо вот здесь. Вот 0/12. 
 
+![](https://habrastorage.org/webt/ni/rm/ko/nirmkosh6lkrca00smkrgfn9dr0.png)
+
 Итак, как только первая транзакция одобрена, то вы можете здесь увидеть, как работает иерархия. И теперь становится все ясно. Они все становятся чистыми. И они на самом деле все еще в ожидании. 
+
+![](https://habrastorage.org/webt/y0/2t/d0/y02td09hohuuy8kmlxxkle0xb7e.png)
 
 Вот, что происходит. 702 коммитется. И теперь 703 получает эту блокировку ряда, а потом 704 начинает ждать, когда 703 закоммитется. И 705 тоже этого ждет. И когда все это завершается, то они сами себя зачищают. 
 
-И я хотел бы указать на то, что все выстраиваются в очередь. И это очень похоже на ситуацию с пробкой, когда все ожидают первую машину. Первая машина остановилась, и все выстраиваются в длинную линию. Потом она двигается, потом следующая машина может проехать вперед и получить свою блокировку и т. д. 
+![](https://habrastorage.org/webt/5m/k-/ss/5mk-sshdoscnrj0thyyzfa1ymmc.png)
 
-Deadlocks
+И я хотел бы указать на то, что все выстраиваются в очередь. 
+
+![](https://habrastorage.org/webt/fl/zr/d8/flzrd8kvuh6x5ljtwdfpm6xrtwi.png)
+
+И это очень похоже на ситуацию с пробкой, когда все ожидают первую машину. 
+
+![](https://habrastorage.org/webt/mf/ae/mw/mfaemwsvab0hwlvr76jfffjkmdk.png)
+
+Первая машина остановилась, и все выстраиваются в длинную линию. Потом она двигается, потом следующая машина может проехать вперед и получить свою блокировку и т. д. 
+
+![](https://habrastorage.org/webt/7_/06/bg/7_06bgs1tmeylaqevzchxpjz0oe.png)
 
 И если вам это показалось недостаточно сложным, то мы сейчас поговорим с вами о мертвых блокировках или о deadlocks. Я не знаю, кто из вас с ними сталкивался. Это достаточно распространенная проблема в системах баз данных. Но deadlocks или мертвая блокировка – это тот случай, когда одна сессия ожидает, чтобы что-то выполнила другая сессия. А в этот момент другая сессия ожидает, чтобы первая сессия выполнила что-то. 
 
+![](https://habrastorage.org/webt/6n/dg/v2/6ndgv2qloe_yrfyuafzhuo4qsna.png)
+
 И, например, если Иван говорит: «Дай мне что-нибудь», а я говорю: «Нет, я тебе это дам только, если ты мне дашь что-то другое». А он говорит: «Нет, я не дам тебе это, если ты мне не дашь». И мы получаемся в ситуации мертвой блокировки. Я уверен, что Иван так не сделает, но вы понимаете смысл, что у нас два человека хотят что-то получить и они не готовы это отдать, пока другой человек им не отдаст, то что они хотят. И тут нет решения. 
+
+![](https://habrastorage.org/webt/zx/mo/xc/zxmoxcq5k6ff0shfvox8uaukkhy.png)
 
 И, по сути, вашей базе данных нужно это выявлять. И затем необходимо удалять или закрывать одну из сессий, потому что в обратном случае они там останутся навсегда. И мы это видим в базах данных, мы это видим в операционных системах. И во всех местах, где у нас есть параллельные процессы, такое может быть. 
 
+![](https://habrastorage.org/webt/cb/ok/yh/cbokyhcbkszew0vnwa_b6v7ufz0.png)
+
 И мы поставим сейчас две мертвые блокировки. Мы поставим 50 и 80. В первый ряд я проведу обновление с 50 на 50. У меня получится номер транзакции 710. И затем я поменяю 80 на 81, и 50 на 51. 
+
+![](https://habrastorage.org/webt/w9/f7/nn/w9f7nnisbvvlgsmo3dbc7s8ajwu.png)
 
 И вот, как это будет выглядеть. И поэтому у 710 есть блокировка ряда, а 711 ожидает подтверждение. Мы видели это, когда обновляли. 710 – является владельцем нашего ряда. А 711 ожидает, чтобы 710 закончил транзакцию и там даже написано на каком именно ряде у нас происходит эта мертвая блокировка. И вот где это начинает становится странным.
 
+![](https://habrastorage.org/webt/na/xu/tn/naxutndlcu48ucdbloyioa2rjhg.png)
+
 Теперь мы обновляем 80 на 80. И вот, где начинается мертвая блокировка. 710 ожидает отклика от 711, а 711 ожидает 710. И это нехорошо кончится. И из этого нет выхода. И они будут ожидать отклика друг от друга. И это просто все начнет задерживать. 
 
-И мы этого не хотим. И в Postgres есть способы замечать, когда это происходит. И когда это происходит, то вы получаете вот такую ошибку. И из этого ясно, что такой-то процесс ожидает SHARE LOCK’а от другого процесса, т. е. который блокируется 711 процессом. А тот процесс ожидал, чтобы был дан SHARE LOCK на такой-то транзакционный ID и был заблокированный таким-то процессом. Поэтому тут ситуация мертвой блокировки.
+![](https://habrastorage.org/webt/3u/xy/wu/3uxywubotj3ihomc4-pwb9sswhe.png)
 
-Three-Way Deadlocks
+И мы этого не хотим. 
 
-А бывает ли трехсторонний deadlocks? Возможно ли это? Да. Мы вбиваем эти числа в таблицу. Мы меняем 40 на 40, мы делаем блокировку. Меняем 60 на 61, 80 на 81. А затем мы меняем 80, а затем – бум! И 714 теперь ожидает 715. 716-ый 715-го ожидает. И с этим уже ничего не сделать. Здесь уже не два человека, здесь уже три человека. Я хочу что-то от тебя, этот хочет что-то от третьего человека, а третий человек хочет что-то от меня. И мы получаемся в трехстороннем ожидании, потому что мы все ждем, пока другой человек завершит то, что он должен сделать. 
+![](https://habrastorage.org/webt/qw/7y/f0/qw7yf0trrnmhhh2f2dxsc7xn8la.png)
+
+И в Postgres есть способы замечать, когда это происходит. И когда это происходит, то вы получаете вот такую ошибку. 
+
+![](https://habrastorage.org/webt/fc/ak/ku/fcakku67l1is1vydt7sieqgx0o4.png)
+
+И из этого ясно, что такой-то процесс ожидает SHARE LOCK’а от другого процесса, т. е. который блокируется 711 процессом. А тот процесс ожидал, чтобы был дан SHARE LOCK на такой-то транзакционный ID и был заблокированный таким-то процессом. Поэтому тут ситуация мертвой блокировки.
+
+![](https://habrastorage.org/webt/oi/tb/93/oitb93bhmzo8481rogb81nkdsne.png)
+
+А бывает ли трехсторонний deadlocks? Возможно ли это? Да. Мы вбиваем эти числа в таблицу. Мы меняем 40 на 40, мы делаем блокировку. Меняем 60 на 61, 80 на 81. А затем мы меняем 80, а затем – бум! И 714 теперь ожидает 715. 716-ый 715-го ожидает. 
+
+![](https://habrastorage.org/webt/n1/85/_s/n185_s_ubtaqfm_ppolrxy6msta.png)
+
+И с этим уже ничего не сделать. Здесь уже не два человека, здесь уже три человека. 
+
+![](https://habrastorage.org/webt/wj/y8/xm/wjy8xm1tj4tfx6pzuz31fnclln8.png)
+
+Я хочу что-то от тебя, этот хочет что-то от третьего человека, а третий человек хочет что-то от меня. 
+
+![](https://habrastorage.org/webt/dx/w1/lf/dxw1lffe6dzrvcgdjm2euoyd6zq.png)
+
+
+
+![](https://habrastorage.org/webt/q9/je/d8/q9jed8hv_eyk4ic1uvf16vnlttk.png)
+
+![](https://habrastorage.org/webt/--/rm/a5/--rma5efbtgz-ssdujwlexflwg4.png)
+
+![](https://habrastorage.org/webt/7s/cb/tq/7scbtqdev7smkaxv1uoiddo2zmo.png)
+
+И мы получаемся в трехстороннем ожидании, потому что мы все ждем, пока другой человек завершит то, что он должен сделать. 
+
+![](https://habrastorage.org/webt/un/lb/et/unlbeteykdgdz7t5ejy3scv6iqm.png)
 
 И Postgres знает на каком ряду это происходит. И поэтому он выдаст вам следующее сообщение, которое показывает, что у вас есть проблема, где три вводных блокируют друг друга. И здесь нет ограничений. Это может быть в случае, где 20 записей блокируют друг друга. 
 
-Serializable
+
+![](https://habrastorage.org/webt/1i/tu/nk/1itunk9jbmanzavuflchgnwlt78.png)
+
+![](https://habrastorage.org/webt/lu/4t/st/lu4tstatcimpafrtluux8ugquui.png)
+
+![](https://habrastorage.org/webt/8z/zm/ow/8zzmow7aahjpgbsdauympsia7lw.png)
+
+![](https://habrastorage.org/webt/9p/rg/jc/9prgjcm2agwlaiakeodt7og-ajy.png)
+
+![](https://habrastorage.org/webt/oz/5k/oi/oz5koibztsax7mzf9xccwh71f6i.png)
+
+![](https://habrastorage.org/webt/lu/0h/ut/lu0hutzgjk56vrfsgbfimqf8qok.png)
 
 Следующая проблема – это serializable. Если специальная serializable блокировка. И возвращаемся к 719. У него вполне нормальная выдача. И вы можете нажать, чтобы сделать транзакцию из serializable. И вы понимаете, что у вас теперь есть другой вид блокировки SA – это означает serializable. И поэтому у нас есть новый вид блокировки, который называется SARieadLock, который является серийной блокировкой и позволяет вводить серийники.
 
-Unique Insert Locking
+
+![](https://habrastorage.org/webt/06/eu/84/06eu84daldsy26vjgbxybwzaefi.png)
+
+![](https://habrastorage.org/webt/6l/oi/dj/6loidjjx9d1nnnet5pxismxxb-o.png)
+
+![](https://habrastorage.org/webt/8y/dv/zw/8ydvzw1qal0qzvmrews86w6v58u.png)
 
 И также вы можете вставлять уникальные индексы. В этой таблице у нас есть уникальные индексы. Поэтому, если я сюда введу число 2, поэтому у меня есть 2. Но в самом вверху я вставляю еще одно 2. И вы можете видеть, что у 721-го эксклюзивная блокировка. Но теперь 722 ожидает, чтобы 721 завершил свою операцию, потому что он не может вставить 2 до тех пор, пока не знает, что произойдет с 721. 
 
-Subtransactions
+
+
+![](https://habrastorage.org/webt/bg/0k/8c/bg0k8c9jwc1yclqlulxdfwuk0vk.png)
+
+![](https://habrastorage.org/webt/oy/a0/pe/oya0pepi0jtg2eo0wta252_ta6o.png)
+
+![](https://habrastorage.org/webt/y7/2i/_q/y72i_q_makj8zzxmgtmrryzvhnm.png)
 
 И если мы делаем subtransaction. Вот у нас 723. И если мы сохраняем точку и потом ее обновляем, то у нас получается новый транзакционный ID. Это еще один характер поведения, который вам нужно знать. Если мы это возвращаем, то транзакционный ID уходит. 724 уходит. Но теперь у нас появляется 725. 
 
 И что я пытаюсь здесь сделать? Я пытаюсь показать вам примеры необычных блокировок, которые вы можете найти: будь то serializable блокировки или сохраняемые точки – это разные виды блокировок, которые будут появляться в таблице блокировок. 
 
-Advisory Locks
+
+
+![](https://habrastorage.org/webt/hi/ai/yk/hiaiykda6krw2vqpo6x74terenm.png)
+
+![](https://habrastorage.org/webt/qv/_k/kh/qv_kkhjr3nzzado68ql9-ubpi3q.png)
+
 
 Это, по сути, создание эксплицитных блокировок. Функция у которых pg_advisory_lock. И вы видите, что тип блокировки тут числится как advisories. И тут красным написано «advisory». И вы можете одновременно так заблокировать с pg_advisory_unlock.
 
-Joining Pg_locks and Pg_stat_activity 
+
+![](https://habrastorage.org/webt/5j/m5/xg/5jm5xg3svt4ehok3q8dhikivxee.png)
+
+![](https://habrastorage.org/webt/01/a3/rq/01a3rq1yt6gakl-urxm8rczcfrg.png)
+
+![](https://habrastorage.org/webt/rb/b4/an/rbb4anmgrpqn8j1waiv9l0g2eqe.png)
 
 И завершая я хотел бы вам показать еще одну крышесносную вещь. Я создам еще один вид. Но я соединю таблицу pg_locks с таблицей pg_stat_activity. И зачем я хочу это сделать? Потому что это позволит мне посмотреть и увидеть все текущие сессий и увидеть, каких именно блокировок они ожидают. И это достаточно интересно, когда мы собираем воедино таблицу блокировок и таблицу запросов. 
 
@@ -400,173 +532,5 @@ Postgres автоматически замечает ситуации deadlock�
 *Есть статьи про* *locks* *Егора Рогова. Посмотрите, они тоже интересные и полезные. Тема, конечно, жутко сложная. Спасибо большое, Брюс!*
 
 
-
-
-
-
-
-
-
-![](https://habrastorage.org/webt/jc/2f/ni/jc2fnithwb-lik3giz6o1sdltrw.png)
-
-![](https://habrastorage.org/webt/u0/ty/8_/u0ty8_qyjuu5u5-r-6greycfmtg.png)
-
-![](https://habrastorage.org/webt/zk/gj/n3/zkgjn3bmn640cob3xvnrow5ow4g.png)
-
-![](https://habrastorage.org/webt/4h/og/ha/4hogharj-bsbodrw2mkrpzjforw.png)
-
-![](https://habrastorage.org/webt/ju/nw/mv/junwmv7jwbpxgc4s0qopob7kvhg.png)
-
-![](https://habrastorage.org/webt/yq/fh/yr/yqfhyrdt8xz_xz9e6ekavwqehta.png)
-
-![](https://habrastorage.org/webt/88/st/xw/88stxwweuhwtfiooq3udq2blchk.png)
-
-![](https://habrastorage.org/webt/dv/mv/7s/dvmv7s-8huuwoslr5rljhu0dstw.png)
-
-![](https://habrastorage.org/webt/wk/pw/m9/wkpwm9xmt4m-ie1h13snfrb799a.png)
-
-![](https://habrastorage.org/webt/-o/i2/li/-oi2linulgdo8lgnqv87txb8ykg.png)
-
-![](https://habrastorage.org/webt/gy/yb/je/gyybjexmhcgztjcq4h27tmhdocs.png)
-
-![](https://habrastorage.org/webt/i7/ni/h9/i7nih9tusd1zcwfomm5fpmy72uc.png)
-
-![](https://habrastorage.org/webt/5l/h1/ws/5lh1wsisbjbqdpridfgekbv_tus.png)
-
-![](https://habrastorage.org/webt/pd/nz/zy/pdnzzyuxly0zfcmvjw18vlnbbzy.png)
-
-![](https://habrastorage.org/webt/dt/zv/w4/dtzvw4xuw_5-435qnrxqfh4xtvs.png)
-
-![](https://habrastorage.org/webt/1i/e8/vr/1ie8vrwyrky3jvkglu20anyarqs.png)
-
-![](https://habrastorage.org/webt/aa/lc/yv/aalcyvja84ifuy1mkdw2kjjlfps.png)
-
-![](https://habrastorage.org/webt/f3/ox/on/f3oxontnqztymukor7gdwl49owc.png)
-
-![](https://habrastorage.org/webt/y0/vc/ji/y0vcji_5zb9ggz98jbosrhrll8a.png)
-
-![](https://habrastorage.org/webt/pz/l-/h2/pzl-h2nxh9nwwkl_kn2nizfyoj0.png)
-
-![](https://habrastorage.org/webt/gs/ev/mr/gsevmr4vqpvn1jy1iphqpofwquk.png)
-
-![](https://habrastorage.org/webt/qd/c1/pz/qdc1pzbps7xox5wav3_9n6qna_s.png)
-
-![](https://habrastorage.org/webt/9i/jr/nh/9ijrnhqlocj_kbj3towy8pbetj4.png)
-
-![](https://habrastorage.org/webt/cn/bz/yq/cnbzyqrrrvr9ydrqyh7tzgtd8zo.png)
-
-![](https://habrastorage.org/webt/lw/zz/tt/lwzzttmi-cbsglpuhsjlgbdesbi.png)
-
-![](https://habrastorage.org/webt/hs/2k/oz/hs2koz_w3jrxzezq2xkujtjok94.png)
-
-![](https://habrastorage.org/webt/1d/1j/am/1d1jam27-cid6s0jm0yflvyyxtm.png)
-
-![](https://habrastorage.org/webt/pd/sm/bl/pdsmblbbrchqmv9d1o-tobqvwik.png)
-
-![](https://habrastorage.org/webt/wl/3t/vp/wl3tvpiiggfrwwy1yc2iovgevky.png)
-
-![](https://habrastorage.org/webt/1z/t8/y1/1zt8y1aaadf1ri8x0vikzs-iube.png)
-
-![](https://habrastorage.org/webt/jr/wb/ej/jrwbejin2jrdcxoronmyffxolyw.png)
-
-![](https://habrastorage.org/webt/gk/xl/-h/gkxl-hpyyvujgiwu9c-4q9khj-y.png)
-
-![](https://habrastorage.org/webt/4r/0j/mw/4r0jmwlw1hjbpfa3skdt1oplnh0.png)
-
-![](https://habrastorage.org/webt/lv/tb/n5/lvtbn511ui9hsih_tbhw9u88_3m.png)
-
-![](https://habrastorage.org/webt/4e/7n/yt/4e7nyt84khptnikltinuyytuoru.png)
-
-![](https://habrastorage.org/webt/hh/d7/sf/hhd7sfp2u6wsvktx_jk9hkx3s6o.png)
-
-![](https://habrastorage.org/webt/29/wt/gn/29wtgnmrm_0qjcp1vbmabyvj974.png)
-
-![](https://habrastorage.org/webt/nm/fg/1n/nmfg1nwfbtigfsk7tazxnv_3dvq.png)
-
-![](https://habrastorage.org/webt/c9/-3/v_/c9-3v_j-pdbxdxxhxllwnbsstvs.png)
-
-![](https://habrastorage.org/webt/6l/tu/hi/6ltuhiwe6vxtf8c0stv_36fwofw.png)
-
-![](https://habrastorage.org/webt/xq/il/md/xqilmdyqzuwhgcn7dlxqeilu9vo.png)
-
-![](https://habrastorage.org/webt/lr/nv/-9/lrnv-9bbj9ffaa1jarcva_wxuoa.png)
-
-![](https://habrastorage.org/webt/ni/rm/ko/nirmkosh6lkrca00smkrgfn9dr0.png)
-
-![](https://habrastorage.org/webt/y0/2t/d0/y02td09hohuuy8kmlxxkle0xb7e.png)
-
-![](https://habrastorage.org/webt/5m/k-/ss/5mk-sshdoscnrj0thyyzfa1ymmc.png)
-
-![](https://habrastorage.org/webt/fl/zr/d8/flzrd8kvuh6x5ljtwdfpm6xrtwi.png)
-
-![](https://habrastorage.org/webt/mf/ae/mw/mfaemwsvab0hwlvr76jfffjkmdk.png)
-
-![](https://habrastorage.org/webt/7_/06/bg/7_06bgs1tmeylaqevzchxpjz0oe.png)
-
-![](https://habrastorage.org/webt/6n/dg/v2/6ndgv2qloe_yrfyuafzhuo4qsna.png)
-
-![](https://habrastorage.org/webt/zx/mo/xc/zxmoxcq5k6ff0shfvox8uaukkhy.png)
-
-![](https://habrastorage.org/webt/cb/ok/yh/cbokyhcbkszew0vnwa_b6v7ufz0.png)
-
-![](https://habrastorage.org/webt/w9/f7/nn/w9f7nnisbvvlgsmo3dbc7s8ajwu.png)
-
-![](https://habrastorage.org/webt/na/xu/tn/naxutndlcu48ucdbloyioa2rjhg.png)
-
-![](https://habrastorage.org/webt/3u/xy/wu/3uxywubotj3ihomc4-pwb9sswhe.png)
-
-![](https://habrastorage.org/webt/qw/7y/f0/qw7yf0trrnmhhh2f2dxsc7xn8la.png)
-
-![](https://habrastorage.org/webt/fc/ak/ku/fcakku67l1is1vydt7sieqgx0o4.png)
-
-![](https://habrastorage.org/webt/oi/tb/93/oitb93bhmzo8481rogb81nkdsne.png)
-
-![](https://habrastorage.org/webt/n1/85/_s/n185_s_ubtaqfm_ppolrxy6msta.png)
-
-![](https://habrastorage.org/webt/wj/y8/xm/wjy8xm1tj4tfx6pzuz31fnclln8.png)
-
-![](https://habrastorage.org/webt/dx/w1/lf/dxw1lffe6dzrvcgdjm2euoyd6zq.png)
-
-![](https://habrastorage.org/webt/q9/je/d8/q9jed8hv_eyk4ic1uvf16vnlttk.png)
-
-![](https://habrastorage.org/webt/--/rm/a5/--rma5efbtgz-ssdujwlexflwg4.png)
-
-![](https://habrastorage.org/webt/7s/cb/tq/7scbtqdev7smkaxv1uoiddo2zmo.png)
-
-![](https://habrastorage.org/webt/un/lb/et/unlbeteykdgdz7t5ejy3scv6iqm.png)
-
-![](https://habrastorage.org/webt/1i/tu/nk/1itunk9jbmanzavuflchgnwlt78.png)
-
-![](https://habrastorage.org/webt/lu/4t/st/lu4tstatcimpafrtluux8ugquui.png)
-
-![](https://habrastorage.org/webt/8z/zm/ow/8zzmow7aahjpgbsdauympsia7lw.png)
-
-![](https://habrastorage.org/webt/9p/rg/jc/9prgjcm2agwlaiakeodt7og-ajy.png)
-
-![](https://habrastorage.org/webt/oz/5k/oi/oz5koibztsax7mzf9xccwh71f6i.png)
-
-![](https://habrastorage.org/webt/lu/0h/ut/lu0hutzgjk56vrfsgbfimqf8qok.png)
-
-![](https://habrastorage.org/webt/06/eu/84/06eu84daldsy26vjgbxybwzaefi.png)
-
-![](https://habrastorage.org/webt/6l/oi/dj/6loidjjx9d1nnnet5pxismxxb-o.png)
-
-![](https://habrastorage.org/webt/8y/dv/zw/8ydvzw1qal0qzvmrews86w6v58u.png)
-
-![](https://habrastorage.org/webt/bg/0k/8c/bg0k8c9jwc1yclqlulxdfwuk0vk.png)
-
-![](https://habrastorage.org/webt/oy/a0/pe/oya0pepi0jtg2eo0wta252_ta6o.png)
-
-![](https://habrastorage.org/webt/y7/2i/_q/y72i_q_makj8zzxmgtmrryzvhnm.png)
-
-![](https://habrastorage.org/webt/hi/ai/yk/hiaiykda6krw2vqpo6x74terenm.png)
-
-![](https://habrastorage.org/webt/qv/_k/kh/qv_kkhjr3nzzado68ql9-ubpi3q.png)
-
-![](https://habrastorage.org/webt/5j/m5/xg/5jm5xg3svt4ehok3q8dhikivxee.png)
-
-![](https://habrastorage.org/webt/01/a3/rq/01a3rq1yt6gakl-urxm8rczcfrg.png)
-
-![](https://habrastorage.org/webt/rb/b4/an/rbb4anmgrpqn8j1waiv9l0g2eqe.png)
 
 ![](https://habrastorage.org/webt/bl/yk/ur/blykurzhvg3umwypsbkgigs9vxi.png)
