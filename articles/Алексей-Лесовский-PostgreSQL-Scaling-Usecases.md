@@ -1,5 +1,3 @@
-**PostgreSQL Scaling Usecases. Алексей Лесовский**
-
 Расшифровка доклада 2020 года Алексея Лесовского "PostgreSQL Scaling Usecases".
 
 ![](https://habrastorage.org/webt/ud/pw/zh/udpwzh3irzfgomtbyy3aau65pz8.png)
@@ -13,6 +11,11 @@
 - Потоковая репликация и разделение read/write рабочей нагрузки
 - Логическая репликация и шардирование данных
 - Обеспечение высокой доступности и устойчивости к сбоям
+<cut />
+
+Видео:
+
+<oembed>https://www.youtube.com/watch?v=fZf9MveZd8I</oembed>
 
 ![](https://habrastorage.org/webt/e0/5z/bb/e05zbbvglb682w7jcbf87p9jyrc.png)
 
