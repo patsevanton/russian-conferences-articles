@@ -1,26 +1,38 @@
-**PGConfRu2019 Павел Молявин - «Готовим PostgreSQL в эпоху DevOps. Опыт 2ГИС»**
+PGConfRu2019 Павел Молявин - «Готовим PostgreSQL в эпоху DevOps. Опыт 2ГИС»**
+
+![](https://habrastorage.org/webt/0a/t0/r7/0at0r7rgay2rdfpfglb5q4snmo8.png)
 
 Всем привет! Меня зовут Павел! Я работаю в компанию 2ГИС. Наша компания – это городской информационный справочник, навигационный сервис. Это очень хорошая штука, которая помогает жить в городе. 
 
+![](https://habrastorage.org/webt/_1/6r/nk/_16rnk8k2jfxyw3ftayvlsxszps.png)
+
 Работаю я в подразделении, которое занимается веб-разработкой. Команда моя называется Infrastructure & Operations, сокращенно IO. Мы занимаемся поддержкой инфраструктурой для веб-разработки. Предоставляем свои сервисы командам как сервис и решаем все проблемы внутри нашей инфраструктуры.
+
+![](https://habrastorage.org/webt/qj/j_/7w/qjj_7wgtti85pxmmntpulpqfga4.png)
 
 Stack, который мы используем, технологии очень разнообразные. В основном это Kubernetes, мы пишем на Golang, на Python, на Bash. Из баз данных мы используем Elasticsearch, используем Cassandra и, конечно, используем Postgres, потому что мы его очень любим, это один из базовых элементов нашей инфраструктуры.
 
-О чем это все
+![](https://habrastorage.org/webt/_-/9b/6i/_-9b6irrpjn39r0bnkghtntp5mk.png)
 
 Расскажу я о том, как в один прекрасный момент нам понадобилось создать инструмент для быстрого развертывания отказоустойчивого кластера на основе Postgres. И нужно было обеспечить интеграции со всеми существующими у нас системами, обеспечить управление конфигураций: мониторинг, логирование, обязательно, чтобы были бэкапы, чтобы была серьезная штука для того, чтобы использовать ее в том числе на production.
 
 Мой доклад будет не про внутренности Postgres, не про работу внутри Postgres, а о том, как мы строим инфраструктуру вокруг него. Казалось бы, все просто – берешь и делаешь, но на самом деле нет, все гораздо сложнее. Я расскажу об этом.
 
-Постановка задачи
+![](https://habrastorage.org/webt/nv/nh/d-/nvnhd-_thbpoakjzc3uzkwkg5cy.png)
 
 Начнем с постановки задачи. У нас продуктовые команды пишут приложения. Количество приложений постоянно растет. Приложения раньше мы писали в основном на PHP, Python и на Java Scala. Потихоньку к нам незаметно вползли модные языки типа Golang, без Node.js тоже сейчас никуда, тем более во FrontEnd.
 
 В качестве хранилищ данных для наших приложений мы выбрали Postgres. Были предложения использовать MySQL, Mongo, но в итоге слон всех победил, и мы используем Postgres.
 
+![](https://habrastorage.org/webt/vc/-u/oc/vc-uoczg4mdnnosyi9tea8vrbr4.png)
+
 Поскольку у нас практикуется DevOps, продуктовые команды вовлечены в эксплуатацию, т. е. есть многие сервисы, которые они поддерживают сами для своих приложений. В частности, это было с Postgres. Каждая команда ставила сама себе Postgres, его конфигурировала, настраивала. 
 
+![](https://habrastorage.org/webt/zz/2q/pq/zz2qpqobm3-1uld4rekldhstmug.png)
+
 Время шло, количество Postgres увеличивалось, были разные версии, разные конфигурации. Постоянно возникали какие-то проблемы, потом у нас началась миграция в Kubernetes, когда Kubernetes перешел в production-стадию. Соответственно, появилось еще больше баз, еще больше Postgres понадобилось, потому что нужно было хранилище данных для миграции, для переходных приложений. В общем, полное безобразие началось. 
+
+![](https://habrastorage.org/webt/dp/vr/fy/dpvrfy1hf11u7w4iph1jdncbwic.png)
 
 Команды у нас пытались использовать для установки Postgres и его настройки Ansible. Кто-то, более отважный, использовал Chef, у кого был с ним опыт работы.
 
@@ -28,15 +40,31 @@ Stack, который мы используем, технологии очень
 
 Соответственно, нагрузка увеличивалась на команды, которые занимались администрированием Postgres. Нагрузка увеличивалась на нас, потому что они тратили свое время для того, чтобы найти проблему. Потом приходили к нам, мы тратили время. В общем, выяснилось, что всего очень много. У нас даже были особо отличившиеся. Во времена 9.4 Postgres умудрялись ставить Postgres 8-ой версии. 
 
-Что мы решили сделать
+![](https://habrastorage.org/webt/1m/fg/g1/1mfgg1jgenantindayjqn-f7c44.png)
 
 В итоге мы решили, что надо с этим что-то делать, хватит это терпеть. Мы решили создать единое решение. Кинули клич в команды и спросили: «Что вам нужно, чтобы было хорошо?». Сформировали требования и приступили к работе, т. е. к созданию. 
 
-- Мы решили, что поскольку это все будет production, обязательно нужно сделать кластер, чтобы было несколько реплик и они между собой реплицировались, чтобы был мастер и обеспечивался autofailover на случай, если кластер ночью упадет, но сервисы могли продолжить работать. Также у нас было опциональное требование – обеспечить вынос реплики в другой дата-центр для обеспечения отказоустойчивости и для того, чтобы приложения в другом дата-центре тоже работали хотя бы на чтение.  
-- Обязательно мы решили сделать балансировку, потому что коннекты в Postgres – ресурс достаточно дорогой. Обязательно нужно сделать pooling, устойчивые балансировщики, т. е. обеспечить, чтобы все работало.  
-- Обязательно сделать резервные копии с приемлемой глубиной хранения, чтобы еще можно было осуществлять point in time recovery. И нужно было сделать обязательную архивацию WAL-файлов.  
-- Нужно было обязательно обеспечить интеграцию с существующими системами мониторинга и логирования.  
-- И поскольку мы придерживаемся парадигмы: infrastructure as code, то мы решили, что наше решение будет выглядеть в виде деплоя. Мы решили написать его на общеизвестном в нашем подразделении инструменте. У нас это был Ansible. И еще мы немножко кое-что написали на Python и Bash мы тоже активно используем.  
+![](https://habrastorage.org/webt/xc/vt/ns/xcvtnsg1dcxunme8keaz1af4emi.png)
+
+Мы решили, что поскольку это все будет production, обязательно нужно сделать кластер, чтобы было несколько реплик и они между собой реплицировались, чтобы был мастер и обеспечивался autofailover на случай, если кластер ночью упадет, но сервисы могли продолжить работать. Также у нас было опциональное требование – обеспечить вынос реплики в другой дата-центр для обеспечения отказоустойчивости и для того, чтобы приложения в другом дата-центре тоже работали хотя бы на чтение.  
+
+![](https://habrastorage.org/webt/fn/ja/vg/fnjavg_k4kizkhqoevoud5otlmq.png)
+
+Обязательно мы решили сделать балансировку, потому что коннекты в Postgres – ресурс достаточно дорогой. Обязательно нужно сделать pooling, устойчивые балансировщики, т. е. обеспечить, чтобы все работало.  
+
+
+
+![](https://habrastorage.org/webt/vv/si/pb/vvsipbxcz2lqf9deeqqbnremp_c.png)
+
+Обязательно сделать резервные копии с приемлемой глубиной хранения, чтобы еще можно было осуществлять point in time recovery. И нужно было сделать обязательную архивацию WAL-файлов.  
+
+![](https://habrastorage.org/webt/sf/hq/vd/sfhqvdtp35bu3owzymvivzh1tg4.png)
+
+Нужно было обязательно обеспечить интеграцию с существующими системами мониторинга и логирования.  
+
+![](https://habrastorage.org/webt/ii/vg/79/iivg79x0zb8vv2-k7vnyitd8vk8.png)
+
+И поскольку мы придерживаемся парадигмы: infrastructure as code, то мы решили, что наше решение будет выглядеть в виде деплоя. Мы решили написать его на общеизвестном в нашем подразделении инструменте. У нас это был Ansible. И еще мы немножко кое-что написали на Python и Bash мы тоже активно используем.  
 
 Основная мысль была такая, чтобы это было некое целостное решение, чтобы наш деплой могла взять любая команда. Могла бы поменять какие-то переменные, поменять секреты, ключи, поменять inventory и развернуть себе отказоустойчивый кластер. Т. е. чтобы по большому счету нужно было нажать кнопку «deploy» и через некоторое время уже подключаться к готовому кластеру и с ним работать.
 
@@ -243,56 +271,6 @@ Failover у нас работает. Failover, я бы не сказал, что
 *Спасибо!*
 
 Спасибо большое!
-
-![](https://habrastorage.org/webt/0a/t0/r7/0at0r7rgay2rdfpfglb5q4snmo8.png)
-
-![](https://habrastorage.org/webt/w7/yz/ko/w7yzko_bfeviepsayszz14atkx8.png)
-
-![](https://habrastorage.org/webt/_1/6r/nk/_16rnk8k2jfxyw3ftayvlsxszps.png)
-
-![](https://habrastorage.org/webt/qj/j_/7w/qjj_7wgtti85pxmmntpulpqfga4.png)
-
-![](https://habrastorage.org/webt/_b/pp/gb/_bppgb8i3g8rtlivt9mg2gy11a4.png)
-
-![](https://habrastorage.org/webt/d9/lp/kd/d9lpkduzixgk0mpmkenvc3xga6u.png)
-
-![](https://habrastorage.org/webt/_-/9b/6i/_-9b6irrpjn39r0bnkghtntp5mk.png)
-
-![](https://habrastorage.org/webt/0w/as/vk/0wasvk_xfm6e2xngxkwwts1o9hi.png)
-
-![](https://habrastorage.org/webt/h6/a_/aq/h6a_aqq3549vdsb2nva1ss5kp5e.png)
-
-![](https://habrastorage.org/webt/u0/dr/07/u0dr07mrf0at7jkv7-7gy7aqvsk.png)
-
-![](https://habrastorage.org/webt/wf/a2/fe/wfa2fez5dpm-v4qpwrunme2gjdo.png)
-
-![](https://habrastorage.org/webt/tv/0u/ik/tv0uik3wuu0v_gyqfmbp6ogm1v4.png)
-
-![](https://habrastorage.org/webt/cy/6e/xp/cy6exp5tbt_gifo34rspum5mzry.png)
-
-![](https://habrastorage.org/webt/nv/nh/d-/nvnhd-_thbpoakjzc3uzkwkg5cy.png)
-
-![](https://habrastorage.org/webt/vc/-u/oc/vc-uoczg4mdnnosyi9tea8vrbr4.png)
-
-![](https://habrastorage.org/webt/zz/2q/pq/zz2qpqobm3-1uld4rekldhstmug.png)
-
-![](https://habrastorage.org/webt/cy/j5/d-/cyj5d-n57xpmvy8bev8tu4rnk30.png)
-
-![](https://habrastorage.org/webt/qr/j6/-r/qrj6-rt5gpc7pzpje9qd7njb5v8.png)
-
-![](https://habrastorage.org/webt/dp/vr/fy/dpvrfy1hf11u7w4iph1jdncbwic.png)
-
-![](https://habrastorage.org/webt/1m/fg/g1/1mfgg1jgenantindayjqn-f7c44.png)
-
-![](https://habrastorage.org/webt/xc/vt/ns/xcvtnsg1dcxunme8keaz1af4emi.png)
-
-![](https://habrastorage.org/webt/fn/ja/vg/fnjavg_k4kizkhqoevoud5otlmq.png)
-
-![](https://habrastorage.org/webt/vv/si/pb/vvsipbxcz2lqf9deeqqbnremp_c.png)
-
-![](https://habrastorage.org/webt/sf/hq/vd/sfhqvdtp35bu3owzymvivzh1tg4.png)
-
-![](https://habrastorage.org/webt/ii/vg/79/iivg79x0zb8vv2-k7vnyitd8vk8.png)
 
 ![](https://habrastorage.org/webt/td/dj/om/tddjominzei3ck80rgvzmbjdst0.png)
 
