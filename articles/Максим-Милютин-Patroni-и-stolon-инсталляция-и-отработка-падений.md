@@ -1,4 +1,4 @@
-**МАКСИМ МИЛЮТИН. Patroni и stolon инсталляция и отработка падений**
+**Максим Милютин. Patroni и stolon инсталляция и отработка падений**
 
 ![](https://habrastorage.org/webt/ib/_9/ve/ib_9veidugkikly0vvait151mja.png)
 
@@ -160,7 +160,18 @@ Etcd реализует классический протокол [RAFT](https:/
 
 **С 14 минуты 42 секунды начинается демо.**
 
-![](https://habrastorage.org/webt/hb/sq/rv/hbsqrv-kwsqsvdz84lgd8ubirms.png)
+```
+vagrant status
+Current machine states:
+
+node1                     running (virtualbox)
+node2                     running (virtualbox)
+node3                     running (virtualbox)
+
+This environment represents multiple VMs. The VMs are all listed
+above with their current state. For more information about a specific
+VM, run `vagrant status NAME`.
+```
 
 Давайте перейдем к практичной части. Тут я для вас подготовил три виртуальные машины под управлением vagrant. 
 
