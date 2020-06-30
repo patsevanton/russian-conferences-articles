@@ -1,4 +1,4 @@
-*Максим Милютин. Patroni и stolon инсталляция и отработка падений**
+**Максим Милютин. Patroni и stolon инсталляция и отработка падений**
 
 ![](https://habrastorage.org/webt/ib/_9/ve/ib_9veidugkikly0vvait151mja.png)
 
@@ -175,127 +175,19 @@ VM, run `vagrant status NAME`.
 
 Давайте перейдем к практичной части. Тут я для вас подготовил три виртуальные машины под управлением vagrant. 
 
-```
-1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1
-    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
-    inet 127.0.0.1/8 scope host lo
-       valid_lft forever preferred_lft forever
-2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
-    link/ether 08:00:27:40:b7:5a brd ff:ff:ff:ff:ff:ff
-    inet 10.0.2.15/24 brd 10.0.2.255 scope global eth0
-       valid_lft forever preferred_lft forever
-3: eth1: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
-    link/ether 08:00:27:2e:82:7f brd ff:ff:ff:ff:ff:ff
-    inet 192.168.1.145/24 brd 192.168.1.255 scope global eth1
-       valid_lft forever preferred_lft forever
-4: eth2: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
-    link/ether 08:00:27:0b:14:4a brd ff:ff:ff:ff:ff:ff
-    inet 172.20.20.21/24 brd 172.20.20.255 scope global eth2
-       valid_lft forever preferred_lft forever
-```
+![](https://habrastorage.org/webt/4l/pr/so/4lprso8iqm92ryedh3nitfrhg9e.png)
 
-И выделил два сетевых интерфейса (Уточнение: возможно три сетевых интерфейса): один рабочий, а второй чисто для подключения. Рабочий интерфейс я буду включать, всячески с ним экспериментировать, а через второй смотреть на результат. У меня уже на виртуальных машинах установлены все компоненты. И я бы хотел пробежаться по инсталляции. 
+И выделил два сетевых интерфейса: один рабочий, а второй чисто для подключения. Рабочий интерфейс я буду включать, всячески с ним экспериментировать, а через второй смотреть на результат. У меня уже на виртуальных машинах установлены все компоненты. И я бы хотел пробежаться по инсталляции. 
 
-`roles/etcd/tasks/main.yml`
-
-```
-- name: create etcd user
-  user: >
-      name={{ etcd_user }}
-      home={{ etcd_config_dir }}
-      shell=/bin/false
-      system=yes
-
-- name: create data directory
-  file: >
-      state=directory
-      path={{ etcd_data_dir }}
-      owner={{ etcd_user }}
-      group={{ etcd_user }}
-
-- name: load etcd binaries
-  unarchive:
-      src: https://github.com/coreos/etcd/releases/download/v{{ etcd_version }}/etcd-v{{ etcd_version }}-{{ etcd_target }}.tar.gz
-      dest: /tmp
-      remote_src: yes
-  tags: etcd-binaries
-
-- name: copy etcd binaries
-  copy: >
-      src=/tmp/etcd-v{{ etcd_version }}-{{ etcd_target }}/{{ item }}
-      remote_src=yes
-      dest={{ etcd_bin_dir }}
-      mode=+x
-  with_items:
-      - etcd
-      - etcdctl
-  tags: etcd-binaries
-  notify:
-      - restart etcd
-
-- name: copy etcd config
-  template: >
-      src=etcd.conf.j2
-      dest={{ etcd_config_dir }}/etcd.conf
-      owner={{ etcd_user }}
-      group={{ etcd_user }}
-      mode=644
-  tags: etcd-config
-  notify:
-      - restart etcd
-
-- name: copy etcd systemd unit
-  template:
-      src: etcd.service.j2
-      dest: /etc/systemd/system/etcd.service
-  notify:
-      - reload systemd
-      - restart etcd
-
-- name: enable and start etcd
-  service:
-      name: etcd
-      state: started
-      enabled: yes
-```
+![](https://habrastorage.org/webt/un/mi/op/unmiopzgent0qil-pdgjccxwiem.png)
 
 Тут все стандартно. Мы сделали инсталляцию по минимуму. Просто ставим бинарники, прокладываем конфиги.
 
-```
-roles/etcd/vars/main.yml 
-etcd_target_os_map:
-    Linux: linux
-etcd_target_arch_map:
-    x86_64: amd64
-etcd_target: "{{ etcd_target_os_map[ansible_system] }}-{{ etcd_target_arch_map[ansible_architecture] }}"
-
-etcd_user: etcd
-etcd_config_dir: /etc/etcd
-etcd_data_dir: /opt/etcd
-etcd_bin_dir: /usr/local/bin
-etcd_client_port: 2379
-etcd_peer_port: 2380
-```
+![](https://habrastorage.org/webt/tg/w-/bw/tgw-bw3kkinufgx3qkibk3yegzq.png)
 
 Они у нас расположены в соответствующих путях в Etcd каталоге. И дальше Etcd сервисы, которые запускают агента Etcd.
 
-```
-cat /etc/etcd/etcd.conf 
-# member
-ETCD_NAME="node1"
-ETCD_DATA_DIR="/opt/etcd"
-ETCD_LISTEN_PEER_URLS="http://172.20.20.21:2380"
-ETCD_LISTEN_CLIENT_URLS="http://172.20.20.21:2379,http://127.0.0.1:2379"
-
-# cluster
-# ETCD_INITIAL_CLUSTER_STATE="new"
-# ETCD_INITIAL_CLUSTER_TOKEN="etcd-test-cluster"
-ETCD_INITIAL_ADVERTISE_PEER_URLS="http://172.20.20.21:2380"
-ETCD_INITIAL_CLUSTER="node1=http://172.20.20.21:2380,node3=http://172.20.20.23:2380,node2=http://172.20.20.22:2380"
-ETCD_ADVERTISE_CLIENT_URLS="http://172.20.20.21:2379"
-ETCD_HEARTBEAT_INTERVAL=100
-ETCD_ELECTION_TIMEOUT=1000
-```
+![](https://habrastorage.org/webt/nj/sq/n3/njsqn36icju-fswj7a80ugatr30.png)
 
 Давайте посмотрим на config Etcd. Я все параметры, с которыми запускается Etcd, объявляю через переменное окружение, где объявляю те IP адреса, к которым мы подключаемся на прослушивание. Они представлены в двух экземплярах. Первый ETCD_LISTEN_CLIENT_URLS для клиентских подключений. Второй ETCD_LISTEN_PEER_URLS для подключения сторонних узлов. 
 
@@ -303,83 +195,19 @@ ETCD_ELECTION_TIMEOUT=1000
 
 И также есть два параметра: ETCD_HEARTBEAT_INTERVAL и ETCD_ELECTION_TIMEOUT.
 
+![](https://habrastorage.org/webt/zy/bv/em/zybvemawinqgvoj749qc33hkwvc.png)
+
 Давайте запустим эти сервисы на всех трех узлах. Они у меня не запущены. И активизируем их. Я это делаю через Ansible. У меня есть специально заготовленная команда. Все, активизировал я сервисы.
+
+![](https://habrastorage.org/webt/xv/fe/hk/xvfehkto69qdcdf-fztiis-enpa.png)
 
 Давайте посмотрим на логи. Вот Etcd у нас стартовал. 
 
-```
-sudo journalctl -u etcd -f -n100
--- Logs begin at Sat 2020-06-20 10:16:10 UTC. --
-Jun 20 10:32:33 node2 etcd[6104]: started streaming with peer 5870cdf7e86ff84e (stream Message reader)
-Jun 20 10:32:33 node2 etcd[6104]: added peer 5870cdf7e86ff84e
-Jun 20 10:32:33 node2 etcd[6104]: added member c9adb28e366e1b56 [http://172.20.20.21:2380] to cluster 19401de66a071af8
-Jun 20 10:32:33 node2 etcd[6104]: started streaming with peer 5870cdf7e86ff84e (stream MsgApp v2 reader)
-Jun 20 10:32:33 node2 etcd[6104]: peer 5870cdf7e86ff84e became active
-Jun 20 10:32:33 node2 etcd[6104]: established a TCP streaming connection with peer 5870cdf7e86ff84e (stream MsgApp v2 writer)
-Jun 20 10:32:33 node2 etcd[6104]: starting peer c9adb28e366e1b56...
-Jun 20 10:32:33 node2 etcd[6104]: started HTTP pipelining with peer c9adb28e366e1b56
-Jun 20 10:32:33 node2 etcd[6104]: established a TCP streaming connection with peer 5870cdf7e86ff84e (stream Message writer)
-Jun 20 10:32:33 node2 etcd[6104]: established a TCP streaming connection with peer 5870cdf7e86ff84e (stream MsgApp v2 reader)
-Jun 20 10:32:33 node2 etcd[6104]: started streaming with peer c9adb28e366e1b56 (writer)
-Jun 20 10:32:33 node2 etcd[6104]: started streaming with peer c9adb28e366e1b56 (writer)
-Jun 20 10:32:33 node2 etcd[6104]: established a TCP streaming connection with peer 5870cdf7e86ff84e (stream Message reader)
-Jun 20 10:32:33 node2 etcd[6104]: started peer c9adb28e366e1b56
-Jun 20 10:32:33 node2 etcd[6104]: added peer c9adb28e366e1b56
-Jun 20 10:32:33 node2 etcd[6104]: added member eab49c6100eb44de [http://172.20.20.22:2380] to cluster 19401de66a071af8
-Jun 20 10:32:33 node2 etcd[6104]: set the initial cluster version to 3.3
-Jun 20 10:32:33 node2 etcd[6104]: enabled capabilities for version 3.3
-Jun 20 10:32:33 node2 etcd[6104]: started streaming with peer c9adb28e366e1b56 (stream MsgApp v2 reader)
-Jun 20 10:32:33 node2 etcd[6104]: started streaming with peer c9adb28e366e1b56 (stream Message reader)
-Jun 20 10:32:33 node2 etcd[6104]: peer c9adb28e366e1b56 became active
-Jun 20 10:32:33 node2 etcd[6104]: established a TCP streaming connection with peer c9adb28e366e1b56 (stream MsgApp v2 writer)
-Jun 20 10:32:33 node2 etcd[6104]: eab49c6100eb44de initialzed peer connection; fast-forwarding 8 ticks (election ticks 10) with 2 active peer(s)
-Jun 20 10:32:33 node2 etcd[6104]: established a TCP streaming connection with peer c9adb28e366e1b56 (stream Message writer)
-Jun 20 10:32:33 node2 etcd[6104]: established a TCP streaming connection with peer c9adb28e366e1b56 (stream Message reader)
-Jun 20 10:32:33 node2 etcd[6104]: established a TCP streaming connection with peer c9adb28e366e1b56 (stream MsgApp v2 reader)
-Jun 20 10:32:33 node2 etcd[6104]: raft.node: eab49c6100eb44de elected leader 5870cdf7e86ff84e at term 3
-Jun 20 10:32:40 node2 etcd[6104]: lost the TCP streaming connection with peer 5870cdf7e86ff84e (stream MsgApp v2 reader)
-Jun 20 10:32:40 node2 etcd[6104]: lost the TCP streaming connection with peer 5870cdf7e86ff84e (stream Message reader)
-Jun 20 10:32:40 node2 etcd[6104]: failed to dial 5870cdf7e86ff84e on stream Message (peer 5870cdf7e86ff84e failed to find local node eab49c6100eb44de)
-Jun 20 10:32:40 node2 etcd[6104]: peer 5870cdf7e86ff84e became inactive (message send to peer failed)
-Jun 20 10:32:40 node2 etcd[6104]: peer 5870cdf7e86ff84e became active
-Jun 20 10:32:40 node2 etcd[6104]: established a TCP streaming connection with peer 5870cdf7e86ff84e (stream Message reader)
-Jun 20 10:32:40 node2 etcd[6104]: established a TCP streaming connection with peer 5870cdf7e86ff84e (stream MsgApp v2 reader)
-Jun 20 10:32:40 node2 etcd[6104]: closed an existing TCP streaming connection with peer 5870cdf7e86ff84e (stream MsgApp v2 writer)
-Jun 20 10:32:40 node2 etcd[6104]: established a TCP streaming connection with peer 5870cdf7e86ff84e (stream MsgApp v2 writer)
-Jun 20 10:32:40 node2 etcd[6104]: closed an existing TCP streaming connection with peer 5870cdf7e86ff84e (stream Message writer)
-Jun 20 10:32:40 node2 etcd[6104]: established a TCP streaming connection with peer 5870cdf7e86ff84e (stream Message writer)
-Jun 20 10:32:40 node2 etcd[6104]: publish error: etcdserver: request timed out, possibly due to connection lost
-Jun 20 10:32:40 node2 etcd[6104]: eab49c6100eb44de [logterm: 3, index: 9, vote: 5870cdf7e86ff84e] ignored MsgVote from 5870cdf7e86ff84e [logterm: 3, index: 9] at term 3: lease is not expired (remaining ticks: 6)
-Jun 20 10:32:41 node2 etcd[6104]: eab49c6100eb44de [term: 3] received a MsgVote message with higher term from c9adb28e366e1b56 [term: 4]
-Jun 20 10:32:41 node2 etcd[6104]: eab49c6100eb44de became follower at term 4
-Jun 20 10:32:41 node2 etcd[6104]: eab49c6100eb44de [logterm: 3, index: 9, vote: 0] cast MsgVote for c9adb28e366e1b56 [logterm: 3, index: 9] at term 4
-Jun 20 10:32:41 node2 etcd[6104]: raft.node: eab49c6100eb44de lost leader 5870cdf7e86ff84e at term 4
-Jun 20 10:32:41 node2 etcd[6104]: raft.node: eab49c6100eb44de elected leader c9adb28e366e1b56 at term 4
-Jun 20 10:32:41 node2 etcd[6104]: ready to serve client requests
-Jun 20 10:32:41 node2 etcd[6104]: ready to serve client requests
-Jun 20 10:32:41 node2 etcd[6104]: published {Name:node2 ClientURLs:[http://172.20.20.22:2379]} to cluster 19401de66a071af8
-Jun 20 10:32:41 node2 etcd[6104]: serving insecure client requests on 127.0.0.1:2379, this is strongly discouraged!
-Jun 20 10:32:41 node2 systemd[1]: Started etcd key-value store.
-Jun 20 10:32:41 node2 etcd[6104]: serving insecure client requests on 172.20.20.22:2379, this is strongly discouraged!
-Jun 20 10:40:25 node2 etcd[6104]: eab49c6100eb44de [term 4] received MsgTimeoutNow from c9adb28e366e1b56 and starts an election to get leadership.
-Jun 20 10:40:25 node2 etcd[6104]: eab49c6100eb44de became candidate at term 5
-Jun 20 10:40:25 node2 etcd[6104]: eab49c6100eb44de received MsgVoteResp from eab49c6100eb44de at term 5
-Jun 20 10:40:25 node2 etcd[6104]: eab49c6100eb44de [logterm: 4, index: 1205] sent MsgVote request to 5870cdf7e86ff84e at term 5
-Jun 20 10:40:25 node2 etcd[6104]: eab49c6100eb44de [logterm: 4, index: 1205] sent MsgVote request to c9adb28e366e1b56 at term 5
-Jun 20 10:40:25 node2 etcd[6104]: raft.node: eab49c6100eb44de lost leader c9adb28e366e1b56 at term 5
-Jun 20 10:40:25 node2 etcd[6104]: eab49c6100eb44de received MsgVoteResp from c9adb28e366e1b56 at term 5
-Jun 20 10:40:25 node2 etcd[6104]: eab49c6100eb44de [quorum:2] has received 2 MsgVoteResp votes and 0 vote rejections
-Jun 20 10:40:25 node2 etcd[6104]: eab49c6100eb44de became leader at term 5
-```
+![](https://habrastorage.org/webt/fa/ba/tp/fabatpbkfbia3wn_rwuilwo2rmm.png)
 
-И видно, что он у нас стал лидером на term 2 (term 5). Term – это в некотором роде аналог time line в PostgreSQL. При каждом выборе нового лидера номер term увеличивается. 
+И видно, что он у нас стал лидером на term 2. Term – это в некотором роде аналог timeline в PostgreSQL. При каждом выборе нового лидера номер term увеличивается. 
 
-```
-etcdctl member list
-5870cdf7e86ff84e: name=node3 peerURLs=http://172.20.20.23:2380 clientURLs=http://172.20.20.23:2379 isLeader=false
-c9adb28e366e1b56: name=node1 peerURLs=http://172.20.20.21:2380 clientURLs=http://172.20.20.21:2379 isLeader=false
-eab49c6100eb44de: name=node2 peerURLs=http://172.20.20.22:2380 clientURLs=http://172.20.20.22:2379 isLeader=true
-```
+![](https://habrastorage.org/webt/iu/5t/lk/iu5tlksxdwwn72lfqarthemxvhg.png)
 
 Также состояние кластера можно посмотреть через утилиту etcdctl member list. И тут видно, что первый (второй) узел у нас стал лидером, остальные followers.
 
@@ -389,12 +217,7 @@ sudo pkill -STOP etcd
 
 Давайте немножко поиграемся с этим кластером. В частности, давайте сымитируем fail лидера и посмотрим, что будет с остальными узлами. Для этого я не буду Etcd выключать, а просто его остановлю. Стоп. Ок. 
 
-```
-health check for peer eab49c6100eb44de could not connect: read tcp 172.20.20.21:59612->172.20.20.22:2380: i/o timeout (prober "ROUND_TRIPPER_RAF
-health check for peer eab49c6100eb44de could not connect: dial tcp 172.20.20.22:2380: i/o timeout (prober "ROUND_TRIPPER_RAFT_MESSAGE")
-```
-
-
+![](https://habrastorage.org/webt/rc/zh/-o/rczh-ojhwr_rvpj2a9fexq5cefg.png)
 
 Давайте посмотрим логи. Посмотрим его реакцию. Видно, что второй узел стал лидером уже на следующем term. 
 
@@ -402,13 +225,21 @@ health check for peer eab49c6100eb44de could not connect: dial tcp 172.20.20.22:
 
 Если мы посмотрим состояние кластера, то видно, что второй узел перехватил лидерство. 
 
+![](https://habrastorage.org/webt/gd/xf/xq/gdxfxqv2dypk0sxkvgg5neumyzw.png)
+
 И также можно статусы узлов посмотреть командой «etcdctl cluster-health». И видно, что третий узел вполне себе работоспособный. Но второй у нас завис.
 
+![](https://habrastorage.org/webt/kf/_a/uf/kf_aufplijsekac-cam4ozfga4s.png)
+
 Давайте активизируем и посмотрим логи Etcd. Видно, что он пытается соединиться с другими коллегами. И на третьем term он стал follower’ом.
+
+![](https://habrastorage.org/webt/pi/ct/7d/pict7dlz_jekdcqjtl9gdk-g1pc.png)
 
 Давайте посмотрим что-нибудь поинтереснее. Попробуем изолировать лидера от остальных узлов. Что с ним будет? В данном случае лидер – это второй узел. И для изоляции Etcd я использую специальную утилиту. Она называется «comcast». Это обертка поверх API tables Etcd. Она позволяет всячески экспериментировать с трафиком, который уходит и приходит к узлу. 
 
 Что я сделаю? Я просто закрою интерфейс на рассылку и прием пакетов специальной командой «Comcast - - device eth1 – packet – loss 100 %».
+
+![](https://habrastorage.org/webt/fx/jb/78/fxjb783ezt3_l8_qmyq2o5wvji8.png)
 
 Давайте посмотрим на логи второго узла. Нам показывает, что он не может подключиться ко второму узлу. И дальше должны быть перевыборы нового лидера на новом time line. Выборы, по-моему, уже даже произошли. Да, вот он стал лидером на новом term 4. 
 
@@ -438,7 +269,9 @@ health check for peer eab49c6100eb44de could not connect: dial tcp 172.20.20.22:
 
 Давайте я остановлю. Comcast – device eth1 – stop.
 
-И подытожим. Я в последнем слайде по Etcd выписал основные моменты, касающиеся этого кластера. 
+И подытожим. 
+
+Я в последнем слайде по Etcd выписал основные моменты, касающиеся этого кластера. 
 
 Распределенная система конфигурации (DCS) на примере Etcd
 
