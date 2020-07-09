@@ -1,4 +1,4 @@
-Старый но, полезный доклад про развитие сообщества Open DevOps Community, в рамках которого создаются продукты объединяющего решения для continues integration, continues delivery систем. 
+Старый но, полезный доклад про развитие сообщества Open DevOps Community, в рамках которого создаются продукты объединяющего решения для continuous integration, continuous delivery систем. 
 Надеюсь что сообщество Open DevOps Community разовьется и усилится.
 
 ![](https://habrastorage.org/webt/a-/jr/ya/a-jryaizfmqqvecd0mttw3fwrmm.png)
@@ -12,7 +12,7 @@
 
 ![](https://habrastorage.org/webt/nw/gv/hi/nwgvhiuqkfnqlb84o46uckf-4yy.png)
 
-Хочу немножко напомнить о проблемах, с которыми мы столкнулись на начало 2016-го года. Основная проблема была в том, что у нас не было какого-то готового объединяющего решения для continues integration, continues delivery систем. 
+Хочу немножко напомнить о проблемах, с которыми мы столкнулись на начало 2016-го года. Основная проблема была в том, что у нас не было какого-то готового объединяющего решения для continuous integration, continuous delivery систем. 
 
 ![](https://habrastorage.org/webt/-0/u0/tf/-0u0tfbe3s5e-evk1rtiuoinkok.png)
 
