@@ -1,6 +1,10 @@
-**Развитие сообщества** **Open DevOps Community**
+Старый но, полезный доклад про развитие сообщества Open DevOps Community, в рамках которого создаются продукты объединяющего решения для continues integration, continues delivery систем. 
+Надеюсь что сообщество Open DevOps Community разовьется и усилится.
 
 ![](https://habrastorage.org/webt/a-/jr/ya/a-jryaizfmqqvecd0mttw3fwrmm.png)
+<cut />
+
+<oembed>https://www.youtube.com/watch?v=fYjV-eZlvVA</oembed>
 
 Уважаемые коллеги, в прошлом году на закрытии аналогичной встречи мы рассказали, что нам разрешили выкладывать код компании в open source. И частично в течение этого года мы постарались какие-то свои наработки представить в сообщество. 
 
