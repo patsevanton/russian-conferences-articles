@@ -395,32 +395,3 @@ Promote – это проталкивание по какому-то flow, по 
 
 У меня не самая корневая сломалась, у меня сломалась средняя какая-то зависимость. Но само приложение было зааффечено. TeamCity по времени их синхронизирует. Если это ревизии из одной репозитории, там есть отношение chain partners, потому что направленный граф в Git, но если это между репозиториями, то это TeamCity хранит уже сам. Т. е. он просто знает timestamp каждого коммита и строит свои снапшоты сам, и как-то менеджит.
 
-![](https://habrastorage.org/webt/ok/9n/lz/ok9nlzqncx65cxc8jimng7mu2ug.png)
-
-![](https://habrastorage.org/webt/f4/sw/qz/f4swqzbw7ylawmq7txzmxgktzec.png)
-
-![](https://habrastorage.org/webt/rm/pv/nq/rmpvnqxexyrfqeww0qg5ihw-gmo.png)
-
-![](https://habrastorage.org/webt/jn/n4/lj/jnn4ljlf_sdvk0oux4zw-dvjqgg.png)
-
-![](https://habrastorage.org/webt/eb/57/ad/eb57adbj3eaz7d10wx3a2-vivuu.png)
-
-![](https://habrastorage.org/webt/07/il/4m/07il4mlxjofhy3ryu6qv-zh-h8o.png)
-
-![](https://habrastorage.org/webt/5b/dj/oy/5bdjoywjbxgeuonz7tvbqtswlvg.png)
-
-![](https://habrastorage.org/webt/ai/lr/vl/ailrvlmksq-sk_d6oge8gaxk5yq.png)
-
-![](https://habrastorage.org/webt/cf/zs/s_/cfzss_rcgvnxhyuawltczh0xwxm.png)
-
-![](https://habrastorage.org/webt/zi/xn/sq/zixnsqcaax6jlwranzixhc25g18.png)
-
-![](https://habrastorage.org/webt/gh/66/aa/gh66aa7jrkwtwzhksgtafwm2an4.png)
-
-![](https://habrastorage.org/webt/o-/dx/cb/o-dxcb-yfwwm6zdbtfasbomcfky.png)
-
-![](https://habrastorage.org/webt/kb/un/pt/kbunpt_v8ryrxm0xi0ro_3yau4q.png)
-
-![](https://habrastorage.org/webt/oi/2r/ml/oi2rmljxr86ja-kiyp4srtblz70.png)
-
-![](https://habrastorage.org/webt/ae/tb/xl/aetbxlmqmu6n24wsszq-cmqg3fa.png)
