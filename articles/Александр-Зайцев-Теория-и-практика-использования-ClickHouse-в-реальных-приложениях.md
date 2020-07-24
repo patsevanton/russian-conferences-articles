@@ -1,14 +1,11 @@
-**Теория и практика использования ClickHouse в реальных приложениях. Александр Зайцев**
+![](https://habrastorage.org/webt/qt/r_/xl/qtr_xl1zkbu8hj-h1tzhoub4c_y.png)
 
+Несмотря на то, что данных сейчас много почти везде, аналитические БД все еще довольно экзотичны. Их плохо знают и еще хуже умеют эффективно использовать. Многие продолжают "есть кактус" с MySQL или PostgreSQL, которые спроектированы под другие сценарии, мучиться с NoSQL или переплачивать за коммерческие решения. ClickHouse меняет правила игры и значительно снижает порог вхождения в мир аналитических DBMS.
 
-
- ![](https://habrastorage.org/webt/qt/r_/xl/qtr_xl1zkbu8hj-h1tzhoub4c_y.png)
-
-Кто я такой и почему я рассказываю о ClickHouse?
+<cut />
 
 ![](https://habrastorage.org/webt/-i/6w/-i/-i6w-iltqajax9nm2gva5apkibe.png)
-
-Я директор по разработке в компании LifeStreet, которая использует ClickHouse. Кроме того, я основатель Altinity. Это партнер Яндекса, который продвигает ClickHouse и помогает Яндексу сделать ClickHouse более успешным. Также готов делиться знаниями о ClickHouse. 
+Кто я такой и почему я рассказываю о ClickHouse? Я директор по разработке в компании LifeStreet, которая использует ClickHouse. Кроме того, я основатель Altinity. Это партнер Яндекса, который продвигает ClickHouse и помогает Яндексу сделать ClickHouse более успешным. Также готов делиться знаниями о ClickHouse. 
 
 ![](https://habrastorage.org/webt/hn/vv/cr/hnvvcrxr0ggso6jlmvn9jhfgz4m.png)
 
