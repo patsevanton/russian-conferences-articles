@@ -234,12 +234,4 @@
 
 Если вопросов нет, я думаю, можем закончить. Спасибо!
 
-![](https://habrastorage.org/webt/no/a5/om/noa5omd2xzcd30lbgv_ugot4szu.png)
 
-![](https://habrastorage.org/webt/qm/0i/hx/qm0ihxwevb6mgbktmegbfc9rupw.png)
-
-![](https://habrastorage.org/webt/ga/og/fa/gaogfapgwpq_ysturd9goydazp8.png)
-
-![](https://habrastorage.org/webt/vv/3s/rb/vv3srbwj8vtivkdhy3i8tgsv0ji.png)
-
-![](https://habrastorage.org/webt/fx/-i/-h/fx-i-hg2p3twln8jc2lfpbppdfy.png)
