@@ -2,17 +2,27 @@
 
 ![](https://habrastorage.org/webt/tg/0p/cr/tg0pcrpoj3vokp6niykkw5bfsbk.png)
 
-![](https://habrastorage.org/webt/tg/0p/cr/tg0pcrpoj3vokp6niykkw5bfsbk.png)
+Мысль сделать доклад про Continuous Integration первый раз появилась еще год назад, когда я искал работу и ходил по собеседования. Пообщался с 10-15 компаниями, из них только одна смогла вразумительно ответить что такое CI и объяснить почему у них этого нет, остальные же несли невразумительную чушь про Jenkins :) Ну вот у нас есть Jenkins, он делает сборки, CI! За доклад постараюсь объяснить что же такое Continuous Integration на самом деле и почему Jenkins и подобные инструменты имеют очень слабое к этому отношению.
 
 ![](https://habrastorage.org/webt/vj/kp/jj/vjkpjjpxdeamjjvr--erqtu9yra.png)
 
+И так, что обычно приходит в голову при слове CI? Большинству людей придет в голову Jenkins, Gitlab CI, Travis и т.п.
+
 ![](https://habrastorage.org/webt/z4/as/ao/z4asaozonjye1eiige2yuvftwyu.png)
+
+Даже если мы загуглим, то нам выдаст эти инструменты.
 
 ![](https://habrastorage.org/webt/vb/oa/g-/vboag-jul5aq0dmbhfrhhlcr108.png)
 
+Сразу после перечисления инструментов, вам расскажут что CI это когда у вас в Pull Request на коммит происходит сборка и прогон тестов.
+
 ![](https://habrastorage.org/webt/eo/rm/xm/eormxmsclgjeoc0wofp9gwmfane.png)
 
+Continuous Integration это не про инструменты, не про сборки с тестами в ветке! Continuous Integration это практика очень частой интеграции нового кода.
+
 ![](https://habrastorage.org/webt/qd/zd/hj/qdzdhjwr8bul1b0fqz4neahgfty.png)
+
+Прежде тем мы разберемся как выглядит полноценный CI, давайте сначала погрузимся в контекст людей, которые это придумали, и прочувствуем ту боль, которую они пытались решить.
 
 ![](https://habrastorage.org/webt/si/dz/kc/sidzkc3oxclf2wo9ryrbjbtmuvw.png)
 
