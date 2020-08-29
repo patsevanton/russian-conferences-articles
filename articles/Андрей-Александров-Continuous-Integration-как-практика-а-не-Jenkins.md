@@ -26,21 +26,27 @@ Continuous Integration это не про инструменты, не про с
 
 ![](https://habrastorage.org/webt/si/dz/kc/sidzkc3oxclf2wo9ryrbjbtmuvw.png)
 
-![](https://habrastorage.org/webt/pa/5b/zr/pa5bzrvtaifemeseikfz6kfn-3i.png)
-
-![](https://habrastorage.org/webt/ae/i2/ye/aei2yer4xaxu_dypr1euoztkduy.png)
+А решали они боль совместной работы в команде!
 
 ![](https://habrastorage.org/webt/dj/l3/ke/djl3kedwubacf-aw-iyw_6czges.png)
 
+Давайте посмотрим на примерах, с какими сложностями сталкиваются разработчики при командной разработке. Вот у нас есть проект, master-ветка в git и два разработчика.
+
 ![](https://habrastorage.org/webt/hl/kb/sh/hlkbshtjimojhinjtzzfsl7cnta.png)
+
+И пошли они работать как все двно привыкли. Взяли задачу в жире, завели feature branch, пишут код.
 
 ![](https://habrastorage.org/webt/cr/oq/sa/croqsajlvxmk0xmwjw9hpsjvq4k.png)
 
+Один закончил фичу быстрее и смержил в мастер.
+
 ![](https://habrastorage.org/webt/ta/ud/wp/taudwpzhebzii62wqxkeuqc2gfa.png)
+
+Второму понадобилось больше времени, он смержился позже и получил конфликт. Теперь, вместо того чтобы писать нужные бизнесу фичи, разработчик тратит свое времся и силы на разрешение конфликтов.
 
 ![](https://habrastorage.org/webt/ao/fk/xn/aofkxnuvtmuycrpyifssh1qm_te.png)
 
-Еще сложнее объединить свою фичу с общим мастером, еще больше времени мы на это тратим. И это я еще достаточно простой пример показал. Это пример, где разработчиков всего 2. А представьте, если 10 или 15, или 100 человек в компании пишут в один репозиторий. Вы с ума сойдете все эти конфликты разрешать. 
+Чем сложнее объединить свою фичу с общим мастером, Тем больше времени мы на это тратим. И это я еще достаточно простой пример показал. Это пример, где разработчиков всего 2. А представьте, если 10 или 15, или 100 человек в компании пишут в один репозиторий. Вы с ума сойдете все эти конфликты разрешать. 
 
 ![](https://habrastorage.org/webt/dj/l3/ke/djl3kedwubacf-aw-iyw_6czges.png)
 
