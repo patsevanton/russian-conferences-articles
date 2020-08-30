@@ -2,35 +2,51 @@
 
 ![](https://habrastorage.org/webt/tg/0p/cr/tg0pcrpoj3vokp6niykkw5bfsbk.png)
 
-![](https://habrastorage.org/webt/tg/0p/cr/tg0pcrpoj3vokp6niykkw5bfsbk.png)
+Мысль сделать доклад про Continuous Integration появилась еще год назад, когда я ходил по собеседованиям искал работу. Пообщался с 10-15 компаниями, из них только одна смогла вразумительно ответить что такое CI и объяснить как они поняли, что у них этого нет. Остальные же несли невразумительную чушь про Jenkins :) Ну вот у нас есть Jenkins, он делает сборки, CI! За доклад постараюсь объяснить что же такое Continuous Integration на самом деле и почему Jenkins и подобные инструменты имеют очень слабое к этому отношению.
 
 ![](https://habrastorage.org/webt/vj/kp/jj/vjkpjjpxdeamjjvr--erqtu9yra.png)
 
+И так, что обычно приходит в голову при слове CI? Большинству людей придет в голову Jenkins, Gitlab CI, Travis и т.п.
+
 ![](https://habrastorage.org/webt/z4/as/ao/z4asaozonjye1eiige2yuvftwyu.png)
+
+Даже если мы загуглим, то нам выдаст эти инструменты.
 
 ![](https://habrastorage.org/webt/vb/oa/g-/vboag-jul5aq0dmbhfrhhlcr108.png)
 
+Если спрашивать знакомы, то сразу после перечисления инструментов, вам расскажут что CI это когда у вас в Pull Request на коммит происходит сборка и прогон тестов.
+
 ![](https://habrastorage.org/webt/eo/rm/xm/eormxmsclgjeoc0wofp9gwmfane.png)
+
+Continuous Integration это не про инструменты, не про сборки с тестами в ветке! Continuous Integration это практика очень частой интеграции нового кода и для ее применения совершенно не обязательно городить Jenkins-ы, GitLab-ы и т.п.
 
 ![](https://habrastorage.org/webt/qd/zd/hj/qdzdhjwr8bul1b0fqz4neahgfty.png)
 
+Прежде тем мы разберемся как выглядит полноценный CI, давайте сначала погрузимся в контекст людей, которые это придумали, и прочувствуем ту боль, которую они пытались решить.
+
 ![](https://habrastorage.org/webt/si/dz/kc/sidzkc3oxclf2wo9ryrbjbtmuvw.png)
 
-![](https://habrastorage.org/webt/pa/5b/zr/pa5bzrvtaifemeseikfz6kfn-3i.png)
-
-![](https://habrastorage.org/webt/ae/i2/ye/aei2yer4xaxu_dypr1euoztkduy.png)
+А решали они боль совместной работы в команде!
 
 ![](https://habrastorage.org/webt/dj/l3/ke/djl3kedwubacf-aw-iyw_6czges.png)
 
+Давайте посмотрим на примерах, с какими сложностями сталкиваются разработчики при командной разработке. Вот у нас есть проект, master-ветка в git и два разработчика.
+
 ![](https://habrastorage.org/webt/hl/kb/sh/hlkbshtjimojhinjtzzfsl7cnta.png)
+
+И пошли они работать как все двно привыкли. Взяли задачу в жире, завели feature branch, пишут код.
 
 ![](https://habrastorage.org/webt/cr/oq/sa/croqsajlvxmk0xmwjw9hpsjvq4k.png)
 
+Один закончил фичу быстрее и смержил в мастер.
+
 ![](https://habrastorage.org/webt/ta/ud/wp/taudwpzhebzii62wqxkeuqc2gfa.png)
+
+Второму понадобилось больше времени, он смержился позже и получил конфликт. Теперь, вместо того чтобы писать нужные бизнесу фичи, разработчик тратит свое времся и силы на разрешение конфликтов.
 
 ![](https://habrastorage.org/webt/ao/fk/xn/aofkxnuvtmuycrpyifssh1qm_te.png)
 
-Еще сложнее объединить свою фичу с общим мастером, еще больше времени мы на это тратим. И это я еще достаточно простой пример показал. Это пример, где разработчиков всего 2. А представьте, если 10 или 15, или 100 человек в компании пишут в один репозиторий. Вы с ума сойдете все эти конфликты разрешать. 
+Чем сложнее объединить свою фичу с общим мастером, Тем больше времени мы на это тратим. И это я еще достаточно простой пример показал. Это пример, где разработчиков всего 2. А представьте, если 10 или 15, или 100 человек в компании пишут в один репозиторий. Вы с ума сойдете все эти конфликты разрешать. 
 
 ![](https://habrastorage.org/webt/dj/l3/ke/djl3kedwubacf-aw-iyw_6czges.png)
 
