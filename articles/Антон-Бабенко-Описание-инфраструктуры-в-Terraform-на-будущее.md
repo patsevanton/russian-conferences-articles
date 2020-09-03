@@ -1,4 +1,4 @@
-**Описание инфраструктуры в Terraform на будущее. Антон Бабенко (2017г)**
+**Описание инфраструктуры в Terraform на будущее. Антон Бабенко (2018г)**
 
 ![](https://habrastorage.org/webt/2t/w-/cx/2tw-cxkjewlvus-otixblhw5i8a.jpeg)
 
@@ -20,10 +20,10 @@
 
 - [terraform-community-modules](https://github.com/terraform-community-modules) + [terraform-aws-modules](https://github.com/terraform-aws-modules)
 - [antonbabenko/pre-commit-terraform](antonbabenko/pre-commit-terraform) — автоформатирование кода и документации
-- [antonbabenko/terrapin](antonbabenko/terrapin) — генератор Terraform-модулей (WIP)
-- [antonbabenko/modules.tf-lambda](antonbabenko/modules.tf-lambda) — генератор Terraform-кода из визуальных диаграм (WIP)
+- [antonbabenko/terrapin](https://github.com/antonbabenko/terrapin) — генератор Terraform-модулей (WIP)
+- [antonbabenko/modules.tf-lambda](https://github.com/antonbabenko/modules.tf-lambda) — генератор Terraform-кода из визуальных диаграм (WIP)
 - www.terraform-best-practices.com
-- [medium.com/@anton.babenko](https://medium.com/@anton.babenko)
+- [medium.com/@anton.babenko](https://medium.com/@anton.babenko) (Новые посты находятся на личном сайте https://www.antonbabenko.com/)
 - @antonbabenko - Twitter, и куча разных Slacks
 
 Меня зовут Антон Бабенко. Кто-то из вас наверняка использовал код, который я писал. Я сейчас буду об этом говорить с большей уверенностью, чем когда-либо, потому что у меня есть доступ к статистике. 
