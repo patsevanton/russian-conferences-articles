@@ -27,7 +27,7 @@
 ```bash
 mkdir <название доклада>
 mv <презентация>.pdf <название доклада>/
-pdftoppm <презентация>.pdf outputname -png
+pdftoppm <презентация>.pdf outputname -jpeg -jpegopt quality=90
 ```
 
 После выполнения в текущей директории появится несколько PNG изображений.
