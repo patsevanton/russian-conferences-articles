@@ -1,6 +1,20 @@
 **Вячеслав Смирнов — Ускоряем Apache JMeter**
 
+![](https://habrastorage.org/webt/tb/dg/ps/tbdgpsqbcj5zmpmltvxiicwgzys.jpeg)
+
+.Apache JMeter не требует рекламы, но нечасто время уделяют скорости работы самих нагрузочных скриптов. Вячеслав рассматривает подходы к оптимальному написанию скриптов, что позволяет сэкономить на нагрузочных машинах и позволяет по-новому посмотреть на JMeter.
+
+Apache JMeter является популярным инструментом тестирования производительности с большим количеством компонентов и возможностей. Одни и те же операции в Apache JMeter можно выполнить несколькими способами.
+
+В проектах, где нужна высокая нагрузка, важным становится вопрос производительности нагрузочного скрипта. И хорошо бы иметь рейтинг производительности компонентов Apache JMeter и подходов к написанию скриптов.
+
+Пользуясь средствами профилирования Java-приложений, такими как Java Flight Recorder, jVisualVM, SJK, имея доступ к исходным кодам инструмента, написав синтетические тесты и взяв примеры из практики, мы подготовили отчёт по тестированию производительности инструмента для тестирования производительности.
+
+Доклад будет интересен инженерам по тестированию производительности, использующим Apache JMeter, как начинающим, так и опытным, а также разработчикам, использующим JVM/JDK в работе и занимающихся профилированием и оптимизацией кода.
+
 Всем привет! Я сегодня расскажу, как ускорить Apache JMeter.
+
+![](https://habrastorage.org/webt/vu/8u/bz/vu8ubze3m4vywfey6jbwnamss3o.jpeg)
 
 Немного о себе. Я бываю на конференциях в качестве докладчика, в качестве слушателя. Был преподавателем в университете, вел курсы по тестированию, писал статьи на Hubr. Это достоинства.
 
@@ -693,3 +707,64 @@ JVisual VM – то же самое, тоже через профиль.
 
 Я уже с Windows, перешел на Linux. В некоторых моментах приходится возвращаться к Windows, когда идет тестирование скриптографии, но там не нужны большие интенсивности и какие-то запредельные вещи. 
 
+
+
+
+
+![](https://habrastorage.org/webt/hi/fm/xm/hifmxmqa4aocypzkpsabkov4i6o.jpeg)
+
+![](https://habrastorage.org/webt/5m/vh/oa/5mvhoa_hvttabkvrio2q9qu4_pa.jpeg)
+
+![](https://habrastorage.org/webt/oe/8e/wz/oe8ewzwu9ytvwvbp8571cw6xlvu.jpeg)
+
+![](https://habrastorage.org/webt/lk/vo/kh/lkvokhazdztbusb7dics3rnrwqy.jpeg)
+
+![](https://habrastorage.org/webt/z1/hu/xb/z1huxbqdhqkclxmtp_dqwje-gzu.jpeg)
+
+![](https://habrastorage.org/webt/zb/-h/lx/zb-hlxbaj7dtym71ey9rddiatf8.jpeg)
+
+![](https://habrastorage.org/webt/oi/5a/8g/oi5a8gd-ev-gvkq4sfu6c83ytqs.jpeg)
+
+![](https://habrastorage.org/webt/za/tw/hz/zatwhzqpckef0fh9vyd_9lj2x4m.jpeg)
+
+![](https://habrastorage.org/webt/i2/qf/ik/i2qfik3cf4quwdblzjyemylwewg.jpeg)
+
+![](https://habrastorage.org/webt/2q/of/xu/2qofxuepriegdg5m99m9lzjgxku.jpeg)
+
+![](https://habrastorage.org/webt/2j/zr/99/2jzr99mlhkrp7ptejfqqwrj1tfg.jpeg)
+
+![](https://habrastorage.org/webt/dd/ce/ok/ddceoknefeqcjetsvx6akq7uu-y.jpeg)
+
+![](https://habrastorage.org/webt/gl/ag/_8/glag_8jo82b6zhpuqub6y32t9mw.jpeg)
+
+![](https://habrastorage.org/webt/lu/h_/30/luh_3045erdazsi-ynccnubddq8.jpeg)
+
+![](https://habrastorage.org/webt/jy/2-/d8/jy2-d8etxy8c9ouhc7ma0dg9rnm.jpeg)
+
+![](https://habrastorage.org/webt/wp/vq/w-/wpvqw-r03uslhslsx9z8u93jose.jpeg)
+
+![](https://habrastorage.org/webt/hg/by/ue/hgbyue4b8peogwokd3h72gcrneu.jpeg)
+
+![](https://habrastorage.org/webt/bz/eq/xo/bzeqxon6lyrfxhdeo_qpnbfbos4.jpeg)
+
+![](https://habrastorage.org/webt/wc/th/z4/wcthz4ie0dko33gyvtjl4t4jcke.jpeg)
+
+![](https://habrastorage.org/webt/nk/no/-v/nkno-vd6cnuleuqnaigs3lnbq4o.jpeg)
+
+![](https://habrastorage.org/webt/jf/_d/om/jf_domf59h4myoykf5hl5vfxesi.jpeg)
+
+![](https://habrastorage.org/webt/us/vk/c5/usvkc5p8lvqzrbpkvb3mreu8eaa.jpeg)
+
+![](https://habrastorage.org/webt/k2/wh/f9/k2whf9ijeebvp1nxt19bvpinxgy.jpeg)
+
+![](https://habrastorage.org/webt/rl/0b/08/rl0b08vbcc1y-qjtmw0hov2f92k.jpeg)
+
+![](https://habrastorage.org/webt/__/av/l9/__avl9bgysvckirhdtfxto2hkmu.jpeg)
+
+![](https://habrastorage.org/webt/8o/h4/_b/8oh4_bq50mbg4u15h4u_rafoya8.jpeg)
+
+![](https://habrastorage.org/webt/5r/br/in/5rbrinn65i6o18w2htct0egpypg.jpeg)
+
+![](https://habrastorage.org/webt/op/en/c3/openc3cgc4uhdhyjrtbcgpsbhdw.jpeg)
+
+![](https://habrastorage.org/webt/hg/0q/y3/hg0qy30pkzlruruu8autvs9tb2s.jpeg)
