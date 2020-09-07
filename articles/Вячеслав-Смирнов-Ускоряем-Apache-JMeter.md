@@ -1,8 +1,8 @@
 **Вячеслав Смирнов — Ускоряем Apache JMeter**
 
-![](https://habrastorage.org/webt/tb/dg/ps/tbdgpsqbcj5zmpmltvxiicwgzys.jpeg)
+![](https://habrastorage.org/webt/lz/rp/v9/lzrpv9iyxgiwpbbd3ksu0-geabc.png)
 
-.Apache JMeter не требует рекламы, но нечасто время уделяют скорости работы самих нагрузочных скриптов. Вячеслав рассматривает подходы к оптимальному написанию скриптов, что позволяет сэкономить на нагрузочных машинах и позволяет по-новому посмотреть на JMeter.
+Apache JMeter не требует рекламы, но нечасто время уделяют скорости работы самих нагрузочных скриптов. Вячеслав рассматривает подходы к оптимальному написанию скриптов, что позволяет сэкономить на нагрузочных машинах и позволяет по-новому посмотреть на JMeter.
 
 Apache JMeter является популярным инструментом тестирования производительности с большим количеством компонентов и возможностей. Одни и те же операции в Apache JMeter можно выполнить несколькими способами.
 
@@ -14,11 +14,17 @@ Apache JMeter является популярным инструментом т�
 
 Всем привет! Я сегодня расскажу, как ускорить Apache JMeter.
 
-![](https://habrastorage.org/webt/vu/8u/bz/vu8ubze3m4vywfey6jbwnamss3o.jpeg)
+![](https://habrastorage.org/webt/me/uv/l4/meuvl4an0gkyvtzlollq3qcpyp0.png)
 
 Немного о себе. Я бываю на конференциях в качестве докладчика, в качестве слушателя. Был преподавателем в университете, вел курсы по тестированию, писал статьи на Hubr. Это достоинства.
 
-Но есть у меня и недостатки. Их много. Мне говорят, что я достаточно неторопливый парень, но кое-что я умею делать быстро. Я ускоряю системы в банках и в других компаниях раньше это делал. И часто это делал с помощью Apache JMeter. Сегодня мы постараемся ускорять с его помощью не какие-то системы, а сам Apache JMeter.
+![](https://habrastorage.org/webt/5i/ih/ox/5iihoxcqn_mcvkfu-6jxfn_ic9o.png)
+
+Но есть у меня и недостатки. Их много. Мне говорят, что я достаточно неторопливый парень, но кое-что я умею делать быстро. 
+
+![](https://habrastorage.org/webt/p8/ga/2e/p8ga2eiipxhamm23nawcqbywmzo.png)
+
+Я ускоряю системы в банках и в других компаниях раньше это делал. И часто это делал с помощью Apache JMeter. Сегодня мы постараемся ускорять с его помощью не какие-то системы, а сам Apache JMeter.
 
 Apache JMeter
 
@@ -124,6 +130,19 @@ JMeter, который выполняет только один запрос, н
 И вся сила Keep-Alive раскрывается, когда тест достаточно большой, т. е. в 50-100 запросов. 
 
 Очевидно
+
+![](https://habrastorage.org/webt/ox/vg/y8/oxvgy8wyjd5flhr4ed41va5gluk.png)
+
+![](https://habrastorage.org/webt/jy/i8/1j/jyi81jvnksfknshjhvisgtsesm8.png)
+
+![](https://habrastorage.org/webt/00/no/nf/00nonfhn1z-d2cn1ctfk5cq-dsu.png)
+
+![](https://habrastorage.org/webt/8p/v7/ux/8pv7uxk3gvy0gpx3b1xzlr1pa8y.png)
+
+![](https://habrastorage.org/webt/s3/tu/dw/s3tudwejnpvnsgm6vhbj_ykyjhg.png)
+
+![](https://habrastorage.org/webt/dg/sl/mm/dgslmm0hvto1okfs0pzhrtavzqc.png)
+
 
 Полезный вывод для тех, кто занимается нагрузкой или пишет benchmarks: Keep-Alive полезен. Он включен по умолчанию. Отключать его не надо. Но вся его сила раскрывается, когда сценарий достаточно длинный, хотя бы больше 10 запросов. Запомним это. 
 
@@ -708,63 +727,352 @@ JVisual VM – то же самое, тоже через профиль.
 Я уже с Windows, перешел на Linux. В некоторых моментах приходится возвращаться к Windows, когда идет тестирование скриптографии, но там не нужны большие интенсивности и какие-то запредельные вещи. 
 
 
+![](https://habrastorage.org/webt/hf/y5/4u/hfy54u5_vwvgxb5clzttnj_j56u.png)
 
+![](https://habrastorage.org/webt/f7/w0/dc/f7w0dcl_andhiyz6iwvk5nptvuc.png)
 
+![](https://habrastorage.org/webt/aa/nd/cu/aandcuixd4-uapjszmds6icdmhg.png)
 
-![](https://habrastorage.org/webt/hi/fm/xm/hifmxmqa4aocypzkpsabkov4i6o.jpeg)
+![](https://habrastorage.org/webt/_x/tv/fx/_xtvfxxyq3lwv0hocluzbqjej1w.png)
 
-![](https://habrastorage.org/webt/5m/vh/oa/5mvhoa_hvttabkvrio2q9qu4_pa.jpeg)
+![](https://habrastorage.org/webt/6x/30/vb/6x30vbslcnxrlusjzhhohgklo9a.png)
 
-![](https://habrastorage.org/webt/oe/8e/wz/oe8ewzwu9ytvwvbp8571cw6xlvu.jpeg)
+![](https://habrastorage.org/webt/o1/se/_w/o1se_wirnjfoeix8xn0k0ngz_s4.png)
 
-![](https://habrastorage.org/webt/lk/vo/kh/lkvokhazdztbusb7dics3rnrwqy.jpeg)
+![](https://habrastorage.org/webt/yr/4o/wf/yr4owfx5btbcyqravg24hatcqei.png)
 
-![](https://habrastorage.org/webt/z1/hu/xb/z1huxbqdhqkclxmtp_dqwje-gzu.jpeg)
+![](https://habrastorage.org/webt/hb/wz/cx/hbwzcxnz92wsh9_lwdghwfdtyuc.png)
 
-![](https://habrastorage.org/webt/zb/-h/lx/zb-hlxbaj7dtym71ey9rddiatf8.jpeg)
+![](https://habrastorage.org/webt/vc/lw/dj/vclwdjdjas1uugrfwur4alzj6zo.png)
 
-![](https://habrastorage.org/webt/oi/5a/8g/oi5a8gd-ev-gvkq4sfu6c83ytqs.jpeg)
+![](https://habrastorage.org/webt/o6/5e/gw/o65egwgcsatbnkwzif61qykx-fq.png)
 
-![](https://habrastorage.org/webt/za/tw/hz/zatwhzqpckef0fh9vyd_9lj2x4m.jpeg)
+![](https://habrastorage.org/webt/n_/15/_n/n_15_nt0qptyhhczvgdoehyitye.png)
 
-![](https://habrastorage.org/webt/i2/qf/ik/i2qfik3cf4quwdblzjyemylwewg.jpeg)
+![](https://habrastorage.org/webt/q1/1r/vf/q11rvfq8wi1iitzu6o-opnb7clk.png)
 
-![](https://habrastorage.org/webt/2q/of/xu/2qofxuepriegdg5m99m9lzjgxku.jpeg)
+![](https://habrastorage.org/webt/yh/fm/qa/yhfmqaytt0ru0b3tp7li-mlre2a.png)
 
-![](https://habrastorage.org/webt/2j/zr/99/2jzr99mlhkrp7ptejfqqwrj1tfg.jpeg)
+![](https://habrastorage.org/webt/xz/3v/ro/xz3vrozd0o3ca8ut8rd53inqn00.png)
 
-![](https://habrastorage.org/webt/dd/ce/ok/ddceoknefeqcjetsvx6akq7uu-y.jpeg)
+![](https://habrastorage.org/webt/qv/ak/gq/qvakgqzxb_ks-4u4awoad0uh_ve.png)
 
-![](https://habrastorage.org/webt/gl/ag/_8/glag_8jo82b6zhpuqub6y32t9mw.jpeg)
+![](https://habrastorage.org/webt/qy/uj/xm/qyujxmvyyzr4zelwhiikgtm71ji.png)
 
-![](https://habrastorage.org/webt/lu/h_/30/luh_3045erdazsi-ynccnubddq8.jpeg)
+![](https://habrastorage.org/webt/mc/su/ae/mcsuae2xxnlerxlirfockmcdmlc.png)
 
-![](https://habrastorage.org/webt/jy/2-/d8/jy2-d8etxy8c9ouhc7ma0dg9rnm.jpeg)
+![](https://habrastorage.org/webt/9q/sa/ha/9qsahadu-e_r-tcf-fsutq5efmy.png)
 
-![](https://habrastorage.org/webt/wp/vq/w-/wpvqw-r03uslhslsx9z8u93jose.jpeg)
+![](https://habrastorage.org/webt/un/lk/l8/unlkl8kggluzljttr9rg-b2rlko.png)
 
-![](https://habrastorage.org/webt/hg/by/ue/hgbyue4b8peogwokd3h72gcrneu.jpeg)
+![](https://habrastorage.org/webt/lq/xf/ku/lqxfkudyvf5ejfmbyzwcyc8ycqq.png)
 
-![](https://habrastorage.org/webt/bz/eq/xo/bzeqxon6lyrfxhdeo_qpnbfbos4.jpeg)
+![](https://habrastorage.org/webt/fo/vi/ia/foviiank9myuys3nubvolsq6cvk.png)
 
-![](https://habrastorage.org/webt/wc/th/z4/wcthz4ie0dko33gyvtjl4t4jcke.jpeg)
+![](https://habrastorage.org/webt/vr/al/oc/vralochjerf2btyem6gwi45sz3c.png)
 
-![](https://habrastorage.org/webt/nk/no/-v/nkno-vd6cnuleuqnaigs3lnbq4o.jpeg)
+![](https://habrastorage.org/webt/zr/3q/ao/zr3qaoarafwajtvcjx_seci0ng4.png)
 
-![](https://habrastorage.org/webt/jf/_d/om/jf_domf59h4myoykf5hl5vfxesi.jpeg)
+![](https://habrastorage.org/webt/tv/ip/rj/tviprjedwlz2gwh5vueoukv68wg.png)
 
-![](https://habrastorage.org/webt/us/vk/c5/usvkc5p8lvqzrbpkvb3mreu8eaa.jpeg)
+![](https://habrastorage.org/webt/ld/c5/wu/ldc5wusa7p8e5mzaqhs3o6ms9w0.png)
 
-![](https://habrastorage.org/webt/k2/wh/f9/k2whf9ijeebvp1nxt19bvpinxgy.jpeg)
+![](https://habrastorage.org/webt/-x/lg/5y/-xlg5ym6as-rdrzark9vfjcprjy.png)
 
-![](https://habrastorage.org/webt/rl/0b/08/rl0b08vbcc1y-qjtmw0hov2f92k.jpeg)
+![](https://habrastorage.org/webt/ae/jx/qj/aejxqj6zlpm-ezptuck5-pg5ija.png)
 
-![](https://habrastorage.org/webt/__/av/l9/__avl9bgysvckirhdtfxto2hkmu.jpeg)
+![](https://habrastorage.org/webt/yn/cd/qf/yncdqfgfs22uexjaqvn_ugpip_8.png)
 
-![](https://habrastorage.org/webt/8o/h4/_b/8oh4_bq50mbg4u15h4u_rafoya8.jpeg)
+![](https://habrastorage.org/webt/s9/ax/vm/s9axvmijvhslyccelv_gpggacaw.png)
 
-![](https://habrastorage.org/webt/5r/br/in/5rbrinn65i6o18w2htct0egpypg.jpeg)
+![](https://habrastorage.org/webt/kf/f8/at/kff8atkw1f5gtrhznhajvau7yoq.png)
 
-![](https://habrastorage.org/webt/op/en/c3/openc3cgc4uhdhyjrtbcgpsbhdw.jpeg)
+![](https://habrastorage.org/webt/am/qb/ge/amqbgenrytouhusf3vjj4hs9usw.png)
 
-![](https://habrastorage.org/webt/hg/0q/y3/hg0qy30pkzlruruu8autvs9tb2s.jpeg)
+![](https://habrastorage.org/webt/xw/sx/bm/xwsxbm60bmvqiw8hqw9bl6qlnj8.png)
+
+![](https://habrastorage.org/webt/eb/kj/fl/ebkjflieylxj0jxmrfz2ghpnnqa.png)
+
+![](https://habrastorage.org/webt/ud/-b/uk/ud-bukmgnxauz22-hv2cc-5upn8.png)
+
+![](https://habrastorage.org/webt/w7/_e/k3/w7_ek3xbiyuopcxxpq6ufyprsmc.png)
+
+![](https://habrastorage.org/webt/xc/4v/0d/xc4v0dfewbwbvyoeclrud2ff-w0.png)
+
+![](https://habrastorage.org/webt/y1/wt/d-/y1wtd-aty3raarmf8fjm7isotim.png)
+
+![](https://habrastorage.org/webt/2e/ug/ue/2euguenzq75_ccuwxq6x1qbon_s.png)
+
+![](https://habrastorage.org/webt/ul/hv/bo/ulhvbovsrseu3lzprre-lz5ox2g.png)
+
+![](https://habrastorage.org/webt/9j/mw/16/9jmw16wfr6y3fqunutqs2ysxoo4.png)
+
+![](https://habrastorage.org/webt/sc/sd/7l/scsd7lxsggbub2kl7aqo-nbp5zc.png)
+
+![](https://habrastorage.org/webt/bg/my/j6/bgmyj6wree3w9v0s8np6pa0cb58.png)
+
+![](https://habrastorage.org/webt/78/sd/nq/78sdnqn0-ymdt2xarr4qw9zwlxu.png)
+
+![](https://habrastorage.org/webt/9j/mw/16/9jmw16wfr6y3fqunutqs2ysxoo4.png)
+
+![](https://habrastorage.org/webt/qk/xl/gt/qkxlgt7wie8mhnjesabzi4pdbqs.png)
+
+![](https://habrastorage.org/webt/mj/6k/iq/mj6kiq659gfxqa7eqksockbowzu.png)
+
+![](https://habrastorage.org/webt/p0/6q/cf/p06qcf_4wh6txz6cw5jix4mhnys.png)
+
+![](https://habrastorage.org/webt/9j/mw/16/9jmw16wfr6y3fqunutqs2ysxoo4.png)
+
+![](https://habrastorage.org/webt/lj/kg/zv/ljkgzv9hvshsjhldgqbwknr3zrg.png)
+
+![](https://habrastorage.org/webt/yr/ln/1i/yrln1itiozapod9-7vdqfdyu6co.png)
+
+![](https://habrastorage.org/webt/vm/h3/gz/vmh3gzf8dk9xeffrwmybhm0zkpq.png)
+
+![](https://habrastorage.org/webt/-o/ya/cg/-oyacgokxgbh-cqegie_uuwwjkm.png)
+
+![](https://habrastorage.org/webt/pd/dh/lk/pddhlkgbrtkhjup5zlrkzpred3w.png)
+
+![](https://habrastorage.org/webt/rb/jf/qb/rbjfqbvmdczzwkbmx4cfuwcrcgy.png)
+
+![](https://habrastorage.org/webt/p6/r0/ky/p6r0kyszegcqi5u7h_xd16cvd0m.png)
+
+![](https://habrastorage.org/webt/iu/sd/at/iusdatax8gpsmq6x6a8pveufoeq.png)
+
+![](https://habrastorage.org/webt/6r/or/iy/6roriysrdtlgsoxe8eyvvavawim.png)
+
+![](https://habrastorage.org/webt/ue/fr/wc/uefrwczdlfwcgxubcqmqgzpjs7m.png)
+
+![](https://habrastorage.org/webt/2_/sb/q4/2_sbq4ezafxbwirhjtxpigalgga.png)
+
+![](https://habrastorage.org/webt/mk/b_/em/mkb_emmf3_6bew019voo1phm3kk.png)
+
+![](https://habrastorage.org/webt/hb/nl/6o/hbnl6obiuat7zb3jlzeuj1xroz8.png)
+
+![](https://habrastorage.org/webt/xn/rc/wd/xnrcwd-drjs0f_qfrz1rzilnwa0.png)
+
+![](https://habrastorage.org/webt/pm/dz/fo/pmdzfofbfpx03mn8dzbpy1kekb4.png)
+
+![](https://habrastorage.org/webt/o8/jj/q9/o8jjq9cyjjsamu9xwylb4kvsqws.png)
+
+![](https://habrastorage.org/webt/lf/mi/bk/lfmibk0bqrofhjvx-3btjqctmuc.png)
+
+![](https://habrastorage.org/webt/02/y5/rc/02y5rcezil2cwqnziim5lpa6ql8.png)
+
+![](https://habrastorage.org/webt/4a/2a/pl/4a2aplhe7l-ft3sprlaveedn3je.png)
+
+![](https://habrastorage.org/webt/k7/fl/y8/k7fly8lqbsj8dwqcognkrx8uf8e.png)
+
+![](https://habrastorage.org/webt/rq/u0/44/rqu044pxw2q7tkv8huneijniq0s.png)
+
+![](https://habrastorage.org/webt/sp/tn/ku/sptnkuge4dqlfq5pstmsvavd-rc.png)
+
+![](https://habrastorage.org/webt/qj/gg/ds/qjggdsmsjx3t2qc_0m9psqanrt0.png)
+
+![](https://habrastorage.org/webt/mx/5f/qo/mx5fqonabamy53k0kegtau4hzfg.png)
+
+![](https://habrastorage.org/webt/h8/8u/wd/h88uwdj-aqqtpakuupwcj6s1zmq.png)
+
+![](https://habrastorage.org/webt/o8/kq/4r/o8kq4rvpt-1jlelqtrwi7v4hypq.png)
+
+![](https://habrastorage.org/webt/k4/qc/80/k4qc80zeqyvoe571d1bficz9mru.png)
+
+![](https://habrastorage.org/webt/va/4t/ef/va4tef4gfi0o3k7kgp6stbpvk1w.png)
+
+![](https://habrastorage.org/webt/sq/id/mw/sqidmwgjcd7em74hfztzdvw3hme.png)
+
+![](https://habrastorage.org/webt/e4/9u/ln/e49ulnx1vleb1rhmsivduzk3tp0.png)
+
+![](https://habrastorage.org/webt/75/bw/gv/75bwgvizme9s5n-tycazs_bbuee.png)
+
+![](https://habrastorage.org/webt/od/kv/cm/odkvcmconkqirhqzabrdqeanqmo.png)
+
+![](https://habrastorage.org/webt/ju/ko/lm/jukolmbtdknqcddskzqp3k1gchg.png)
+
+![](https://habrastorage.org/webt/qq/eb/uz/qqebuzmry6p5gm1_8pnyqn5uwoy.png)
+
+![](https://habrastorage.org/webt/jq/8c/at/jq8catqtb_y_eq-h6xx-yaiyegg.png)
+
+![](https://habrastorage.org/webt/a2/1b/bw/a21bbwcyj1345qcelj7jcfmg-6g.png)
+
+![](https://habrastorage.org/webt/cs/gt/ha/csgthagbxys6gstun_dptxe9ig8.png)
+
+![](https://habrastorage.org/webt/ro/5d/ap/ro5dapl9yncjdhlrv418xj8lde8.png)
+
+![](https://habrastorage.org/webt/gc/7d/ig/gc7digzkv13wjahtj_dhzaigo28.png)
+
+![](https://habrastorage.org/webt/gx/1m/sl/gx1mslsx6u0rhjzbmzg8urxfpxq.png)
+
+![](https://habrastorage.org/webt/1q/_t/k-/1q_tk-_vuryktduj_lmjv5atlco.png)
+
+![](https://habrastorage.org/webt/tv/_p/4z/tv_p4zq1xvyps83rilb7a-vecmo.png)
+
+![](https://habrastorage.org/webt/kf/f8/at/kff8atkw1f5gtrhznhajvau7yoq.png)
+
+![](https://habrastorage.org/webt/am/qb/ge/amqbgenrytouhusf3vjj4hs9usw.png)
+
+![](https://habrastorage.org/webt/xw/sx/bm/xwsxbm60bmvqiw8hqw9bl6qlnj8.png)
+
+![](https://habrastorage.org/webt/qn/c0/bk/qnc0bklrobjbtmi2cevkvtzuu8e.png)
+
+![](https://habrastorage.org/webt/mf/6z/ze/mf6zzeht3bkvtojdt9_mxfmpayc.png)
+
+![](https://habrastorage.org/webt/bf/-y/gy/bf-ygyeqf-mvynfflehbqpxh6w0.png)
+
+![](https://habrastorage.org/webt/i3/ou/c7/i3ouc7gdbmc_5ppxr0mejbqvkwk.png)
+
+![](https://habrastorage.org/webt/q5/oo/53/q5oo53g1dtpsb42kklzqbbdcs6c.png)
+
+![](https://habrastorage.org/webt/9m/fy/zu/9mfyzud220dkzp7ajnn5yx0ttiq.png)
+
+![](https://habrastorage.org/webt/9j/mw/16/9jmw16wfr6y3fqunutqs2ysxoo4.png)
+
+![](https://habrastorage.org/webt/uj/i8/lj/uji8ljl0xjgad9tphetbhwigxqm.png)
+
+![](https://habrastorage.org/webt/iw/gx/0r/iwgx0r3ifheff9xxspfmuxwmecc.png)
+
+![](https://habrastorage.org/webt/k2/m-/mx/k2m-mxpnsw_u0v3ll46erhwvscs.png)
+
+![](https://habrastorage.org/webt/uh/hs/vm/uhhsvmhn7i-xnkw746wzksza30y.png)
+
+![](https://habrastorage.org/webt/2n/0w/wb/2n0wwbcxyqtlvuligdlhbxwzlbs.png)
+
+![](https://habrastorage.org/webt/xt/vn/wj/xtvnwjx2jmm60izwg_puvzz6hy4.png)
+
+![](https://habrastorage.org/webt/xt/vl/tj/xtvltjpetbtmu86xoyio1lbbyue.png)
+
+![](https://habrastorage.org/webt/ox/mf/0w/oxmf0wpav-fiudyjjvgbjsaro20.png)
+
+![](https://habrastorage.org/webt/r-/7m/9w/r-7m9wwuaexoyjd37h_iq99ejto.png)
+
+![](https://habrastorage.org/webt/rb/q2/sn/rbq2sniwjxfzhwrco7ir500hqaw.png)
+
+![](https://habrastorage.org/webt/1z/ya/f6/1zyaf62lqdwjkani6yfxa4yoknq.png)
+
+![](https://habrastorage.org/webt/1-/bc/gh/1-bcghptzlhv3y1bfqywwnqmzrg.png)
+
+![](https://habrastorage.org/webt/fv/jf/7w/fvjf7wcbjagvol2l9vtzsnyr4gg.png)
+
+![](https://habrastorage.org/webt/vy/0h/sm/vy0hsm6ydfzvyv_dttulbsteg20.png)
+
+![](https://habrastorage.org/webt/9j/mw/16/9jmw16wfr6y3fqunutqs2ysxoo4.png)
+
+![](https://habrastorage.org/webt/sc/sd/7l/scsd7lxsggbub2kl7aqo-nbp5zc.png)
+
+![](https://habrastorage.org/webt/b5/u2/fw/b5u2fwfwhkswv_m3vu7uhwnunvu.png)
+
+![](https://habrastorage.org/webt/jn/o9/um/jno9umd_uip1agwhka9r4j_vnjw.png)
+
+![](https://habrastorage.org/webt/5z/pa/qc/5zpaqcqnhsshow29tsffjxn6qes.png)
+
+![](https://habrastorage.org/webt/8x/hx/mq/8xhxmqsquwp77qqaq1j1u2l9it0.png)
+
+![](https://habrastorage.org/webt/ak/o6/99/ako699beid5rwhankl5rjqjb2nw.png)
+
+![](https://habrastorage.org/webt/xu/xm/x1/xuxmx1lz-yre-a4rqa1plzb1hcc.png)
+
+![](https://habrastorage.org/webt/oc/ld/he/ocldheyzhy66jg4htuzjwchehv8.png)
+
+![](https://habrastorage.org/webt/jy/oe/hn/jyoehngztxlt0bsyumlxfhfiqxm.png)
+
+![](https://habrastorage.org/webt/_q/pz/x4/_qpzx4fnev8ku01xatd9mtg640g.png)
+
+![](https://habrastorage.org/webt/pt/_w/xk/pt_wxkjiyhu9hpgo29ysouujbjm.png)
+
+![](https://habrastorage.org/webt/tj/zj/j0/tjzjj01zsuvwext0d4xotfesey8.png)
+
+![](https://habrastorage.org/webt/mo/i0/vo/moi0vo5kvas1tjlo3zrna_dslog.png)
+
+![](https://habrastorage.org/webt/ho/ph/ib/hophibfbn3pf7ncpnadhkyqn0ky.png)
+
+![](https://habrastorage.org/webt/vd/yx/gd/vdyxgdng9mw9md_y6dzqnuph0gy.png)
+
+![](https://habrastorage.org/webt/-b/dn/t0/-bdnt0yhtkfyryyxncfydpjyp-8.png)
+
+![](https://habrastorage.org/webt/em/6y/u9/em6yu9knkywp_ms7mxdvjxvusky.png)
+
+![](https://habrastorage.org/webt/f8/jp/fw/f8jpfwtueawgiu5hz8qn296lbbo.png)
+
+![](https://habrastorage.org/webt/zy/aw/tw/zyawtw1joremnsickvipeybqn9g.png)
+
+![](https://habrastorage.org/webt/f2/0t/km/f20tkmlisuxqd3iv8oiqcjetstm.png)
+
+![](https://habrastorage.org/webt/ez/6y/zx/ez6yzxlg7j5b_rhas24srhvp3l4.png)
+
+![](https://habrastorage.org/webt/5m/dw/xf/5mdwxfg3lmbtegeh_ybrdfgkyvi.png)
+
+![](https://habrastorage.org/webt/zb/97/zw/zb97zw0xrrsq_wl0aedaucd6sge.png)
+
+![](https://habrastorage.org/webt/4u/ls/5g/4uls5g6wl2lgoruf_hgo0cu8uz8.png)
+
+![](https://habrastorage.org/webt/jj/lm/gr/jjlmgr0_hphmnainigkn7cgcoac.png)
+
+![](https://habrastorage.org/webt/0d/up/75/0dup75ti3rwmyubtnae8aaka10q.png)
+
+![](https://habrastorage.org/webt/iu/zm/pj/iuzmpj-hca-2szhyg-llrm-ojcg.png)
+
+![](https://habrastorage.org/webt/kk/hm/dy/kkhmdy3zwu6lkukkk40pwvz-fra.png)
+
+![](https://habrastorage.org/webt/jm/gi/3v/jmgi3v870xh6tvlevuhm3f-uhm8.png)
+
+![](https://habrastorage.org/webt/4z/-p/e5/4z-pe5iotehyubsjz6pik8mthdq.png)
+
+![](https://habrastorage.org/webt/bx/hy/kq/bxhykqvy4qphpns0-zp3byogcok.png)
+
+![](https://habrastorage.org/webt/ka/oo/aq/kaooaqlssfikw6srzf8oev2ttyy.png)
+
+![](https://habrastorage.org/webt/xn/jh/lt/xnjhlt0vvn6coj1dipsyefyqnj8.png)
+
+![](https://habrastorage.org/webt/4d/c_/43/4dc_43an6zvxpi4qz_rovs264ru.png)
+
+![](https://habrastorage.org/webt/eb/ga/sd/ebgasdr6ufqoexnvusjmr72f-ui.png)
+
+![](https://habrastorage.org/webt/n1/mi/1z/n1mi1zco75whjrwjfr8-jcbozag.png)
+
+![](https://habrastorage.org/webt/zg/d7/my/zgd7myc7bvxrcowxrlbge0qaaeg.png)
+
+![](https://habrastorage.org/webt/kj/jv/ft/kjjvftwbvdzo3dwdnyjjrrvoel4.png)
+
+![](https://habrastorage.org/webt/cu/w5/ta/cuw5tad0lh3bzfrekl0a-p9s1sc.png)
+
+![](https://habrastorage.org/webt/no/a7/kw/noa7kwkdb_gm76mvcxrkq0yslto.png)
+
+![](https://habrastorage.org/webt/lp/44/q6/lp44q6idshjfj_jj-3aseod5bvo.png)
+
+![](https://habrastorage.org/webt/5n/n8/ho/5nn8holswde-ut8kpvoqi_in_rq.png)
+
+![](https://habrastorage.org/webt/ci/y5/as/ciy5asa0wmkoy88rexnxvq-vuhe.png)
+
+![](https://habrastorage.org/webt/fp/ot/-_/fpot-_ra83vc8xe4ocdbnkcre5u.png)
+
+![](https://habrastorage.org/webt/s7/ye/ad/s7yeaddwi1-zor4vrkj5c4rozxu.png)
+
+![](https://habrastorage.org/webt/4d/56/b3/4d56b3j8txhqn09x_qz8kjpewli.png)
+
+![](https://habrastorage.org/webt/v2/li/ky/v2likyaltwkujgkmdp41fowxnf0.png)
+
+![](https://habrastorage.org/webt/77/0h/tq/770htqlatcykwh-f8euo8cphyfm.png)
+
+![](https://habrastorage.org/webt/gf/b1/or/gfb1or0_towgl4ybgb_pxatv0ly.png)
+
+![](https://habrastorage.org/webt/6f/aq/xm/6faqxmum6euxqizuhxc0wket4a8.png)
+
+![](https://habrastorage.org/webt/s6/wk/ys/s6wkyslycjzdyxa7qjiporotahw.png)
+
+![](https://habrastorage.org/webt/95/tt/q4/95ttq4n3yws9hear_jw25szkcjq.png)
+
+![](https://habrastorage.org/webt/c5/wp/fi/c5wpfid6l-uchqperniedy8spas.png)
+
+![](https://habrastorage.org/webt/8s/ie/o0/8sieo0faebckz55ibclkrfooh1w.png)
+
+![](https://habrastorage.org/webt/ce/7n/g0/ce7ng0qzzaee1bfdbrur78mk8is.png)
+
+![](https://habrastorage.org/webt/g2/qc/hs/g2qchsp3_4px_gudpzx8cp0nq4e.png)
+
+![](https://habrastorage.org/webt/y2/jj/3-/y2jj3-bo0urqmpkynq2saxtwhxg.png)
+
+![](https://habrastorage.org/webt/zz/ui/yu/zzuiyuwarbjgwjehxcxyqw8j8kk.png)
+
+![](https://habrastorage.org/webt/j1/bz/lh/j1bzlhc3ti3nahut2mnnff_sukq.png)
+
+![](https://habrastorage.org/webt/xa/cd/ja/xacdja69gigsxox5ai_2kjrvwz0.png)
