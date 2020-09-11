@@ -12,6 +12,8 @@ VictoriaMetrics - быстрой и масштабируемой СУБД для
 
 ![](https://habrastorage.org/webt/up/ht/yh/uphtyh6tvdinzukixh81augsj4k.jpeg)
 
+https://bit.ly/3jf1fIK
+
 Есть облако на базе OpenStack. Там небольшая ссылка на техрадар. 
 
 ![](https://habrastorage.org/webt/7z/8o/ag/7z8oagvvxegil3hepa4u0nvpmay.jpeg)
@@ -262,5 +264,7 @@ Vminsert поддерживает протоколы OpenTSDB, Graphite, InfluxD
 Мы будем у себя использовать VictoriaMetrics, потому что она нам очень понравилась. Вот что было и что стало. 
 
 ![](https://habrastorage.org/webt/ym/nk/2-/ymnk2--pqfcoj2uzadiivuedct0.jpeg)
+
+https://t.me/VictoriaMetrics_ru1
 
 Пара qr-кодов на чат VictoriaMetrics, мои контакты, техрадар LeroyMerlin.
