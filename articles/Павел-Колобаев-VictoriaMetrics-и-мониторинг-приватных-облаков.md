@@ -1,8 +1,10 @@
-VictoriaMetrics и мониторинг приватных облаков
-
 ![](https://habrastorage.org/webt/s1/n1/du/s1n1du_-ibvvjvcevzgaqtsmzh8.jpeg)
 
 VictoriaMetrics - быстрой и масштабируемой СУБД для хранения и обработки данных в форме временного ряда (запись образует время и набор соответствующих этому времени значений, например, полученных через периодический опрос состояния датчиков или сбор метрик).
+
+<cut />
+
+<oembed>https://www.youtube.com/watch?v=74swsWqf0Uc</oembed>
 
 ![](https://habrastorage.org/webt/ax/mi/ea/axmiea7frlaixmgudjzhd1h0l5u.jpeg)
 
