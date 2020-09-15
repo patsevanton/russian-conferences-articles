@@ -1,5 +1,27 @@
 **Оператор в Kubernetes для управления кластерами БД ⁄ Владислав Клименко (Altinity)**
 
+![](https://habrastorage.org/webt/it/ys/pv/ityspvi76og2c9qkafb76pvkvxi.jpeg)
+
+Доклад посвящен практическим вопросам разработки оператора в Kubernetes, проектированию его архитектуры и основных принципов функционирования.
+
+В первой части доклада рассмотрим:
+\- что такое оператор в Kubernetes и зачем он нужен;
+\- как именно оператор упрощает управление сложными системами;
+\- что оператор может, а что оператор не может.
+
+Далее, перейдём к обсуждению внутреннего устройства оператора. Рассмотрим архитектуру и функционирование оператора по шагам. Подробно разберём:
+\- взаимодействие между оператором и Kubernetes;
+\- какие функции оператор берет на себя, а что делегирует в Kubernetes.
+
+Рассмотрим управление шардами и репликами БД в Kubernetes.
+Далее, обсудим вопросы хранения данных:
+\- как работать с Persistent Storage с точки зрения оператора;
+\- подводные камни использования Local Storage.
+
+В заключительной части доклада рассмотрим практические примеры применения clickhouse-operator с Amazon или Google Cloud Service. Доклад строится на примере разработки и опыта эксплуатации оператора для ClickHouse.
+
+
+
 Меня зовут Владислав Клименко. Я хотел сегодня рассказать о нашем опыте разработки и эксплуатации оператора, причем это специализированный оператор для управления кластерами баз данных. На примере ClickHouse-operator для управления кластером ClickHouse.
 
 Кто такие Altinity?
@@ -501,6 +523,176 @@ Open source – присоединяйтесь!
 
 Вопросы
 
+
+
+![](https://habrastorage.org/webt/7f/4e/zj/7f4ezjcynwvbcghhlkmulaoa_jk.jpeg)
+
+![](https://habrastorage.org/webt/-s/cu/ta/-scutai2q89wfg9vzfcbznm4tfe.jpeg)
+
+![](https://habrastorage.org/webt/wm/tz/pc/wmtzpc7xg-jajmxrrodcnijw-hi.jpeg)
+
+![](https://habrastorage.org/webt/v5/rx/s7/v5rxs7llcslthtk-zuawylxn67k.jpeg)
+
+![](https://habrastorage.org/webt/xc/sw/0w/xcsw0wrgusqmflkjzmz60e7qimc.jpeg)
+
+![](https://habrastorage.org/webt/ef/pl/5e/efpl5ehnzzkrhjd8wpjgi9zxqnm.jpeg)
+
+![](https://habrastorage.org/webt/zl/l1/3o/zll13o2g2jufwigdtkj1zt4bty4.jpeg)
+
+![](https://habrastorage.org/webt/dl/yv/rt/dlyvrt7fuu-qiulgktdm6meicxu.jpeg)
+
+![](https://habrastorage.org/webt/3o/mg/xn/3omgxnxfgxel99to9lviiogqvqu.jpeg)
+
+![](https://habrastorage.org/webt/i8/yt/uh/i8ytuh1qa0azhpg12rzjxtavcv0.jpeg)
+
+![](https://habrastorage.org/webt/zm/tg/tn/zmtgtnf8ztl-7l5hr917pylaxig.jpeg)
+
+![](https://habrastorage.org/webt/ja/vd/k-/javdk-dvmxe6rbuaiwazs_t41lk.jpeg)
+
+![](https://habrastorage.org/webt/zm/fw/js/zmfwjstlnt6esi7lzysrgnbdljm.jpeg)
+
+![](https://habrastorage.org/webt/wz/gg/ci/wzggcithwljbwhybjnggolxtvee.jpeg)
+
+![](https://habrastorage.org/webt/z2/yw/is/z2ywisnxp282_7qbwsms4uxrx-y.jpeg)
+
+![](https://habrastorage.org/webt/4y/dr/wc/4ydrwcdy6ojkvfwu1qdv05yp8zq.jpeg)
+
+![](https://habrastorage.org/webt/p4/dc/-o/p4dc-oombgds1-0gccrcbdpclt8.jpeg)
+
+![](https://habrastorage.org/webt/8y/2f/lj/8y2fljqbxkojekv-tzkmu7qrdbi.jpeg)
+
+![](https://habrastorage.org/webt/_q/fu/ej/_qfuejq-ntdqu7tcn6qa3hivzpi.jpeg)
+
+![](https://habrastorage.org/webt/wn/vn/lr/wnvnlrktmguhhkcqbscbzlj2xe4.jpeg)
+
+![](https://habrastorage.org/webt/q0/72/gg/q072ggiuovteggfvvnhbnigoxfu.jpeg)
+
+![](https://habrastorage.org/webt/pt/t0/-8/ptt0-8p2ohcuxhkgvz73pyv-jze.jpeg)
+
+![](https://habrastorage.org/webt/-e/ws/fj/-ewsfjzetpvvkb5vscmdvxbinkc.jpeg)
+
+![](https://habrastorage.org/webt/z3/ek/fu/z3ekfuzte5rpuym1r6ovoli_ay0.jpeg)
+
+![](https://habrastorage.org/webt/yq/wv/cx/yqwvcxn59axe1rjzmqpopii4inc.jpeg)
+
+![](https://habrastorage.org/webt/v-/ka/2d/v-ka2debz2os2bbvvcnjf8eej6c.jpeg)
+
+![](https://habrastorage.org/webt/08/im/xb/08imxb_-lpf7yohrs8m4p1tgjwi.jpeg)
+
+![](https://habrastorage.org/webt/4v/yi/xm/4vyixmc5klk8-vpwpx4i06qseis.jpeg)
+
+![](https://habrastorage.org/webt/mw/lp/av/mwlpav5xrxh_in3cwo1ds6fjrnm.jpeg)
+
+![](https://habrastorage.org/webt/qs/vf/bz/qsvfbzrunb0hjm5x148bzam-ytg.jpeg)
+
+![](https://habrastorage.org/webt/lu/tz/aj/lutzajr81zprj40qd_7oqdayxwy.jpeg)
+
+![](https://habrastorage.org/webt/ye/gh/vo/yeghvoq4g1_joi7ua-nz1a-lu2c.jpeg)
+
+![](https://habrastorage.org/webt/lf/tq/ie/lftqiep9yiajr80pzdg8-segwx8.jpeg)
+
+![](https://habrastorage.org/webt/xz/tj/lr/xztjlr_sfuqtxhkqpquqt9mlyfm.jpeg)
+
+![](https://habrastorage.org/webt/dp/wg/7z/dpwg7z3v6jc3f2u9jwakplubwpy.jpeg)
+
+![](https://habrastorage.org/webt/dm/4s/md/dm4smdwhfrpymv37mz8m9agvmya.jpeg)
+
+![](https://habrastorage.org/webt/1v/au/ci/1vauciodpgclcjph0z54eoeuoyu.jpeg)
+
+![](https://habrastorage.org/webt/ps/we/vi/pswevis136l1jojbki3m4x0cj8s.jpeg)
+
+![](https://habrastorage.org/webt/aq/lq/dk/aqlqdkxnw38gcagklzbq5y6ehka.jpeg)
+
+![](https://habrastorage.org/webt/kw/3z/yn/kw3zynoer_v2iyzlgsdyhncu10i.jpeg)
+
+![](https://habrastorage.org/webt/oi/bf/kv/oibfkvv8e7yzpo_y7cjuxwavwq4.jpeg)
+
+![](https://habrastorage.org/webt/mx/xf/zo/mxxfzo-vaeaqkwvjnxus_llj8co.jpeg)
+
+![](https://habrastorage.org/webt/8u/jj/dp/8ujjdpo9xtl4qbyujvwny7k_sbw.jpeg)
+
+![](https://habrastorage.org/webt/re/a5/i_/rea5i_2btomq6ed9vg9h3pah38g.jpeg)
+
+![](https://habrastorage.org/webt/v2/q6/-j/v2q6-jrtn_8xkpmy6flf-v_v95e.jpeg)
+
+![](https://habrastorage.org/webt/tr/st/ly/trstlyz1g8wyqjtjf7ll1mf3e4e.jpeg)
+
+![](https://habrastorage.org/webt/xo/ky/ze/xokyzezwamqfmbkpktukeamyzse.jpeg)
+
+![](https://habrastorage.org/webt/de/dv/9r/dedv9risuemfehbxy54oqz0l2w0.jpeg)
+
+![](https://habrastorage.org/webt/uk/ad/-p/ukad-pvi1qxt2vhsq8usmcbrlbi.jpeg)
+
+![](https://habrastorage.org/webt/jn/rr/6t/jnrr6trey45cy7qlgcczzrqgjdc.jpeg)
+
+![](https://habrastorage.org/webt/kq/j9/pq/kqj9pq_ieg7zradjvymihpzgdxc.jpeg)
+
+![](https://habrastorage.org/webt/a2/ox/6j/a2ox6jhlqccbpjubwcjkht4tpzc.jpeg)
+
+![](https://habrastorage.org/webt/26/ln/zv/26lnzvtzq9o2x39tpj7ceumajvq.jpeg)
+
+![](https://habrastorage.org/webt/tm/bq/bh/tmbqbhie6ym7zlulj_s4mt_etuo.jpeg)
+
+![](https://habrastorage.org/webt/yy/wh/bl/yywhbl2vwatu9rvj5v6r2xgjjuy.jpeg)
+
+![](https://habrastorage.org/webt/nf/2e/yh/nf2eyhxhvgilne3b0jbkluwjwfk.jpeg)
+
+![](https://habrastorage.org/webt/xe/-9/ro/xe-9roz94pyq5awvmpohfiilm_i.jpeg)
+
+![](https://habrastorage.org/webt/0w/ab/n9/0wabn9e1eijqzi1ouxe_ofi0exo.jpeg)
+
+![](https://habrastorage.org/webt/5x/3p/ub/5x3pubfg2ngz2xfhhj50u5kuddo.jpeg)
+
+![](https://habrastorage.org/webt/y2/da/dj/y2dadjbomnotslpzuvjx-0x69cs.jpeg)
+
+![](https://habrastorage.org/webt/ur/zf/z2/urzfz2eracieqpmi0wbmfhiu58w.jpeg)
+
+![](https://habrastorage.org/webt/yl/i3/na/yli3na_bdmachk7ykpe2egszvby.jpeg)
+
+![](https://habrastorage.org/webt/cr/hg/iy/crhgiyb1yhr1p5u6qachd9oazoi.jpeg)
+
+![](https://habrastorage.org/webt/u4/vz/fg/u4vzfg0djobmllz6gt_xy_pumlg.jpeg)
+
+![](https://habrastorage.org/webt/xr/zj/d4/xrzjd4_ce-zqpbchrn7kbpiq4l4.jpeg)
+
+![](https://habrastorage.org/webt/b9/eb/jr/b9ebjrxxxchpcn-ak7aj0i_db1e.jpeg)
+
+![](https://habrastorage.org/webt/9i/rw/ow/9irwowodsyvieo6czxvlkl9-bs4.jpeg)
+
+![](https://habrastorage.org/webt/wv/uc/wk/wvucwkcp6ixjurtrlr4mjjbjuzw.jpeg)
+
+![](https://habrastorage.org/webt/dm/b8/-8/dmb8-86haqzqbyt92ahbanguou4.jpeg)
+
+![](https://habrastorage.org/webt/4z/hy/9s/4zhy9shz4wpeyxhh3a61ohec3g4.jpeg)
+
+![](https://habrastorage.org/webt/55/ku/-l/55ku-lah1dbwuok3cbjpoamm4cy.jpeg)
+
+![](https://habrastorage.org/webt/bj/ee/vf/bjeevfwf5mqoylhrqfubab_cyss.jpeg)
+
+![](https://habrastorage.org/webt/hv/ak/vl/hvakvlx4l-4t5ryv5blmgd6ihum.jpeg)
+
+![](https://habrastorage.org/webt/4e/ln/eq/4elneqhvy0ztsuodjpiz76mo_ou.jpeg)
+
+![](https://habrastorage.org/webt/3m/gc/cu/3mgccuh7sswpkuu-e9mgsd1hunw.jpeg)
+
+![](https://habrastorage.org/webt/rf/g5/4g/rfg54gaf8qdntoqtnuvgtedadtc.jpeg)
+
+![](https://habrastorage.org/webt/-o/kf/8x/-okf8xg0tbymgstfacjryt8bgos.jpeg)
+
+![](https://habrastorage.org/webt/2x/qq/3i/2xqq3i1ipxhmg4fxplnu-fhah6c.jpeg)
+
+![](https://habrastorage.org/webt/tx/yo/jj/txyojj-dgkbyyjvkuwt9bmagnwa.jpeg)
+
+![](https://habrastorage.org/webt/hr/ip/1i/hrip1inbfhrwgecpwlaq_pap0ca.jpeg)
+
+![](https://habrastorage.org/webt/dh/vo/yh/dhvoyhx4gfst-x3ayqdgimj2vtk.jpeg)
+
+![](https://habrastorage.org/webt/z-/ns/fu/z-nsfuttbsjmpc3y4c0gsgpzddi.jpeg)
+
+![](https://habrastorage.org/webt/rb/_s/yt/rb_syttfkhetolpzm037yek2sma.jpeg)
+
+![](https://habrastorage.org/webt/ed/qf/nr/edqfnr9tl7bsbbiz6e95skjicco.jpeg)
+
 *Спасибо за доклад! Меня зовут Антон. Я из компании* *SEMrush**. Мне интересно, что с логированием. Про мониторинг слышно, а про логирование ничего, если говорить о кластере целиком. У нас, например, поднят кластер на железе. И мы используем централизованное логирование, стандартными средствами собираем в общую кучу. И потом оттуда достаем интересные нам данные.* 
 
 Хороший вопрос, т. е. логирование в списке to do. Оператор наш пока что это не автоматизирует. Он еще развивается, проект еще достаточно молодой. Мы понимаем необходимость логирования. Это тоже очень важная тема. И она, наверное, не менее важная, чем мониторинг. Но первым в списке на реализацию был мониторинг. Логирование будет. Мы, естественно, стараемся проавтоматизировать все стороны жизнедеятельности кластера. Поэтому ответ – на текущий момент оператор, к сожалению, этого не умеет, но это есть в планах, мы это будем делать. Если есть желание присоединиться, то pull request, пожалуйста.
@@ -547,8 +739,3 @@ Open source – присоединяйтесь!
 
 Хорошо. Мы открыты к любым предложениям. И chproxy ставится в список to do. Список to do растет, а не убавляется пока. Но это хорошо, это значит, что продукт востребован.
 
-
- 
-
-
- 
