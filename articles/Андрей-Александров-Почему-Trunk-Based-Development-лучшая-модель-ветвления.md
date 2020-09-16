@@ -1,6 +1,10 @@
-**Почему** **Trunk** **Based** **Development** **– лучшая модель ветвления // Андрей Александров,** **Express** **42**
-
 ![](https://habrastorage.org/webt/4d/zp/4x/4dzp4xo6pbhd2n6kj3wp60yb4j8.jpeg)
+
+В State Of DevOps 2018 от DORA мы видим, что Нigh Performing компании используют Trunk Based Development. Разберемся, почему именно ее, какие ее преимущества и недостатки имеет эта модель.
+
+<cut />
+
+<oembed>https://www.youtube.com/watch?v=hIW5ynk8HWc</oembed>
 
 Всем привет! Меня зовут Андрей. Я DevOps-консультант. Работаю в Express 42, по совместительству ведущий подкаста DevOps Deflope. И сегодня я рассказу про Trunk Based Development.
 
