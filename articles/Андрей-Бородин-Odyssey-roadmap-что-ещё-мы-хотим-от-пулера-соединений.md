@@ -266,9 +266,9 @@ https://github.com/yandex/odyssey/pull/73 - уже помержена
 
 Кроме того, из-за нашей каскадной конфигурации нам приходится тестировать различные связки: Postgres + Odyssey, PgBouncer + Odyssey, Odyssey + Odyssey для того, чтобы быть уверенными в том, что, если Odyssey оказался в какой-то из частей в каскаде, он тоже по-прежнему работает так, как мы ожидаем. 
 
-![](https://habrastorage.org/webt/3w/uo/nl/3wuonld19pewyrgahc-uaydjmqg.png)
-
 **Грабли**
+
+![](https://habrastorage.org/webt/3w/uo/nl/3wuonld19pewyrgahc-uaydjmqg.png)
 
 Мы используем Odyssey в production. И было бы не честно, если бы я сказал, что все просто работает. Нет, т. е. да, но не всегда. Например, в production все просто работало, потом пришли наши друзья из PostgreSQL Professional и сказали, что у нас есть memory leak. Они правда были, мы их исправили. Но это было просто. 
 
