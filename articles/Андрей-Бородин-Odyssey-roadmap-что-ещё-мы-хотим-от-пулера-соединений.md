@@ -283,17 +283,181 @@ Odyssey должен ходить временами в базу и спраши
 
 
 
+![](https://habrastorage.org/webt/mg/au/rx/mgaurxhvvklb5_thoz2dukmnunc.jpeg)
+
+![](https://habrastorage.org/webt/wn/1p/kh/wn1pkhvmmdjqn162kqzwxi89cu4.jpeg)
+
+![](https://habrastorage.org/webt/ih/lx/sp/ihlxspyxdi_vgw8hd-xbeilhrki.jpeg)
+
+![](https://habrastorage.org/webt/vs/tr/on/vstronudol9cxbc_attliexqw8a.jpeg)
+
+![](https://habrastorage.org/webt/e7/qw/jx/e7qwjxe3pub6n9h8u-3o58qa0y4.jpeg)
+
+![](https://habrastorage.org/webt/rb/zz/4p/rbzz4pqimuuzq26uizpgbnlpsi0.jpeg)
+
+![](https://habrastorage.org/webt/wv/vq/6m/wvvq6mciupplav4r_ptda4jnjdw.jpeg)
+
+![](https://habrastorage.org/webt/t4/vt/oy/t4vtoyifptt1wsenc6vuqco9r00.jpeg)
+
+![](https://habrastorage.org/webt/rj/rn/6-/rjrn6-msjkedob8ulqxbfjgiqje.jpeg)
+
+![](https://habrastorage.org/webt/la/ka/rq/lakarqw2gj00qtc3bk-gkxacvtw.jpeg)
+
+![](https://habrastorage.org/webt/l0/ck/pb/l0ckpba5rxgsl3-kqfafwmlrfq4.jpeg)
+
+![](https://habrastorage.org/webt/o6/bj/ov/o6bjove8gnvjgejowr5n0ju2mo0.jpeg)
+
+![](https://habrastorage.org/webt/6_/xn/vl/6_xnvlv3uqzr2o_4ja5pch98px0.jpeg)
+
+![](https://habrastorage.org/webt/rc/_j/ij/rc_jij9n_hkszmwx6ff7xlnaslq.jpeg)
+
+![](https://habrastorage.org/webt/-q/9v/o4/-q9vo4pas8p1wmlrzuvkpkrrc2y.jpeg)
+
+![](https://habrastorage.org/webt/7b/ai/5t/7bai5ty4eygjwhmiiabmw8nx-ti.jpeg)
+
+![](https://habrastorage.org/webt/gn/ap/gg/gnapggfbl1bopez-lthmy-qu8kw.jpeg)
+
+![](https://habrastorage.org/webt/25/0x/yk/250xykcijibminkipmj517ybin0.jpeg)
+
+![](https://habrastorage.org/webt/ii/3v/sd/ii3vsdrownpltnr4rz_nh0q4su8.jpeg)
+
+![](https://habrastorage.org/webt/iw/rh/qc/iwrhqcgv72z8ddl2si44vzm4pym.jpeg)
+
+![](https://habrastorage.org/webt/qj/uo/j9/qjuoj9jftwymdrapak46mh3kalm.jpeg)
+
+![](https://habrastorage.org/webt/py/rr/mc/pyrrmcbvmkostk51bdvny2a48ei.jpeg)
+
+![](https://habrastorage.org/webt/i0/pi/jr/i0pijr_tfje3qme6yrqcqs3gb70.jpeg)
+
+![](https://habrastorage.org/webt/jk/l6/4k/jkl64kx1xxnbk47caibpjdd2u9a.jpeg)
+
+![](https://habrastorage.org/webt/hn/bj/3w/hnbj3wze-enagmpfj3tw1qjouvs.jpeg)
+
+![](https://habrastorage.org/webt/9u/lu/m5/9ulum5u_o9a3-g6b6epzujoq-h8.jpeg)
+
+![](https://habrastorage.org/webt/7z/y2/vb/7zy2vbrqg4cqchenyqsh2sht-bc.jpeg)
+
+![](https://habrastorage.org/webt/vs/w_/mf/vsw_mf0effhstjhgxz99axiipzw.jpeg)
+
+![](https://habrastorage.org/webt/dq/rm/h7/dqrmh7kyiw_pr5thyla2pfyonsi.jpeg)
+
+![](https://habrastorage.org/webt/pi/tz/xo/pitzxoy710rj5in_oaylh3872ri.jpeg)
+
+![](https://habrastorage.org/webt/y2/jt/ai/y2jtai9ctqgrydpm3f4cb9amsik.jpeg)
+
+![](https://habrastorage.org/webt/0x/sy/h4/0xsyh4yyv3-psykbqc9yxy1lpiy.jpeg)
+
+![](https://habrastorage.org/webt/te/iz/0a/teiz0a84rbfpcknfwmwlspk857a.jpeg)
+
+![](https://habrastorage.org/webt/jc/yf/we/jcyfwemsvvmabukaz4ywcowlw4s.jpeg)
+
+![](https://habrastorage.org/webt/ge/ex/2c/geex2ctr95--lvhzxkirk9q6prk.jpeg)
+
+![](https://habrastorage.org/webt/ou/mk/fe/oumkfecdqbhfxjuaelxzyg-dnfo.jpeg)
+
+![](https://habrastorage.org/webt/7i/0f/ge/7i0fgebzxzukxskde6j84g7bole.jpeg)
+
+![](https://habrastorage.org/webt/2w/lm/tx/2wlmtxd9b6mjuwhx0wbnvpoc6ca.jpeg)
+
+![](https://habrastorage.org/webt/or/b3/qp/orb3qp_iubckki265lsoi08nbag.jpeg)
+
+![](https://habrastorage.org/webt/5-/hb/rh/5-hbrh1aol0qfgadnbfoapprkl8.jpeg)
+
+![](https://habrastorage.org/webt/fe/jc/rz/fejcrzr7g0si3zd4x89ubxlowng.jpeg)
+
+![](https://habrastorage.org/webt/ns/tj/wv/nstjwvblz9t6dp6gaym7w9ubpc8.jpeg)
+
+![](https://habrastorage.org/webt/7f/cq/md/7fcqmd5okzz-35j6r9jxer9y6ii.jpeg)
+
+![](https://habrastorage.org/webt/gd/uy/sq/gduysq27dgny_mrf4h5wtvy5fnw.jpeg)
+
+![](https://habrastorage.org/webt/ti/yw/rm/tiywrmdbs0o2kl0ohicmfrk9yq0.jpeg)
+
+![](https://habrastorage.org/webt/aw/ij/9r/awij9r-nbk1ojvms-1vkcsdyzea.jpeg)
+
+![](https://habrastorage.org/webt/jw/y7/sp/jwy7splwq60sqersk9xas8mysxc.jpeg)
+
+![](https://habrastorage.org/webt/2z/jo/c9/2zjoc9cxsjis3yvira_vlmqi3ze.jpeg)
+
+![](https://habrastorage.org/webt/jj/ff/sc/jjffsc_onzxpdymweqia85avjdc.jpeg)
+
+![](https://habrastorage.org/webt/ue/3d/hx/ue3dhxt21ux78mjkbtkrtere2q0.jpeg)
+
+![](https://habrastorage.org/webt/-j/82/n7/-j82n7q8s3hmanmlagmjmpmpewg.jpeg)
+
+![](https://habrastorage.org/webt/zi/xl/w-/zixlw-y19dcau3omn6mg5um7jfa.jpeg)
+
+![](https://habrastorage.org/webt/ec/6g/wg/ec6gwgi3l3jxojykyfuvtpjc2ye.jpeg)
+
+![](https://habrastorage.org/webt/ym/8n/yg/ym8nyg7e_psj18hofortfuk6ytk.jpeg)
+
+![](https://habrastorage.org/webt/fy/iw/ce/fyiwcemv9xrkviovwpuoemu7mlm.jpeg)
+
+![](https://habrastorage.org/webt/vv/ai/wm/vvaiwmpumyuzeptn9xhm7sprw4s.jpeg)
+
+![](https://habrastorage.org/webt/na/z6/3e/naz63es_sa6cxhc0e_8-8-q1_gm.jpeg)
+
+![](https://habrastorage.org/webt/yk/pm/vq/ykpmvq_osvuqlgxfb6roqzw_vkc.jpeg)
+
+![](https://habrastorage.org/webt/qj/ao/by/qjaobynikhly5vytol7gcocuuoi.jpeg)
+
+![](https://habrastorage.org/webt/se/1c/p0/se1cp0u3zmo4a6c2v3mtdj9tgtc.jpeg)
+
+![](https://habrastorage.org/webt/no/z9/6j/noz96jr5fjohn2qwn8tjks7urme.jpeg)
+
+![](https://habrastorage.org/webt/o6/lg/gh/o6lgghuwvdpw09icgtkp1e_kuqe.jpeg)
+
+![](https://habrastorage.org/webt/lf/oz/on/lfozonn7_op6anpabkmhmyiirq8.jpeg)
+
+![](https://habrastorage.org/webt/8v/7t/po/8v7tpobq4ytu15uxggql212doqc.jpeg)
+
+![](https://habrastorage.org/webt/qw/6h/2t/qw6h2tjjtsoinjijxkeswksdop4.jpeg)
+
+![](https://habrastorage.org/webt/9l/ea/an/9leaanxaohg6_sxrxue7eeyxvlo.jpeg)
+
+![](https://habrastorage.org/webt/q7/ow/n_/q7own_vtqogkuj5yuufskvemdzg.jpeg)
+
+![](https://habrastorage.org/webt/_l/0r/6g/_l0r6g_dt66nlhuqnrhha07x8sw.jpeg)
+
+![](https://habrastorage.org/webt/l2/up/ur/l2upurdum6k5wn8afnrocy_jdqq.jpeg)
+
+![](https://habrastorage.org/webt/es/zt/k8/esztk8vjl05fuwhs0snd-9st7zi.jpeg)
+
+![](https://habrastorage.org/webt/ot/ut/33/otut339thziitvmdpccoidlu4ce.jpeg)
+
+![](https://habrastorage.org/webt/ei/sr/ab/eisrabmzws1fxablpitsqky61ck.jpeg)
+
+![](https://habrastorage.org/webt/7w/ue/mn/7wuemndmbmhkutyanf5w2vem57c.jpeg)
+
+![](https://habrastorage.org/webt/q7/6r/i9/q76ri9spnd7ftzz4egw9c-q0wcm.jpeg)
+
+![](https://habrastorage.org/webt/ty/rv/vm/tyrvvmjyqg0pumt1hscnm7fuw0o.jpeg)
+
+![](https://habrastorage.org/webt/ca/d3/kz/cad3kzaxj0pv-rlekkcolvnbl_8.jpeg)
+
+![](https://habrastorage.org/webt/lq/by/dv/lqbydvewvu8sp0yp1kgzhm7hexi.jpeg)
+
+![](https://habrastorage.org/webt/p8/ho/8e/p8ho8e4uxktysp_5gqgcxpckjnq.jpeg)
+
+![](https://habrastorage.org/webt/pr/3c/aq/pr3caqqd0pqvrntphqyeoup5a48.jpeg)
+
+![](https://habrastorage.org/webt/i0/2n/ru/i02nrurmxig_96gtzfziaglfsw8.jpeg)
+
+
+
+
+
 Вопросы
 
 Я жду ваших pull request. И еще хотелось бы услышать, какие у вас есть проблемы с Bouncer. Давайте их обсудим. Может быть, мы сможем какие-то функции реализовать, которые нужны вам. 
 
 На этом моя часть закончена, я хотел бы послушать вас. Спасибо!
 
-*Если я свой поставлю* *application**_**name**, он будет правильно прокидываться, в том числе в* *transaction* *pooling* *в* *Odyssey**?*
+*Если я свой поставлю application_name, он будет правильно прокидываться, в том числе в transaction pooling в Odyssey?*
 
 В Odyssey или в Bouncer?
 
-*В* *Odyssey**. В* *Bouncer* *прокидывается.* 
+*В Odyssey. В Bouncer прокидывается.* 
 
 Сет мы сделаем. 
 
@@ -301,7 +465,7 @@ Odyssey должен ходить временами в базу и спраши
 
 Мы сделаем сет всех параметров, которые перечислены в списке. Я не могу сказать, есть ли в этом списке application_name. Кажется, его там видел. Мы установим все те же параметры. Одним запросом там сет сделает все то, что было установлено клиентом при стартапе. 
 
-*Спасибо, Андрей, за доклад! Хороший доклад! Рад, что* *Odyssey* *с каждой минутой развивается все быстрее и быстрее. Желаю так же продолжать. Мы уже к вам обращались с просьбой иметь* *multi* *data**-**source* *подключение, чтобы* *Odyssey* *мог подключаться одновременно к разным базам данных, т. е. мастер* *slave**, а потом автоматически после* *failover* *подключаться к новому мастеру.* 
+*Спасибо, Андрей, за доклад! Хороший доклад! Рад, что Odyssey с каждой минутой развивается все быстрее и быстрее. Желаю так же продолжать. Мы уже к вам обращались с просьбой иметь multi data-source подключение, чтобы Odyssey мог подключаться одновременно к разным базам данных, т. е. мастер slave, а потом автоматически после failover подключаться к новому мастеру.* 
 
 Да, я, кажется, припоминаю эту дискуссию. Сейчас есть несколько storages. Но переключения между ними нет. Мы должны на своей стороне опрашивать сервер, что он еще жив и понимать, что произошел failover, кто вызовет pg_recovery. У меня есть стандартный способ понять, что мы пришли не на мастер. И мы должны понять как-то из ошибок или как? Т. е. идея интересная, она обсуждается. Пишите больше комментариев. Если у вас есть рабочие руки, которые знают C, то это вообще замечательно. 
 
@@ -319,7 +483,7 @@ Odyssey должен ходить временами в базу и спраши
 
 Это хорошая идея. Но сначала нужно реализовать это отключение. Сначала надо выключиться, а потом подумаем, как включиться. Это отличная фича, чтобы плавно включаться.
 
-*В* *nginx* *есть такая опция «**slowly* *start**» в кластере для сервера. И он постепенно наращивает нагрузку.* 
+*В nginx есть такая опция `slowly start` в кластере для сервера. И он постепенно наращивает нагрузку.* 
 
 Да, отличная идея, попробуем, когда дойдем до этого. 
 
