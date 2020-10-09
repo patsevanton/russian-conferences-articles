@@ -1,30 +1,48 @@
 **Odyssey roadmap: что ещё мы хотим от пулера соединений ⁄ Андрей Бородин (Яндекс)**
 
-Всем привет! Меня зовут Андрей. В Яндексе я занимаюсь разработкой open source баз данных. И сегодня у нас тема про connection pooler соединений. Если вы знаете, как назвать connection pooler по-русски, то скажите мне. Я очень хочу найти хороший технический термин, который должен устояться в технической литературе. 
+![](https://habrastorage.org/webt/mg/au/rx/mgaurxhvvklb5_thoz2dukmnunc.jpeg)
 
-Тема довольно сложная, потому что во многих базах данных connection pooler встроенный и про него даже знать не надо. Какие-то настройки, конечно, везде есть, но в Postgres так не получается. И у нас параллельно идет доклад Николая Самохвалова про настройку запросов в Postgres. И я так понимаю, что сюда пришли люди, которые уже настроили запросы идеально, и это люди, которые сталкиваются с более редкими системными проблемами, связанные с сетью, утилизацией ресурсов. И местами это может было довольно сложно в том плане, что проблемы неочевидные.
+В докладе Андрей Бородин расскажет, как они учли опыт масштабирования PgBouncer при проектировании пулера соединений Odyssey, как выкатывали его в production. Кроме того, обсудим какие функции пулера хотелось бы видеть в новых версиях: нам важно не только закрывать свои потребности, но развивать сообщество пользователей Одиссея.
 
-PostgreSQL в Яндексе
+![](https://habrastorage.org/webt/wn/1p/kh/wn1pkhvmmdjqn162kqzwxi89cu4.jpeg)
+
+Всем привет! Меня зовут Андрей. 
+
+![](https://habrastorage.org/webt/ih/lx/sp/ihlxspyxdi_vgw8hd-xbeilhrki.jpeg)
+
+В Яндексе я занимаюсь разработкой open source баз данных. И сегодня у нас тема про connection pooler соединений. 
+
+![](https://habrastorage.org/webt/vs/tr/on/vstronudol9cxbc_attliexqw8a.jpeg)
+
+Если вы знаете, как назвать connection pooler по-русски, то скажите мне. Я очень хочу найти хороший технический термин, который должен устояться в технической литературе. 
+
+Тема довольно сложная, потому что во многих базах данных connection pooler встроенный и про него даже знать не надо. Какие-то настройки, конечно, везде есть, но в Postgres так не получается. И параллельно (на HighLoad++ 2019) идет доклад Николая Самохвалова про настройку запросов в Postgres. И я так понимаю, что сюда пришли люди, которые уже настроили запросы идеально, и это люди, которые сталкиваются с более редкими системными проблемами, связанные с сетью, утилизацией ресурсов. И местами это может было довольно сложно в том плане, что проблемы неочевидные.
+
+![](https://habrastorage.org/webt/e7/qw/jx/e7qwjxe3pub6n9h8u-3o58qa0y4.jpeg)
 
 В Яндексе есть Postgres. В Яндекс.Облаке живут многие сервисы Яндекса. И у нас несколько петабайт данных, которые генерируют не меньше миллиона запросов в секунду в Postgres. 
 
-Топология кластера
+![](https://habrastorage.org/webt/rb/zz/4p/rbzz4pqimuuzq26uizpgbnlpsi0.jpeg)
 
 И мы предоставляем достаточно типовой кластер всем сервисам – это основная primary нода узла, обычные две реплики (синхронная и асинхронная), резервное копирование, масштабирование читающих запросов на реплике. 
 
-Узел кластера
+![](https://habrastorage.org/webt/wv/vq/6m/wvvq6mciupplav4r_ptda4jnjdw.jpeg)
 
 Каждый узел кластера – это Postgres, на котором кроме Postgres и систем мониторинга еще установлен connection pooler. Connection pooler используется для fencing и по своему основному назначению. 
 
-Зачем экономить соединения с базой?
+![](https://habrastorage.org/webt/t4/vt/oy/t4vtoyifptt1wsenc6vuqco9r00.jpeg)
 
-Что такое основное назначение connection pooler? В Postgres принята процессная модель при работе с базой данных. Это означает, что одно соединение – это один процесс, один бэкенд Postgres. И в этом бэкенде очень много различных кэшей, которые довольно дорого делать разными для различных соединений. 
+Что такое основное назначение connection pooler? 
 
-OLTP-нагрузка
+![](https://habrastorage.org/webt/l0/ck/pb/l0ckpba5rxgsl3-kqfafwmlrfq4.jpeg)
+
+В Postgres принята процессная модель при работе с базой данных. Это означает, что одно соединение – это один процесс, один бэкенд Postgres. И в этом бэкенде очень много различных кэшей, которые довольно дорого делать разными для различных соединений. 
+
+![](https://habrastorage.org/webt/o6/bj/ov/o6bjove8gnvjgejowr5n0ju2mo0.jpeg)
 
 Кроме того, в коде Postgres есть массив, который называется procArray. Он содержит основные данные о сетевых соединениях. И почти все алгоритмы обработки procArray имеют линейную сложность, они пробегаются по всему массиву сетевых соединений. Это довольно быстрый цикл, но с большим количеством входящих сетевых соединений все становится немного дороже. А когда все стало немножко дороже, в итоге можно заплатить очень большую цену за большое количество сетевых соединений. 
 
-Где экономить соединения?
+![](https://habrastorage.org/webt/6_/xn/vl/6_xnvlv3uqzr2o_4ja5pch98px0.jpeg)
 
 Существуют 3 возможных подхода:
 
@@ -34,179 +52,229 @@ OLTP-нагрузка
 
 К сожалению, встроенный pooler сейчас находится в стадии разработки. Друзья в компании PostgreSQL Professional в основном этим занимаются. Когда он появится, сложно предсказать. И фактически на выбор архитектора у нас два решения. Это application-side pool и proxy pool. 
 
-Application-side pool
+![](https://habrastorage.org/webt/rc/_j/ij/rc_jij9n_hkszmwx6ff7xlnaslq.jpeg)
 
 Application-side pool – это самый простой способ. И почти все клиентские драйвера вам предоставляют способ: миллионы ваших соединений в коде представить в виде некоторых десятков соединений в базу данных. 
 
-Распределение нагрузки между приложениями
+![](https://habrastorage.org/webt/-q/9v/o4/-q9vo4pas8p1wmlrzuvkpkrrc2y.jpeg)
 
 Возникает проблема с тем, что в определенный момент вы хотите масштабировать бэкенд, вы хотите развернуть его на множество виртуальных машин. 
 
-В нескольких зонах доступности
+![](https://habrastorage.org/webt/7b/ai/5t/7bai5ty4eygjwhmiiabmw8nx-ti.jpeg)
 
 Потом вы еще осознаете, что у вас еще несколько зон доступностей, несколько дата-центров. И подход с client side pooling приводит к большим числам. Большие – это порядка 10 000 соединений. Это край, что может нормально работать. 
 
-Proxy poolers
+![](https://habrastorage.org/webt/gn/ap/gg/gnapggfbl1bopez-lthmy-qu8kw.jpeg)
 
-Если говорить про proxy poolers, то есть два poolers, которые умеют много всего. Они не только poolers. Они poolers + еще классная функциональность. Это Pgpool и Crunchy-Proxy. 
+Если говорить про proxy poolers, то есть два poolers, которые умеют много всего. Они не только poolers. Они poolers + еще классная функциональность. Это [Pgpool](https://www.pgpool.net/) и [Crunchy-Proxy](https://github.com/CrunchyData/crunchy-proxy). 
 
 Но, к сожалению, эта дополнительная функциональность не всем нужна. И она приводит к тому, что poolers поддерживают только сессионный pooling, т. е. один входящий клиент, один исходящий клиент в базу данных. 
 
-Для наших задаx это не очень хорошо подходит, поэтому мы используем PgBouncer, который реализует transaction pooling, т. е. серверные соединения сопоставляются клиентским соединениям только на время транзакции. 
+Для наших задач это не очень хорошо подходит, поэтому мы используем PgBouncer, который реализует transaction pooling, т. е. серверные соединения сопоставляются клиентским соединениям только на время транзакции. 
 
-PgBouncer – наше все. И на нашей нагрузке – это правда. 
+![](https://habrastorage.org/webt/25/0x/yk/250xykcijibminkipmj517ybin0.jpeg)
 
-Но есть несколько проблем
+И на нашей нагрузке – это правда. Но есть несколько проблем
 
-Есть несколько проблем с PgBouncer.
-
-Сложности с диагностикой
+![](https://habrastorage.org/webt/iw/rh/qc/iwrhqcgv72z8ddl2si44vzm4pym.jpeg)
 
 Проблемы начинаются, когда вы хотите диагностировать сессию, потому что все входящие соединения у вас локальные. Все пришли с loopback и как-то трассировать сессию становится сложно. 
 
-Application_name_add_host
+![](https://habrastorage.org/webt/py/rr/mc/pyrrmcbvmkostk51bdvny2a48ei.jpeg)
 
 Конечно, вы можете использовать application_name_add_host. Это способ на стороне Bouncer добавить IP-адрес в application_name. Но application_name устанавливается дополнительным соединением. 
 
+![](https://habrastorage.org/webt/i0/pi/jr/i0pijr_tfje3qme6yrqcqs3gb70.jpeg)
+
 На этом графике, где желтая линия – это реальные запросы, а где синяя – запросы, которые влетают в базу. И вот эта разница – это именно установка application_name, который нужен только для трассировки, но он совершенно не бесплатный. 
 
-Max_client_pool_conn
+![](https://habrastorage.org/webt/jk/l6/4k/jkl64kx1xxnbk47caibpjdd2u9a.jpeg)
 
 Кроме того, в Bouncer нельзя ограничить один pool, т. е. количество соединений с базой данных на определенного пользователя, на определенную базу. 
 
+![](https://habrastorage.org/webt/hn/bj/3w/hnbj3wze-enagmpfj3tw1qjouvs.jpeg)
+
 К чему это приводит? У вас есть нагруженный сервис, написанный на C++ и где-то рядом маленький сервис на ноде, который ничего страшного с базой не делает, но его драйвер сходит с ума. Он открывает 20 000 соединений, а все остальное подождет. У вас даже код нормальный. 
+
+![](https://habrastorage.org/webt/9u/lu/m5/9ulum5u_o9a3-g6b6epzujoq-h8.jpeg)
 
 Мы, конечно, написали маленький патч для Bouncer, который добавил эту настройку, т. е. ограничение клиентов на pool. 
 
-PgBouncer cannot connect to server
+![](https://habrastorage.org/webt/7z/y2/vb/7zy2vbrqg4cqchenyqsh2sht-bc.jpeg)
 
-Можно было бы это сделать на стороне Postgres, т. е. роли в базе данных ограничить количеством соединений, но тогда вы теряете возможность понять, почему у вас нет соединений с сервером. PgBouncer не пробрасывает ошибку соединения, он возвращает всегда одну и ту же информацию. И вы не можете понять: может быть, у вас пароль поменялся, может быть, просто база легла, может быть, что-то не так. Но диагностики никакой нет. Если сессию нельзя установить, вы не узнаете, почему это нельзя сделать. 
+Можно было бы это сделать на стороне Postgres, т. е. роли в базе данных ограничить количеством соединений.
 
-Что-то база тормозит?
+![](https://habrastorage.org/webt/vs/w_/mf/vsw_mf0effhstjhgxz99axiipzw.jpeg)
 
-В определенный момент вы смотрите на графики приложения и видите, что приложение не работает. Смотрите в топ и видите, что Bouncer однопоточный. Это поворотный момент в жизни сервиса. Вы понимаете, что вы готовились к масштабированию базы данных через полтора года, а вам нужно масштабировать pooler. 
+Но тогда вы теряете возможность понять, почему у вас нет соединений с сервером. PgBouncer не пробрасывает ошибку соединения, он возвращает всегда одну и ту же информацию. И вы не можете понять: может быть, у вас пароль поменялся, может быть, просто база легла, может быть, что-то не так. Но диагностики никакой нет. Если сессию нельзя установить, вы не узнаете, почему это нельзя сделать. 
+
+![](https://habrastorage.org/webt/dq/rm/h7/dqrmh7kyiw_pr5thyla2pfyonsi.jpeg)
+
+В определенный момент вы смотрите на графики приложения и видите, что приложение не работает.
+
+![](https://habrastorage.org/webt/pi/tz/xo/pitzxoy710rj5in_oaylh3872ri.jpeg)
+
+Смотрите в топ и видите, что Bouncer однопоточный. Это поворотный момент в жизни сервиса. Вы понимаете, что вы готовились к масштабированию базы данных через полтора года, а вам нужно масштабировать pooler. 
+
+![](https://habrastorage.org/webt/y2/jt/ai/y2jtai9ctqgrydpm3f4cb9amsik.jpeg)
 
 Мы пришли к тому, что нам надо больше PgBouncer’ов. 
 
-SO_REUSEPORT
+![](https://habrastorage.org/webt/0x/sy/h4/0xsyh4yyv3-psykbqc9yxy1lpiy.jpeg)
 
-Немножко запатчили Bouncer. И сделали так, что могут быть подняты с переиспользованием TCP-порта несколько Bouncers. И уже операционная система входящие TCP-соединения между ними автоматически round-robin’ом перекладывает.
+https://lwn.net/Articles/542629/
+
+Немножко запатчили Bouncer. 
+
+![](https://habrastorage.org/webt/te/iz/0a/teiz0a84rbfpcknfwmwlspk857a.jpeg)
+
+И сделали так, что могут быть подняты с переиспользованием TCP-порта несколько Bouncers. И уже операционная система входящие TCP-соединения между ними автоматически round-robin’ом перекладывает.
+
+![](https://habrastorage.org/webt/jc/yf/we/jcyfwemsvvmabukaz4ywcowlw4s.jpeg)
 
 Это прозрачно для клиентов, т. е. все выглядит так, как будто у вас один Bouncer, но у вас есть фрагментация idle-соединений между запущенными Bouncer’ами. 
 
-TLS
+![](https://habrastorage.org/webt/ge/ex/2c/geex2ctr95--lvhzxkirk9q6prk.jpeg)
 
-И в определенный момент вы можете заметить, что вот эти 3 Bouncers съедают каждый свое ядро на 100 %. 
+И в определенный момент вы можете заметить, что вот эти 3 Bouncers съедают каждый свое ядро на 100 %. Вам нужно довольно много Bouncers. Почему? 
 
-Вам нужно довольно много Bouncers. Почему? Потому что у вас есть TLS. У вас есть шифрованное соединение. И если пробенчмаркать Postgres с TLS и без TLS, то вы обнаружите, что количество установленных соединений падает почти на два порядка с включением шифрования, потому что TLS handshake потребляет ресурсы центрального процессора. 
+![](https://habrastorage.org/webt/ou/mk/fe/oumkfecdqbhfxjuaelxzyg-dnfo.jpeg)
+
+Потому что у вас есть TLS. У вас есть шифрованное соединение. И если пробенчмаркать Postgres с TLS и без TLS, то вы обнаружите, что количество установленных соединений падает почти на два порядка с включением шифрования, потому что TLS handshake потребляет ресурсы центрального процессора. 
+
+![](https://habrastorage.org/webt/7i/0f/ge/7i0fgebzxzukxskde6j84g7bole.jpeg)
 
 И в топе вы можете увидеть довольно много криптографических функций, которые выполняются при волне входящих соединений. Поскольку у нас primary может переключаться между зонами доступности, то волна входящих соединений – это довольно типичная ситуация. Т. е. по какой-то причине старый primary был недоступен, всю нагрузку отправили в другой дата-центр. Они все одновременно придут поздороваться с TLS. 
 
-И большое количество TLS handshake может не здороваться уже с Bouncer, а горло ему сдавить. Из-за таймаута волна входящих соединений может стать незатухающей. Если у вас retry в базу без exponential backoff, они не будут приходят снова и снова когерентной волной. Вот пример 16 PgBouncer, которые грузят 16 ядер на 100 %.
+![](https://habrastorage.org/webt/2w/lm/tx/2wlmtxd9b6mjuwhx0wbnvpoc6ca.jpeg)
 
-Каскад PgBouncer
+И большое количество TLS handshake может не здороваться уже с Bouncer, а горло ему сдавить. Из-за таймаута волна входящих соединений может стать незатухающей. Если у вас retry в базу без exponential backoff, они не будут приходят снова и снова когерентной волной. 
+
+![](https://habrastorage.org/webt/or/b3/qp/orb3qp_iubckki265lsoi08nbag.jpeg)
+
+Вот пример 16 PgBouncer, которые грузят 16 ядер на 100 %.
+
+![](https://habrastorage.org/webt/5-/hb/rh/5-hbrh1aol0qfgadnbfoapprkl8.jpeg)
 
 Мы пришли к каскадному PgBouncer. Это лучшая конфигурация, которую можно достигнуть на нашей нагрузке с Bouncer. Внешние Bouncers у нас служат для TCP handshake, а внутренние Bouncers служат для реального pooling, для того, чтобы не сильно фрагментировать внешние соединения.
 
-Cascading PgBouncers 
+![](https://habrastorage.org/webt/fe/jc/rz/fejcrzr7g0si3zd4x89ubxlowng.jpeg)
 
 В такой конфигурации возможен плавный рестарт. Можно рестартить все эти 18 Bouncers по одному. Но поддерживать такую конфигурацию довольно сложно. Системные администраторы, DevOps и люди, которые действительно несут ответственность за этот сервер, будут не очень рады такой схеме. 
 
-Кажется, работает. Будем продвигать в open source?
+![](https://habrastorage.org/webt/ns/tj/wv/nstjwvblz9t6dp6gaym7w9ubpc8.jpeg)
 
 Казалось бы, можно все наши доработки продвигать в open source, но Bouncer не очень хорошо саппортится. Например, возможность, запустить несколько PgBouncers на одном порту закоммитили месяц назад. А pull request с этой функцией был несколько лет назад. 
 
-Отмена запроса
+![](https://habrastorage.org/webt/7f/cq/md/7fcqmd5okzz-35j6r9jxer9y6ii.jpeg)
+
+https://www.postgresql.org/docs/current/libpq-cancel.html
+
+https://github.com/pgbouncer/pgbouncer/pull/79
 
 Или еще один пример. В Postgres вы можете отменить выполняющийся запрос, отправив секрет по-другому соединению без лишней аутентификации. Но некоторые клиенты отправляют просто TCP-reset, т. е. рвут сетевое соединение. Что при этом сделает Bouncer? Он ничего не сделает. Он продолжит выполнять запрос. Если у вас пришло огромное количество соединений, которые маленькими запросами положили базу, то просто оторвать соединение от Bouncer будет недостаточно, нужно еще завершить те запросы, которые бегут в базе. 
 
 Это было запатчено и эту проблему все еще не вмержили в upstream Bouncer’а. 
 
-Odyssey 
+![](https://habrastorage.org/webt/gd/uy/sq/gduysq27dgny_mrf4h5wtvy5fnw.jpeg)
 
 И так мы пришли к тому, что нам нужен свой connection pooler, который будет развиваться, патчиться, в котором можно будет оперативно исправлять проблемы и который, конечно, должен быть многопоточным. 
 
-Многопоточность
+![](https://habrastorage.org/webt/em/ij/hd/emijhdcpmpmos1euphslbls6qxo.jpeg)
 
 Многопоточность мы поставили как основную задачу. Нам нужно хорошо выдерживать волну входящих TLS-соединений. 
 
-Для этого нам пришлось разработать отдельную библиотеку, которая называется Machinarium, которая предназначена для описания машинных состояний сетевого соединения как последовательного кода. Если вы посмотрите в исходный код libpq, то вы увидите довольно сложные вызовы, которые могут вернуть вам результат и сказать: «Вызови меня чуть попозже. Сейчас у меня пока что IO, но, когда IO пройдет у меня нагрузка для процессора». И это многоуровневая схема. 
+Для этого нам пришлось разработать отдельную библиотеку, которая называется Machinarium, которая предназначена для описания машинных состояний сетевого соединения как последовательного кода. Если вы посмотрите в исходный код libpq, то вы увидите довольно сложные вызовы, которые могут вернуть вам результат и сказать: «Вызови меня чуть попозже. Сейчас у меня пока что IO, но, когда IO пройдет у меня нагрузка для процессора». И это многоуровневая схема. Мы сделали так, что можно описать машинные состояния в виде последовательного кода, просто иногда говоря, что сейчас точка, когда я делаю IO, передай контекст моего выполнения другому green thread. 
 
-Мы сделали так, что можно описать машинные состояния в виде последовательного кода, просто иногда говоря, что сейчас точка, когда я делаю IO, передай контекст моего выполнения другому green red. В итоге у нас есть один поток, который делает TCP accept и round-robin'ом передает множеству workers TPC-соединение. 
+![](https://habrastorage.org/webt/aw/ij/9r/awij9r-nbk1ojvms-1vkcsdyzea.jpeg)
+
+В итоге у нас есть один поток, который делает TCP accept и round-robin'ом передает множеству workers TPC-соединение. 
 
 При этом каждое клиентское соединение работает всегда на одном процессоре. И это позволяет сделать его cache-friendly. 
 
 И кроме того, мы доработали немножко сбор маленьких пакетов в один большой пакет для того, чтобы разгрузить системный TCP-stack.
 
-Улучшения транзакционного пулинга
+![](https://habrastorage.org/webt/jj/ff/sc/jjffsc_onzxpdymweqia85avjdc.jpeg)
 
 Кроме того, мы улучшили транзакционный пулинг в том плане, что Odyssey при установленной настройке может отправить CANCEL и ROLLBACK в случае обрыва сетевого соединения, т. е. если запрос никто не ждет, Odyssey скажет базе, чтобы она не старалась выполнить тот запрос, который может расходовать драгоценные ресурсы.
 
 И по возможности мы сохраняем соединения за одним и тем же клиентом. Это позволяет не переустанавливать application_name_add_host. Если это возможно, то у нас нет дополнительной переустановки параметров, которые нужны для диагностики. 
 
-Логическая репликация в Облаке
+![](https://habrastorage.org/webt/ue/3d/hx/ue3dhxt21ux78mjkbtkrtere2q0.jpeg)
 
 Мы работаем в интересах Яндекс.Облака. И если вы используете managed PostgreSQL и у вас установлен connection pooler, вы можете создать логическую репликацию наружу, т. е. уехать от нас, если вам захочется, при помощи логической репликации. Bouncer наружу поток логической репликации не отдаст. 
 
+![](https://habrastorage.org/webt/-j/82/n7/-j82n7q8s3hmanmlagmjmpmpewg.jpeg)
+
 Это пример настройки логической репликации. 
+
+![](https://habrastorage.org/webt/zi/xl/w-/zixlw-y19dcau3omn6mg5um7jfa.jpeg)
 
 Кроме того, у нас есть поддержка физической репликации наружу. В Облаке она, конечно, невозможна, потому что тогда вам кластер отдаст слишком много информации про себя. Но в ваших инсталляциях, если вам нужна физическая репликация через connection pooler в Odyssey, это возможно. 
 
-Совместимый мониторинг
+![](https://habrastorage.org/webt/ec/6g/wg/ec6gwgi3l3jxojykyfuvtpjc2ye.jpeg)
 
 В Odyssey полностью совместимый мониторинг с PgBouncer. У нас такая же консоль, которая выполняет почти все те же самые команды. Если чего-то не хватает, присылайте pull request, либо хотя бы issue в GitHub, будем доделывать нужные команды. Но основная функциональность консоли PgBouncer у нас уже есть. 
 
-Улучшенная диагностика
+![](https://habrastorage.org/webt/ym/8n/yg/ym8nyg7e_psj18hofortfuk6ytk.jpeg)
 
 И, конечно, у нас есть error forwarding. Мы вернем ту ошибку, которую сообщила база. Вы получите информацию, почему вы не попадаете в базу, а не просто, что вы в нее не попадаете. 
 
-Error forwarding
+![](https://habrastorage.org/webt/fy/iw/ce/fyiwcemv9xrkviovwpuoemu7mlm.jpeg)
 
 Эта возможность выключается на случай, если вам нужна 100%-ная совместимость с PgBouncer. Мы можем вести себя так же, как Bouncer, просто на всякий случай. 
 
-Разработка
+**Разработка**
 
 Несколько слов об исходном коде Odyssey. 
 
-Pause/ Resume
+![](https://habrastorage.org/webt/se/1c/p0/se1cp0u3zmo4a6c2v3mtdj9tgtc.jpeg)
 
-Например, есть команды «Pause /Resume». Они обычно используются для обновления базы данных. Если вам нужно обновить Postgres, то вы можете поставить его на паузу в connection pooler, сделать pg_upgrade, после этого сделать resume. И со стороны клиента это будет выглядеть так, как будто база просто тормозила. 
+https://github.com/yandex/odyssey/pull/66
 
-Эту функциональность нам принесли люди из сообщества. Она пока еще не помержена, но скоро все будет. 
+Например, есть команды «Pause /Resume». Они обычно используются для обновления базы данных. Если вам нужно обновить Postgres, то вы можете поставить его на паузу в connection pooler, сделать pg_upgrade, после этого сделать resume. И со стороны клиента это будет выглядеть так, как будто база просто тормозила. Эту функциональность нам принесли люди из сообщества. Она пока еще не помержена, но скоро все будет. (Уже помержена)
 
-SCRAM Authentication
+![](https://habrastorage.org/webt/no/z9/6j/noz96jr5fjohn2qwn8tjks7urme.jpeg)
 
-Кроме того, одна из новых фич в PgBouncer, это поддержка SCRAM Authentication, которую нам тоже принес человек, который не работает в Яндекс.Облаке. И то и другое – это сложная функциональность и важная, поэтому хочется рассказать из чего сделан Odyssey, вдруг вы тоже сейчас хотите немножко пописать код. 
+https://github.com/yandex/odyssey/pull/73 - уже помержена
+
+Кроме того, одна из новых фич в PgBouncer, это поддержка SCRAM Authentication, которую нам тоже принес человек, который не работает в Яндекс.Облаке. И то и другое – это сложная функциональность и важная. 
+
+![](https://habrastorage.org/webt/o6/lg/gh/o6lgghuwvdpw09icgtkp1e_kuqe.jpeg)
+
+Поэтому хочется рассказать из чего сделан Odyssey, вдруг вы тоже сейчас хотите немножко пописать код. 
 
 У вас есть исходная база Odyssey, которая опирается на две основные библиотеки. Библиотека Kiwi – это реализация Postgres’ового протокола сообщений. Т. е. нативный proto 3 у Postgres – это стандартные сообщения, которыми фронтенды, бэкенды могут обмениваться. Они реализованы в библиотеке Kiwi.
 
 Библиотека Machinarium – это библиотека реализации потоков. Небольшой фрагмент этого Machinarium написан на ассемблере. Но, не пугайтесь, там всего 15 строчек. 
 
-Архитектура
+![](https://habrastorage.org/webt/lf/oz/on/lfozonn7_op6anpabkmhmyiirq8.jpeg)
 
 Архитектура Odyssey. Есть основная машина, в которой запущены coroutines. В этой машине реализуется accept входящих TCP-соединений и распределение по workers. 
 
 Внутри одного worker может работать обработчик нескольких клиентов. А также в основном потоке крутятся консоль и обработка crone-задач по удалению соединений, которые больше не нужны в pool.
 
-Тестирование
+![](https://habrastorage.org/webt/8v/7t/po/8v7tpobq4ytu15uxggql212doqc.jpeg)
 
 Для тестирования Odyssey используется стандартный набор тестов Postgres. Просто запускаем install-check через Bouncer и через Odyssey, получаем нулевой div. Там несколько тестов, связанные с форматированием дат не проходят абсолютно одинаково в Bouncer и в Odyssey.
 
 Кроме того, есть множество драйверов, которые имеют свое тестирование. И их тесты мы используем для тестирования Odyssey.
 
+![](https://habrastorage.org/webt/qw/6h/2t/qw6h2tjjtsoinjijxkeswksdop4.jpeg)
+
 Кроме того, из-за нашей каскадной конфигурации нам приходится тестировать различные связки: Postgres + Odyssey, PgBouncer + Odyssey, Odyssey + Odyssey для того, чтобы быть уверенными в том, что, если Odyssey оказался в какой-то из частей в каскаде, он тоже по-прежнему работает так, как мы ожидаем. 
 
-Грабли
-
-Это грабли. Мы на них наступали. Как без этого в системном программировании?
+**Грабли**
 
 Мы используем Odyssey в production. И было бы не честно, если бы я сказал, что все просто работает. Нет, т. е. да, но не всегда. Например, в production все просто работало, потом пришли наши друзья из PostgreSQL Professional и сказали, что у нас есть memory leak. Они правда были, мы их исправили. Но это было просто. 
+
+![](https://habrastorage.org/webt/_l/0r/6g/_l0r6g_dt66nlhuqnrhha07x8sw.jpeg)
 
 Потом мы обнаружили, что в connection pooler есть входящие TLS-соединения и исходящие TLS-соединения. И в соединениях нужны клиентские сертификаты и серверные сертификаты.
 
 Серверные сертификаты Bouncer и Odyssey перечитывают их pcache, но клиентские сертификаты перечитывать из pcache не надо, потому что наш масштабируемый Odyssey в итоге упирается в системную производительность чтения этого сертификата. Это для нас стало неожиданностью, потому что уперся он далеко не сразу. Сначала он линейно масштабировался, а после 20 000 входящих одновременных соединений эта проблема себя проявила.
 
-Pluggable Authentication Method
+![](https://habrastorage.org/webt/l2/up/ur/l2upurdum6k5wn8afnrocy_jdqq.jpeg)
 
 Pluggable Authentication Method – это возможность аутентифицироваться встроенными lunux’овыми средствами. В PgBouncer она реализована так, что есть отдельный поток на ожидание ответа от PAM и есть основной поток PgBouncer, который обслуживает текущее соединение и может попросить их пожить в потоке PAM. 
 
@@ -214,7 +282,7 @@ Pluggable Authentication Method – это возможность аутенти
 
 В итоге это может создавать проблемы с тем, что, если у вас есть PAM-аутентификация и не PAM-аутентификаци, то большая волна PAM-аутентификации может существенно задерживать не PAM-аутентификацию. Это одна из тех штук, которую мы не исправили. Но если вы хотите это исправить, можете заняться вот этим. 
 
-Торможение accept
+![](https://habrastorage.org/webt/es/zt/k8/esztk8vjl05fuwhs0snd-9st7zi.jpeg)
 
 Еще одни грабли были с тем, что у нас есть один поток, который делает accept всем входящим соединениям. И потом их передает на worker pool, где будет происходить TLS handshake.
 
@@ -226,11 +294,13 @@ Pluggable Authentication Method – это возможность аутенти
 
 Если мы видим, что мы аксептим соединения, а они в итоге не успевают похендшейкиться, мы ставим их в очередь для того, чтобы они не расходовали ресурсы центрального процессора. Это приводит к тому, что одновременный handshake может производиться не для всех соединений, которые пришли. Но хотя бы кто-то в базу зайдет, даже если нагрузка достаточно сильная.
 
-Roadmap
+**Roadmap**
 
 Чего хотелось бы увидеть в будущем в Odyssey? Что мы готовы сами разрабатывать и что мы ждем от сообщества?
 
-Roadmap (по состоянию на август)
+![](https://habrastorage.org/webt/ei/sr/ab/eisrabmzws1fxablpitsqky61ck.jpeg)
+
+**На август 2019 года.**
 
 Вот так выглядел roadmap Odyssey в августе:
 
@@ -239,15 +309,19 @@ Roadmap (по состоянию на август)
 - Хотелось бы online-restart. 
 - И возможность делать паузу на сервере. 
 
+![](https://habrastorage.org/webt/7w/ue/mn/7wuemndmbmhkutyanf5w2vem57c.jpeg)
+
 Половина этого roadmap выполнена, причем не нами. И это хорошо. Поэтому давайте обсудим то, что осталось и добавим еще. 
 
-Forward read-only queries to standby
+![](https://habrastorage.org/webt/q7/6r/i9/q76ri9spnd7ftzz4egw9c-q0wcm.jpeg)
 
-Что касается forward read-only queries to standby? У нас есть реплики, которые без выполнения запросов будут просто греть воздух. Они нам необходимы для обеспечения failover и switchover. В случае проблем в одном из дата-центре хотелось бы их занять какой-то полезной работой. Потому что те же самые центральные процессоры, ту же самую память мы не можем сконфигурировать по-другому, потому что иначе не будет работать репликация. 
+Что касается forward read-only queries to standby? У нас есть реплики, которые без выполнения запросов будут просто греть воздух. Они нам необходимы для обеспечения failover и switchover. В случае проблем в одном из дата-центре хотелось бы их занять какой-то полезной работой. Потому что те же самые центральные процессоры, ту же самую память мы не можем сконфигурировать по-другому, потому что иначе не будет работать репликация.
+
+ ![](https://habrastorage.org/webt/ty/rv/vm/tyrvvmjyqg0pumt1hscnm7fuw0o.jpeg)
 
 В принципе, в Postgres, начиная с 10-ки есть возможность при соединении указать так же session_attrs. Вы в соединении можете перечислить все хосты баз данных и сказать, зачем вы идете в базу данных: пописать или только почитать. И драйвер сам выберет первый по списку хост, который ему больше нравится, который выполняет требования session_attrs. 
 
-Контроль лага репликации
+![](https://habrastorage.org/webt/ca/d3/kz/cad3kzaxj0pv-rlekkcolvnbl_8.jpeg)
 
 Но проблема этого подхода в том, что он не контролирует лаг репликации. У вас может быть какая-то реплика, которая отстала на неприемлемое для вашего сервиса время. Для того чтобы сделать полнофункциональное выполнение читающих запросов на реплике, по сути, нам нужно поддержать в Odyssey возможность не работать, когда читать нельзя. 
 
@@ -255,191 +329,29 @@ Odyssey должен ходить временами в базу и спраши
 
 Сроки реализации сложно назвать, потому что это open source. Но, надеюсь, что не 2,5 года как у коллег из PgBouncer. Вот эту функцию хотелось бы видеть в Odyssey. 
 
-Поддержка prepared statements
+![](https://habrastorage.org/webt/lq/by/dv/lqbydvewvu8sp0yp1kgzhm7hexi.jpeg)
 
 В сообществе люди спрашивали про поддержку prepared statement. Сейчас вы можете создать prepared statement двумя способами. Во-первых, вы можете выполнить SQL-команду, а именно «prepared». Для того чтобы понять эту SQL-команду нам нужно научиться понимать SQL на стороне Bouncer. Это был бы overkill, потому что это перебор, т. к. нам нужен целиком парсер. Мы не можем парсить каждую SQL-команду. 
 
-Но есть prepared statement на уровне протокола сообщений на proto 3. И это то место, когда информация о том, что создается prepared statement, приходит в структурированном виде. И мы могли бы поддержать понимание того, что на каком-то серверном соединении клиент попросил создать prepared statements. И даже если транзакция закрылась, нам нужно по-прежнему поддерживать связность сервера и клиента. 
+Но есть prepared statement на уровне протокола сообщений на proto3. И это то место, когда информация о том, что создается prepared statement, приходит в структурированном виде. И мы могли бы поддержать понимание того, что на каком-то серверном соединении клиент попросил создать prepared statements. И даже если транзакция закрылась, нам нужно по-прежнему поддерживать связность сервера и клиента. 
 
 Но тут возникает расхождение в диалоге, потому что кто-то говорит о том, что нужно понимать, какой именно prepared statements создал клиент и разделять серверное соединение между всеми клиентами, которые создали это серверное соединение, т. е. которые создали такой prepared statement. 
 
 Андерс … сказал, что если к вам пришел клиент, который уже создавал в другом серверном соединении такой prepared statement, то создайте его за него. Но, кажется, это немножко неправильно выполнять запросы в базе вместо клиента, но с точки зрения разработчика, который пишет протокол взаимодействия с базой, это было бы удобно, если бы ему просто дали сетевое соединение, в котором есть такой подготовленный запрос. 
 
-Перцентили времени выполнения запроса
+**Перцентили времени выполнения запроса**
 
 И еще одна фича, которую нам нужно реализовать. У нас сейчас есть мониторинг, совместимый с PgBouncer. Мы можем вернуть среднее время выполнения запроса. Но среднее время – это средняя температура по больнице: кто-то холодный, кто-то теплый – в среднем все здоровы. Это неправда. 
 
 Нам нужно реализовать поддержку перцентилей, которые бы указывали на то, что есть медленные запросы, которые расходуют ресурсы, и сделали бы мониторинг более приемлемым. 
 
-Версия 1.0
+![](https://habrastorage.org/webt/p8/ho/8e/p8ho8e4uxktysp_5gqgcxpckjnq.jpeg)
 
-Самое главное – хочется версию 1.0. Дело в том, что сейчас Odyssey находится в версии 1.0rc, т. е. release candidate. И все грабли, которые я перечислил, были починены ровно с той самой версией, кроме memory leak. 
+Самое главное – хочется версию 1.0 (Уже вышла версия 1.1). Дело в том, что сейчас Odyssey находится в версии 1.0rc, т. е. release candidate. И все грабли, которые я перечислил, были починены ровно с той самой версией, кроме memory leak. 
 
 Что для нас будет означать версия 1.0? Мы выкатываем Odyssey на свои базы. Он уже сейчас работает на наших базах, но когда он достигнет точки в 1 000 000 запросов в секунду, то мы можем сказать, что это релизная версия и это версия, которую можно назвать 1.0. 
 
 В сообществе несколько человек попросили, чтобы в версии 1.0 были еще пауза и SCRAM. Но это будет означать, что нам нужно будет выкатить в production уже следующую версию, потому что ни SCRAM, ни пауза до сих пор не помержены. Но, скорее всего, этот вопрос будет достаточно оперативно решен. 
-
-
-
-
-
-![](https://habrastorage.org/webt/mg/au/rx/mgaurxhvvklb5_thoz2dukmnunc.jpeg)
-
-![](https://habrastorage.org/webt/wn/1p/kh/wn1pkhvmmdjqn162kqzwxi89cu4.jpeg)
-
-![](https://habrastorage.org/webt/ih/lx/sp/ihlxspyxdi_vgw8hd-xbeilhrki.jpeg)
-
-![](https://habrastorage.org/webt/vs/tr/on/vstronudol9cxbc_attliexqw8a.jpeg)
-
-![](https://habrastorage.org/webt/e7/qw/jx/e7qwjxe3pub6n9h8u-3o58qa0y4.jpeg)
-
-![](https://habrastorage.org/webt/rb/zz/4p/rbzz4pqimuuzq26uizpgbnlpsi0.jpeg)
-
-![](https://habrastorage.org/webt/wv/vq/6m/wvvq6mciupplav4r_ptda4jnjdw.jpeg)
-
-![](https://habrastorage.org/webt/t4/vt/oy/t4vtoyifptt1wsenc6vuqco9r00.jpeg)
-
-![](https://habrastorage.org/webt/rj/rn/6-/rjrn6-msjkedob8ulqxbfjgiqje.jpeg)
-
-![](https://habrastorage.org/webt/la/ka/rq/lakarqw2gj00qtc3bk-gkxacvtw.jpeg)
-
-![](https://habrastorage.org/webt/l0/ck/pb/l0ckpba5rxgsl3-kqfafwmlrfq4.jpeg)
-
-![](https://habrastorage.org/webt/o6/bj/ov/o6bjove8gnvjgejowr5n0ju2mo0.jpeg)
-
-![](https://habrastorage.org/webt/6_/xn/vl/6_xnvlv3uqzr2o_4ja5pch98px0.jpeg)
-
-![](https://habrastorage.org/webt/rc/_j/ij/rc_jij9n_hkszmwx6ff7xlnaslq.jpeg)
-
-![](https://habrastorage.org/webt/-q/9v/o4/-q9vo4pas8p1wmlrzuvkpkrrc2y.jpeg)
-
-![](https://habrastorage.org/webt/7b/ai/5t/7bai5ty4eygjwhmiiabmw8nx-ti.jpeg)
-
-![](https://habrastorage.org/webt/gn/ap/gg/gnapggfbl1bopez-lthmy-qu8kw.jpeg)
-
-![](https://habrastorage.org/webt/25/0x/yk/250xykcijibminkipmj517ybin0.jpeg)
-
-![](https://habrastorage.org/webt/ii/3v/sd/ii3vsdrownpltnr4rz_nh0q4su8.jpeg)
-
-![](https://habrastorage.org/webt/iw/rh/qc/iwrhqcgv72z8ddl2si44vzm4pym.jpeg)
-
-![](https://habrastorage.org/webt/qj/uo/j9/qjuoj9jftwymdrapak46mh3kalm.jpeg)
-
-![](https://habrastorage.org/webt/py/rr/mc/pyrrmcbvmkostk51bdvny2a48ei.jpeg)
-
-![](https://habrastorage.org/webt/i0/pi/jr/i0pijr_tfje3qme6yrqcqs3gb70.jpeg)
-
-![](https://habrastorage.org/webt/jk/l6/4k/jkl64kx1xxnbk47caibpjdd2u9a.jpeg)
-
-![](https://habrastorage.org/webt/hn/bj/3w/hnbj3wze-enagmpfj3tw1qjouvs.jpeg)
-
-![](https://habrastorage.org/webt/9u/lu/m5/9ulum5u_o9a3-g6b6epzujoq-h8.jpeg)
-
-![](https://habrastorage.org/webt/7z/y2/vb/7zy2vbrqg4cqchenyqsh2sht-bc.jpeg)
-
-![](https://habrastorage.org/webt/vs/w_/mf/vsw_mf0effhstjhgxz99axiipzw.jpeg)
-
-![](https://habrastorage.org/webt/dq/rm/h7/dqrmh7kyiw_pr5thyla2pfyonsi.jpeg)
-
-![](https://habrastorage.org/webt/pi/tz/xo/pitzxoy710rj5in_oaylh3872ri.jpeg)
-
-![](https://habrastorage.org/webt/y2/jt/ai/y2jtai9ctqgrydpm3f4cb9amsik.jpeg)
-
-![](https://habrastorage.org/webt/0x/sy/h4/0xsyh4yyv3-psykbqc9yxy1lpiy.jpeg)
-
-![](https://habrastorage.org/webt/te/iz/0a/teiz0a84rbfpcknfwmwlspk857a.jpeg)
-
-![](https://habrastorage.org/webt/jc/yf/we/jcyfwemsvvmabukaz4ywcowlw4s.jpeg)
-
-![](https://habrastorage.org/webt/ge/ex/2c/geex2ctr95--lvhzxkirk9q6prk.jpeg)
-
-![](https://habrastorage.org/webt/ou/mk/fe/oumkfecdqbhfxjuaelxzyg-dnfo.jpeg)
-
-![](https://habrastorage.org/webt/7i/0f/ge/7i0fgebzxzukxskde6j84g7bole.jpeg)
-
-![](https://habrastorage.org/webt/2w/lm/tx/2wlmtxd9b6mjuwhx0wbnvpoc6ca.jpeg)
-
-![](https://habrastorage.org/webt/or/b3/qp/orb3qp_iubckki265lsoi08nbag.jpeg)
-
-![](https://habrastorage.org/webt/5-/hb/rh/5-hbrh1aol0qfgadnbfoapprkl8.jpeg)
-
-![](https://habrastorage.org/webt/fe/jc/rz/fejcrzr7g0si3zd4x89ubxlowng.jpeg)
-
-![](https://habrastorage.org/webt/ns/tj/wv/nstjwvblz9t6dp6gaym7w9ubpc8.jpeg)
-
-![](https://habrastorage.org/webt/7f/cq/md/7fcqmd5okzz-35j6r9jxer9y6ii.jpeg)
-
-![](https://habrastorage.org/webt/gd/uy/sq/gduysq27dgny_mrf4h5wtvy5fnw.jpeg)
-
-![](https://habrastorage.org/webt/ti/yw/rm/tiywrmdbs0o2kl0ohicmfrk9yq0.jpeg)
-
-![](https://habrastorage.org/webt/aw/ij/9r/awij9r-nbk1ojvms-1vkcsdyzea.jpeg)
-
-![](https://habrastorage.org/webt/jw/y7/sp/jwy7splwq60sqersk9xas8mysxc.jpeg)
-
-![](https://habrastorage.org/webt/2z/jo/c9/2zjoc9cxsjis3yvira_vlmqi3ze.jpeg)
-
-![](https://habrastorage.org/webt/jj/ff/sc/jjffsc_onzxpdymweqia85avjdc.jpeg)
-
-![](https://habrastorage.org/webt/ue/3d/hx/ue3dhxt21ux78mjkbtkrtere2q0.jpeg)
-
-![](https://habrastorage.org/webt/-j/82/n7/-j82n7q8s3hmanmlagmjmpmpewg.jpeg)
-
-![](https://habrastorage.org/webt/zi/xl/w-/zixlw-y19dcau3omn6mg5um7jfa.jpeg)
-
-![](https://habrastorage.org/webt/ec/6g/wg/ec6gwgi3l3jxojykyfuvtpjc2ye.jpeg)
-
-![](https://habrastorage.org/webt/ym/8n/yg/ym8nyg7e_psj18hofortfuk6ytk.jpeg)
-
-![](https://habrastorage.org/webt/fy/iw/ce/fyiwcemv9xrkviovwpuoemu7mlm.jpeg)
-
-![](https://habrastorage.org/webt/vv/ai/wm/vvaiwmpumyuzeptn9xhm7sprw4s.jpeg)
-
-![](https://habrastorage.org/webt/na/z6/3e/naz63es_sa6cxhc0e_8-8-q1_gm.jpeg)
-
-![](https://habrastorage.org/webt/yk/pm/vq/ykpmvq_osvuqlgxfb6roqzw_vkc.jpeg)
-
-![](https://habrastorage.org/webt/qj/ao/by/qjaobynikhly5vytol7gcocuuoi.jpeg)
-
-![](https://habrastorage.org/webt/se/1c/p0/se1cp0u3zmo4a6c2v3mtdj9tgtc.jpeg)
-
-![](https://habrastorage.org/webt/no/z9/6j/noz96jr5fjohn2qwn8tjks7urme.jpeg)
-
-![](https://habrastorage.org/webt/o6/lg/gh/o6lgghuwvdpw09icgtkp1e_kuqe.jpeg)
-
-![](https://habrastorage.org/webt/lf/oz/on/lfozonn7_op6anpabkmhmyiirq8.jpeg)
-
-![](https://habrastorage.org/webt/8v/7t/po/8v7tpobq4ytu15uxggql212doqc.jpeg)
-
-![](https://habrastorage.org/webt/qw/6h/2t/qw6h2tjjtsoinjijxkeswksdop4.jpeg)
-
-![](https://habrastorage.org/webt/9l/ea/an/9leaanxaohg6_sxrxue7eeyxvlo.jpeg)
-
-![](https://habrastorage.org/webt/q7/ow/n_/q7own_vtqogkuj5yuufskvemdzg.jpeg)
-
-![](https://habrastorage.org/webt/_l/0r/6g/_l0r6g_dt66nlhuqnrhha07x8sw.jpeg)
-
-![](https://habrastorage.org/webt/l2/up/ur/l2upurdum6k5wn8afnrocy_jdqq.jpeg)
-
-![](https://habrastorage.org/webt/es/zt/k8/esztk8vjl05fuwhs0snd-9st7zi.jpeg)
-
-![](https://habrastorage.org/webt/ot/ut/33/otut339thziitvmdpccoidlu4ce.jpeg)
-
-![](https://habrastorage.org/webt/ei/sr/ab/eisrabmzws1fxablpitsqky61ck.jpeg)
-
-![](https://habrastorage.org/webt/7w/ue/mn/7wuemndmbmhkutyanf5w2vem57c.jpeg)
-
-![](https://habrastorage.org/webt/q7/6r/i9/q76ri9spnd7ftzz4egw9c-q0wcm.jpeg)
-
-![](https://habrastorage.org/webt/ty/rv/vm/tyrvvmjyqg0pumt1hscnm7fuw0o.jpeg)
-
-![](https://habrastorage.org/webt/ca/d3/kz/cad3kzaxj0pv-rlekkcolvnbl_8.jpeg)
-
-![](https://habrastorage.org/webt/lq/by/dv/lqbydvewvu8sp0yp1kgzhm7hexi.jpeg)
-
-![](https://habrastorage.org/webt/p8/ho/8e/p8ho8e4uxktysp_5gqgcxpckjnq.jpeg)
-
-![](https://habrastorage.org/webt/pr/3c/aq/pr3caqqd0pqvrntphqyeoup5a48.jpeg)
 
 ![](https://habrastorage.org/webt/i0/2n/ru/i02nrurmxig_96gtzfziaglfsw8.jpeg)
 
