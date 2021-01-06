@@ -1,4 +1,4 @@
-# Алексей – Соколов Ansible идемпотентный
+# Алексей Соколов. Ansible идемпотентный
 
 ![](https://habrastorage.org/webt/bk/cb/8i/bkcb8ikzhnfoqoqznfx2sikdis4.png)
 
