@@ -1,8 +1,12 @@
-# Георгий Шуклин – Xудшие практики для Ansible
-
 ![](https://habrastorage.org/webt/wy/8i/18/wy8i18y2zkqvnbnfpdiams7g0nm.png)
 
 Приветствую всех! Меня зовут Георгий. Я работаю в компании servers.com. Я пришел рассказать про Ansible: про хороший Ansible и про плохой Ansible в основном, т. е. про то, как люди могут плохо делать на Ansible.
+
+<cut />
+
+
+<oembed>https://www.youtube.com/watch?v=a9ptDT67ILM</oembed>
+
 
 Для начала я хочу задать вопрос. Кто знает, о чем вот это? 
 
