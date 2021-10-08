@@ -208,7 +208,7 @@ Immutable infrastructure – это не сама цель. Это не то, р
 
 ![](https://habrastorage.org/webt/lt/dl/yn/ltdlynkwy-dcvpcegr7cqscn1oy.jpeg)
 
-Что туда входит? У меня слева здесь есть полный список того, что туда входит. Это Kernel, GLBC, Buildroot. Нам нужен Toolchain, загрузчик, Unit-система, сетевая система, container runtime (в нашем случае containerd используется). По умолчанию BottleRocket поставляется в Kubernetes и ECS <font color="red">…</font> . Соответственно, если у вас Kubernetes, то у вас будет стоять Kublr, а также aws-iam-authenticator. А если у вас ECS, то у вас будет стоять ecs-агент.
+Что туда входит? У меня слева здесь есть полный список того, что туда входит. Это Kernel, GLBC, Buildroot. Нам нужен Toolchain, загрузчик, Unit-система, сетевая система, container runtime (в нашем случае containerd используется). По умолчанию BottleRocket поставляется в Kubernetes и ECS <font color="red">…</font> . Соответственно, если у вас Kubernetes, то у вас будет стоять Kubelet, а также aws-iam-authenticator. А если у вас ECS, то у вас будет стоять ecs-агент.
 
 Справа описываются свойства безопасности. Как мы уже говорили, автоматические апдейты безопасности, Immutable rootfs система, Stateless tmpfs for /etc. Нет никаких интерпретаторов. Все исполняемые файлы, которые используются, уже закалены, т. е. hardening и exceling исключен. Т. е. очень много работы сделано за нас. 
 
