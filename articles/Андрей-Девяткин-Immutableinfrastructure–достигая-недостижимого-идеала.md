@@ -1,8 +1,13 @@
-# **Immutable infrastructure – достигая недостижимого идеала / Андрей Девяткин**
-
 ![](https://habrastorage.org/webt/3f/gy/nl/3fgynl2g8rox4kdtidd3afsvsca.jpeg)
 
 Всем привет! Добро пожаловать на презентацию об immutable infrastructure – достигая недостижимого идеала. Перед тем как мы начнем, хотел бы сделать небольшое вступление. 
+
+
+<cut />
+
+
+<oembed>https://www.youtube.com/watch?v=f-TIIOo1-1w</oembed>
+
 
 ![](https://habrastorage.org/webt/7d/qx/ya/7dqxyazzdqdb1ywb-musiczfvao.jpeg)
 
