@@ -184,7 +184,7 @@ Immutable infrastructure – это не сама цель. Это не то, р
 
 ![](https://habrastorage.org/webt/fv/xv/al/fvxvalvlytrziaf6qekg5xheudi.jpeg)
 
-И тут я обычно начинаю рассказывать о том, что есть такой замечательный инструмент, как Packer. Я мог бы рассказать, что им можно готовить образы виртуальных машин, запускать их <font color="red">…</font> и раскатывать через <font color="red">pkc</font> или сразу же AMI готовить на Amazon, но не буду.
+И тут я обычно начинаю рассказывать о том, что есть такой замечательный инструмент, как Packer. Я мог бы рассказать, что им можно готовить образы виртуальных машин, запускать их on premise на VmWare и раскатывать через <font color="red">pkc</font> или сразу же AMI готовить на Amazon, но не буду.
 
 ![](https://habrastorage.org/webt/xm/um/nc/xmumnclpcaubduaaivakgoept90.jpeg)
 
