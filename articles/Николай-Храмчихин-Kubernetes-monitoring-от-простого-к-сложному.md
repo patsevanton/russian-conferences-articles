@@ -1,6 +1,10 @@
-# **Николай Храмчихин — Kubernetes monitoring от простого к сложному**
-
 ![](https://habrastorage.org/webt/dy/xx/2o/dyxx2omqfakjaexoiytae-23jg4.jpeg)
+
+<cut />
+
+
+<cut />https://www.youtube.com/watch?v=cdPKMshnk3M
+
 
 ![](https://habrastorage.org/webt/e4/8w/ue/e48wueqw8vhctbnlydjrehzhekc.jpeg)
 
