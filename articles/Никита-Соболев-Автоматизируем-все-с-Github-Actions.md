@@ -649,7 +649,7 @@ https://www.npmjs.com/package/detect-secrets
 
 И я подумал, что надо как-то с этой проблемой бороться. А как с ней бороться? Автоматизировать. 
 
-И для этого есть замечательный инструмент, который называется [semantic-release](https://github.com/semantic-release/semantic-release/blob/master/docs/recipes/github-actions.md). Что это такое? Semantic-release состоит из нескольких шагов. 
+И для этого есть замечательный инструмент, который называется [semantic-release](https://github.com/semantic-release/semantic-release/tree/master/docs). Что это такое? Semantic-release состоит из нескольких шагов. 
 
 ![](https://habrastorage.org/webt/xs/pm/wm/xspmwmiy2wgihsh5hhxiagtmswo.jpeg)
 
